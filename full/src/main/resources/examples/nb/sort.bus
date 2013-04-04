@@ -1,0 +1,30 @@
+function sorter(a)
+    for q = 1 to maxIndex(a) do
+        for w = q + 1 to maxIndex(a) do
+            if a[w] < a[q] then
+                local tmp = a[q];
+                a[q] = a[w];
+                a[w] = tmp;
+            endif;
+        done;
+    done;
+endfunc;
+
+function vis(a)
+    for q = 1 to maxIndex(a) do
+        println("    ", a[q]);
+    done;
+endfunc;
+
+ord[1] = "foo";
+ord[2] = "xyzzy";
+ord[3] = "gazonk";
+ord[4] = "bar";
+
+println("Før sortering:");
+vis(ord);
+
+sorter(ord);
+
+println("Etter sortering:");
+vis(ord);

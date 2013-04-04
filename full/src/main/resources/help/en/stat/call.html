@@ -1,0 +1,40 @@
+<h1>Function calls</h1>
+<p>Functions are blocks of code that may be invoked by
+issuing a function call.  When a function call is performed,
+the code within the function is executed.  When the function has
+finished doing its job, control is returned to the statement
+following the function call.</p>
+
+<p>There are several <a href="functions">built-in functions</a> to
+call.  Additionally, one may <a href="stat/function">define new
+functions</a>.</p>
+
+<p>Some functions return a value that may be used as part
+of an expression.  Other functions do not return any value.
+Returned values may nevertheless be ignored.</p>
+
+<p>Functions may take zero or more arguments on which they
+operate.  The arguments passed to a function must have the
+correct data types as expected by the invoked function.</p>
+
+<p>All data types except arrays are <i>passed by value</i> to
+the called function.  This means that the function cannot change
+the value of its arguments.  Arrays, however,  are passed
+<i>by reference</i>, so any changes done to array elements
+will be visible to the caller of the function.</p>
+
+<h2>Syntax</h2>
+<p>A function call is performed using the name of the function
+followed by a (possibly empty) list of arguments in parenthesis.
+<pre>
+    <span class="pseudo">function-name</span>(<span class="pseudo">variable-list</span>);
+</pre>
+
+<h2>Example</h2>
+<pre>
+    println("Hello!");
+</pre>
+<p>or</p>
+<pre>
+    charCode = readChar();
+</pre>

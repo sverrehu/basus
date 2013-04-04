@@ -1,0 +1,46 @@
+<h1>function</h1>
+<p>Defines a function as a list of statements that may be
+invoked by other parts of the code.  The function may
+take zero or more arguments.</p>
+
+<p>A function may optionally return a value using the
+<span class="code">return</span> statement.  In addition to
+giving the return value, the return statement also
+aborts execution of any following statements inside the function.</p>
+
+<p>Variables that are set or changed inside the function will also
+be changed outside the function, unless the assignment is prefixed
+with the <span class="code">local</span> keyword.  Function arguments
+are implicitely local.  Note, however,
+that arrays are passed <i>by reference</i>, so any changes done
+to arrays that are passed as arguments will be visible after
+calls to the function.</p>
+
+<h2>Syntax</h2>
+<pre>
+    function <span class="pseudo">function-name</span>(<span class="pseudo">variable-list</span>)
+        <span class="pseudo">block-of-code</span>
+    endfunc;
+</pre>
+<p>The variable-list is a comma-separated list of variable names.  The list may
+be empty if the function doesn't take any arguments.</p>
+
+<h2>Example</h2>
+<pre>
+    function sayHello(name)
+        println("Hello, ", name);
+    endfunc;
+
+    sayHello("boss");
+</pre>
+<p>or</p>
+<pre>
+    function addPercentage(value, percentage)
+        local toAdd = value * percentage / 100.0;
+        return value + toAdd;
+    endfunc;
+
+    vatPercentage = 25.0;
+    priceWithoutVat = 50.0;
+    toPay = addPercentage(priceWithoutVat, vatPercentage);
+</pre>

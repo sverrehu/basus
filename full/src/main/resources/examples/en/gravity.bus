@@ -1,0 +1,163 @@
+/* Contributed by Kjetil Valstadsve 2008-09-12 */
+
+KEY_LEFT = 37
+KEY_RIGHT = 39
+KEY_UP = 40
+KEY_DOWN = 38
+
+moons = 16
+MIN_SIZE = 5
+MIN_MASS = 4 * MIN_SIZE * MIN_SIZE
+
+SIZE_RANGE = 15
+
+MAX_SIZE = MIN_SIZE + SIZE_RANGE
+MAX_MASS = 4 * MAX_SIZE * MAX_SIZE - 4
+
+MASS_RANGE = MAX_MASS - MIN_MASS
+
+GRAV_LOSS = 0.4
+
+CX = width() / 2
+CY = height() / 2
+
+N_GRAV = 0.00001
+
+function collide(radius1, x1, y1, radius2, x2, y2)
+    rad_diff = (radius1 + radius2) / (MIN_SIZE - 1)
+    return ceil(abs(x1 - x2)) < rad_diff and ceil(abs(y1 - y2)) < rad_diff
+endfunc
+
+function pull_from_two_on_one(radius1, mass1, x1, y1, radius2, mass2, x2, y2)
+   adjacent = x2 - x1
+   opposite = y2 - y1
+   hypotenuse = sqrt(opposite * opposite + adjacent * adjacent)
+
+   pulls[0] = hypotenuse
+
+   if collide(radius1, x1, y1, radius2, x2, y2) then
+       pulls[0] = 0
+       return pulls
+   endif
+
+   sinus = opposite / hypotenuse
+   cosinus = adjacent / hypotenuse
+
+   pull = N_GRAV * mass1 * mass2 / (hypotenuse * hypotenuse);
+   pulls[2] = sinus * pull
+   pulls[1] = cosinus * pull
+   return pulls;
+endfunc
+
+radius[0] = MAX_SIZE * 2
+mass[0] = 4 * radius[0] * radius[0]
+
+x[0] = CX
+y[0] = CY
+
+dx[0] = 0
+dy[0] = 0
+
+pllx[0] = 0.0
+plly[0] = 0.0
+
+red[0] = 100
+green[0] = 120
+blue[0] = 100
+
+for q = 1 to moons do
+   radius[q] = MIN_SIZE + random(SIZE_RANGE)
+   mass[q] = 4 * radius[q] * radius[q]
+   x[q] = random(width() - 1)
+   y[q] = random(height() - 1)
+
+   dx[q] = 0.0
+   dy[q] = 0.0
+
+   pllx[q] = 0.0;
+   plly[q] = 0.0;
+
+   red[q] = random(150, 200)
+   green[q] = random(150, 255)
+   blue[q] = random(150, 80)
+done
+
+autoFlush(FALSE)
+
+left = 0
+
+while TRUE do
+   t = time()
+   cls()
+   println("Use arrow keys")
+
+   for p = 0 to moons do
+
+       if (x[p] - radius[p]) < 0 then
+           x[p] = radius[p]
+           dx[p] = -dx[p] * GRAV_LOSS
+       elseif (x[p] + radius[p]) > width() then
+           x[p] = width() - radius[p]
+           dx[p] = -dx[p] * GRAV_LOSS
+       else
+           x[p] = x[p] + dx[p]
+       endif
+
+       if (y[p] - radius[p]) < 0 then
+           y[p] = radius[p]
+           dy[p] = -dy[p] * GRAV_LOSS
+       elseif (y[p] + radius[p]) > height() then
+           y[p] = height() - radius[p]
+           dy[p] = -dy[p] * GRAV_LOSS
+       else
+           y[p] = y[p] + dy[p]
+       endif
+
+       for q = 0 to moons do
+
+           if p > 0 and p != q then
+
+               pulls = pull_from_two_on_one
+                   (radius[p], mass[p], x[p], y[p], radius[q], mass[q], x[q], y[q])
+
+               if pulls[0] == 0 and q != 0 then
+                   pllx[p] = 0
+                   plly[p] = 0
+               else
+                   pllx[p] = pulls[1]
+                   plly[p] = pulls[2]
+                   ertia = 1 // (mass[p] / mass[q])
+                   dx[p] = dx[p] + (pllx[p] * ertia)
+                   dy[p] = dy[p] + (plly[p] * ertia)
+
+               endif
+
+           endif
+
+       done
+   done
+
+   for q = 1 to moons do
+      color(red[q], green[q], blue[q]);
+      rect(x[q] - radius[q], y[q] - radius[q], 2 * radius[q], 2 * radius[q])
+   done
+      color(red[0], green[0], blue[0]);
+      circle(x[0], y[0], radius[0])
+
+   if (keyPressed(KEY_UP)) then
+      y[0] = y[0] - 1
+   elseif (keyPressed(KEY_DOWN)) then
+      y[0] = y[0] + 1
+   endif
+   if (keyPressed(KEY_LEFT)) then
+      x[0] = x[0] - 1
+   elseif (keyPressed(KEY_RIGHT)) then
+      x[0] = x[0] + 1
+   endif
+
+   flush()
+   wait(20 - (time() - t))
+
+done
+
+

@@ -1,0 +1,22 @@
+<h1>waitKey</h1>
+
+<p>Waits for the user to press a key, and returns the <i>key code</i>
+of that key.  The key code is an integer representing the key on the
+keyboard.  This function may be used to detect pressing of arrow keys,
+home, end, shift, ctrl; every key on the keyboard, even those that do
+not represent a character, digit or symbol.</p>
+
+<p>In order to know what key code to test for, run the following
+program and press the keys you need.  The program prints the
+corresponding key code.</p>
+<pre>
+    while TRUE do
+        keyCode = waitKey();
+        println("key code: ", keyCode);
+    done;
+</pre>
+
+<h2>Usage</h2>
+<pre>
+    keyCode = waitKey();
+</pre>

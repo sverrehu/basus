@@ -1,0 +1,29 @@
+<h1>spriteVisible</h1>
+
+<p>Gets or sets the visibility status of
+a <a href="types/sprite">sprite</a>.</p>
+
+<p>With a single argument, which must be a sprite, this function
+returns a boolean indicating wether the corresponding sprite is
+visible or not.</p>
+
+<p>With two arguments, a sprite and a boolean, this function sets the
+visibility status of the corresponding sprite to the given boolean.
+Sprites are initially invisible.  Invisible sprites never collide with
+other sprites.</p>
+
+<h2>Usage</h2>
+<p>Make a sprite visible:</p>
+<pre>
+    spriteVisible(sprite, TRUE);
+</pre>
+<p>Make a sprite invisible:</p>
+<pre>
+    spriteVisible(sprite, FALSE);
+</pre>
+<p>Check if a sprite is visible:</p>
+<pre>
+    if spriteVisible(sprite) then
+      :
+    endif;
+</pre>

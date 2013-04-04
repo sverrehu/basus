@@ -1,0 +1,58 @@
+/* Contributed by Glenn T. Lines 2008-08-29 */
+
+n = 100;
+
+for i = 0 to n do
+   x[i] = (2 *PI * i) / n;
+   y1[i] = sinr(x[i]);
+   y2[i] = cosr(x[i]);
+   y3[i] = sinr(2 * x[i]);
+done;
+
+plot_line(x, y1, "blue");
+plot_line(x, y2, "red");
+plot_line(x, y3, "green");
+
+
+function plot_line(x, y, colorname)
+   x_min = find_minimum(x);
+   y_min = find_minimum(y);
+   x_max = find_maximum(x);
+   y_max = find_maximum(y);
+
+   for i = 0 to maxIndex(x) do
+      x_pixel[i] = ((x[i] - x_min) / (x_max - x_min)) * width();
+      y_pixel[i] = ((y[i] - y_min) / (y_max - y_min)) * height();
+   done;
+
+   if colorname == "red" then
+      color(255, 0, 0);
+   elseif colorname == "green" then
+      color(0, 255, 0);
+   elseif colorname == "blue" then
+      color(0, 0, 255);
+   else
+      // if neither red, green or blue, we use white
+      color(255, 255, 255);
+   endif;
+
+   for i = 1 to maxIndex(x) do
+      line(x_pixel[i - 1], y_pixel[i - 1], x_pixel[i], y_pixel[i]);
+   done;
+endfunc;
+
+function find_minimum(array)
+   minimum = array[0];
+   for i = 1 to maxIndex(array) do
+      minimum = min(minimum, array[i]);
+   done;
+   return minimum;
+endfunc;
+
+function find_maximum(array)
+   maximum = array[0];
+   for i = 1 to maxIndex(array) do
+      maximum = max(maximum, array[i]);
+   done;
+   return maximum;
+endfunc;

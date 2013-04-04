@@ -1,0 +1,23 @@
+midten_x = width() / 2;
+midten_y = height() / 2;
+
+fra_x = midten_x;
+fra_y = midten_y;
+
+radius = 0;
+
+for angle = 0 to 6 * 360 step 5 do
+
+    to_x = midten_x + radius * cos(angle);
+    to_y = midten_y + radius * sin(angle);
+
+    line(fra_x, fra_y, to_x, to_y);
+
+    fra_x = to_x;
+    fra_y = to_y;
+
+    radius = radius + 0.5;
+
+    wait(10);
+
+done;

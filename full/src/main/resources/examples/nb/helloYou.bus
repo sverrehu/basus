@@ -1,0 +1,3 @@
+print("Hva heter du? ");
+name = readln();
+println("Hei, ", name, "!");

@@ -1,0 +1,14 @@
+/*
+    En rekursiv funksjon (en som kaller seg selv) som
+    regner ut fakultet av et tall.
+*/
+
+function fakultet(x)
+    if x <= 1 then
+        return 1;
+    endif;
+    return x * fakultet(x - 1);
+endfunc;
+
+n = 10;
+println("fakultet av ", n, " er ", fakultet(n));

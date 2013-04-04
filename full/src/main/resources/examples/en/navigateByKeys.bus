@@ -1,0 +1,70 @@
+/* Run keyCodePrinter.bus to get more key codes. */
+KEY_UP = 38;
+KEY_DOWN = 40;
+KEY_LEFT = 37;
+KEY_RIGHT = 39;
+
+x = width() / 2;
+y = height() / 2;
+
+dx = 1;
+dy = 0;
+finished = FALSE;
+
+autoFlush(FALSE);
+
+while not finished do
+
+    t = time();
+
+    if keyPressed(KEY_UP) then
+        dx = 0;
+        dy = 1;
+    elseif keyPressed(KEY_DOWN) then
+        dx = 0;
+        dy = -1;
+    elseif keyPressed(KEY_LEFT) then
+        dx = -1;
+        dy = 0;
+    elseif keyPressed(KEY_RIGHT) then
+        dx = 1;
+        dy = 0;
+    endif;
+
+    x = x + dx;
+    if x >= width() then
+        x = width();
+    elseif x < 0 then
+        x = 0;
+    endif;
+
+    y = y + dy;
+    if y >= height() then
+        y = height();
+    elseif y < 0 then
+        y = 0;
+    endif;
+
+    if not isBackground(x, y) then
+        color(255, 0, 0);
+        for radius = 1 to 100 do
+            fillCircle(x, y, radius);
+            flush();
+            wait(3);
+        done;
+        for radius = 100 to 0 step -1 do
+            color(0, 0, 0);
+            fillCircle(x, y, radius + 1);
+            color(255, 0, 0);
+            fillCircle(x, y, radius);
+            flush();
+            wait(3);
+        done;
+        finished = TRUE;
+    else
+        plot(x, y);
+        flush();
+        wait(30 - (time() - t));
+    endif;
+
+done;

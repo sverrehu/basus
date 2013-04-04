@@ -1,0 +1,6 @@
+/*
+    Prints some text.  This is the traditional
+    "first program" for any programming language.
+*/
+
+println("Hello, world!");

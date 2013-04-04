@@ -1,0 +1,19 @@
+prev_x = -1;
+prev_y = -1;
+
+println("Click and hold left mouse button to draw");
+while TRUE do
+    if mouseButtonPressed(1) then
+        x = mouseX();
+        y = mouseY();
+        if prev_x >= 0 and prev_y >= 0 and x >= 0 and y >= 0 then
+            line(prev_x, prev_y, x, y);
+        endif;
+        prev_x = x;
+        prev_y = y;
+    else
+        prev_x = -1;
+        prev_y = -1;
+    endif;
+    wait(50);
+done;

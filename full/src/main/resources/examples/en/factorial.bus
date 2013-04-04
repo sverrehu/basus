@@ -1,0 +1,14 @@
+/*
+    Uses a recursive function (one that calls itself)
+    to calculate the factorial of a number.
+*/
+
+function fact(x)
+    if x <= 1 then
+        return 1;
+    endif;
+    return x * fact(x - 1);
+endfunc;
+
+n = 10;
+println("factorial of ", n, " is ", fact(n));

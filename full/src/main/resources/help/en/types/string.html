@@ -1,0 +1,53 @@
+<h1>String Data Type</h1>
+
+<P>Strings are text, made up of arrays of characters.  String
+constants may be made up of text enclosed in double quotes (").</p>
+
+<p>Inside a string constant, backslash is used to <i>escape</i>
+characters that may have special meaning, and characters that may not
+be easily represented by themselves.  Prime example of escaping: Since
+double quote is used as a marker for the start and the end of a text
+string, how would you represent that double quote character inside the
+text?  The answer is to escape it with a backslash.  The following
+string constant</p>
+
+<pre>
+    "She said \"ouch!\""
+</pre>
+
+<p>would be interpreted as the string</p>
+
+<pre>
+    She said "ouch!"
+</pre>
+
+The backslash may be used to encode other characters as well.  The
+following table describes valid escapes in Basus:
+
+<table>
+  <tr>
+    <td>\b</td>
+    <td>Backspace, ASCII 8</td>
+  </tr>
+  <tr>
+    <td>\t</td>
+    <td>Horizontal tab, ASCII 9</td>
+  </tr>
+  <tr>
+    <td>\n</td>
+    <td>Line feed, ASCII 10</td>
+  </tr>
+  <tr>
+    <td>\r</td>
+    <td>Carriage return, ASCII 13</td>
+  </tr>
+  <tr>
+    <td>\\</td>
+    <td>Backslash</td>
+  </tr>
+</table>
+
+<p>Backslash followed by any other character will represent the
+following character itself.  As seen in the table above, this means
+that a backslash charater inside a string must be represented by two
+consecutive backslashes.</p>

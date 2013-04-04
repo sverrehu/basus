@@ -1,0 +1,30 @@
+function sort(a)
+    for q = 1 to maxIndex(a) do
+        for w = q + 1 to maxIndex(a) do
+            if a[w] < a[q] then
+                local tmp = a[q];
+                a[q] = a[w];
+                a[w] = tmp;
+            endif;
+        done;
+    done;
+endfunc;
+
+function list(a)
+    for q = 1 to maxIndex(a) do
+        println("    ", a[q]);
+    done;
+endfunc;
+
+words[1] = "foo";
+words[2] = "xyzzy";
+words[3] = "gazonk";
+words[4] = "bar";
+
+println("Before sorting:");
+list(words);
+
+sort(words);
+
+println("After sorting:");
+list(words);

@@ -1,0 +1,23 @@
+center_x = width() / 2;
+center_y = height() / 2;
+
+from_x = center_x;
+from_y = center_y;
+
+radius = 0;
+
+for angle = 0 to 6 * 360 step 5 do
+
+    to_x = center_x + radius * cos(angle);
+    to_y = center_y + radius * sin(angle);
+
+    line(from_x, from_y, to_x, to_y);
+
+    from_x = to_x;
+    from_y = to_y;
+
+    radius = radius + 0.5;
+
+    wait(10);
+
+done;

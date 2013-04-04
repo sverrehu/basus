@@ -1,0 +1,213 @@
+BALL_SPEED = 3;
+VERT_MARGIN = 60;
+HORIZ_MARGIN = 40;
+BLOCK_PADDING = 5;
+MAX_DX = 4;
+
+COLL_LEFT = 1;
+COLL_RIGHT = 2;
+COLL_TOP = 3;
+COLL_BOTTOM = 4;
+
+lastScore = 0;
+highScore = 0;
+
+ballImage = loadImage("examples/ball.png");
+blockImage = loadImage("examples/block.png");
+batImage = loadImage("examples/bat.png");
+
+ballSprite = toSprite(ballImage);
+batSprite = toSprite(batImage);
+
+blocksPerLine = (width() - 2 * HORIZ_MARGIN) / (width(blockImage) + BLOCK_PADDING);
+firstBlockX = (width() - blocksPerLine * width(blockImage) - (blocksPerLine - 1) * BLOCK_PADDING) / 2;
+index = 1;
+for y = 1 to 6 do
+    blockX = firstBlockX;
+    blockY = height() - (VERT_MARGIN + (y - 1) * (height(blockImage) + BLOCK_PADDING));
+    for x = 1 to blocksPerLine do
+        blockSprite[index] = toSprite(blockImage);
+        spriteMove(blockSprite[index], blockX, blockY);
+        blockX = blockX + width(blockImage) + BLOCK_PADDING;
+        index = index + 1;
+    done;
+done;
+
+function setupNewWall()
+    numVisible = 0;
+    for q = 1 to maxIndex(blockSprite) do
+        spriteVisible(blockSprite[q], TRUE);
+        numVisible = numVisible + 1;
+    done;
+endfunc;
+
+function showScore()
+    cls();
+    println("Score: ", score, "        Lives: ", lives);
+endfunc;
+
+function setupNewGame()
+    score = 0;
+    lives = 3;
+    showScore();
+    setupNewWall();
+    batX = (width() - width(batSprite)) / 2;
+    batY = 20;
+    spriteMove(batSprite, batX, batY);
+    spriteVisible(ballSprite, TRUE);
+    spriteVisible(batSprite, TRUE);
+endfunc;
+
+function setupNewRound()
+    ballX = (width() - width(ballSprite)) / 2;
+    ballY = (height() - height(ballSprite)) / 2;
+    spriteMove(ballSprite, ballX, ballY);
+    ballDX = 1;
+    ballDY = -2;
+    showScore();
+    showMessage("Get ready!");
+    wait(3000);
+    showScore();
+endfunc;
+
+function getOneCollidedBlockIndex()
+    for q = 1 to maxIndex(blockSprite) do
+        if spriteCollision(ballSprite, blockSprite[q]) then
+            return q;
+        endif;
+    done;
+    return -1;
+endfunc;
+
+function getCollisionSide(index)
+    local ballBottom = spriteY(ballSprite);
+    local ballTop = ballBottom + height(ballSprite);
+    local ballLeft = spriteX(ballSprite);
+    local ballRight = ballLeft + width(ballSprite);
+    local blockBottom = spriteY(blockSprite[index]);
+    local blockTop = blockBottom + height(blockSprite[index]);
+    local blockLeft = spriteX(blockSprite[index]);
+    local blockRight = blockLeft + width(blockSprite[index]);
+    if ballRight >= blockLeft and ballRight < blockLeft + 3 then
+        return COLL_LEFT;
+    elseif ballLeft <= blockRight and ballLeft > blockRight - 3 then
+        return COLL_RIGHT;
+    elseif ballTop >= blockBottom and ballBottom < blockBottom then
+        return COLL_BOTTOM;
+    elseif ballBottom <= blockTop and ballTop > blockTop then
+        return COLL_TOP;
+    endif;
+    return COLL_BOTTOM; // just in case
+endfunc;
+
+function updateBallPos()
+    ballX = ballX + BALL_SPEED * ballDX;
+    if ballX < 0 or ballX > width() - width(ballSprite) then
+        ballDX = -ballDX;
+        ballX = ballX + 2 * BALL_SPEED * ballDX;
+    endif;
+    ballY = ballY + BALL_SPEED * ballDY;
+    if ballY > height() - height(ballSprite) then
+        ballDY = -ballDY;
+        ballY = ballY + 2 * BALL_SPEED * ballDY;
+    endif;
+    spriteMove(ballSprite, ballX, ballY);
+
+    if spriteCollision(ballSprite, batSprite) then
+        local ballCenterX = ballX + width(ballSprite) / 2;
+        local batCenterX = batX + width(batSprite) / 2;
+        local dx = (ballCenterX - batCenterX) / 7;
+        ballDX = ballDX + dx;
+        if ballDX > MAX_DX then
+            ballDX = MAX_DX;
+        elseif ballDX < -MAX_DX then
+            ballDX = -MAX_DX;
+        endif;
+        ballDY = -ballDY;
+        ballX = ballX + 2 * BALL_SPEED * ballDX;
+        ballY = ballY + 2 * BALL_SPEED * ballDY;
+        spriteMove(ballSprite, ballX, ballY);
+    endif;
+
+    local collidedBlockIndex = getOneCollidedBlockIndex();
+    while collidedBlockIndex > 0 do
+        local collisionSide = getCollisionSide(collidedBlockIndex);
+        if collisionSide == COLL_LEFT or collisionSide == COLL_RIGHT then
+            ballDX = -ballDX;
+        elseif collisionSide == COLL_TOP or collisionSide == COLL_BOTTOM then
+            ballDY = -ballDY;
+        endif;
+        spriteVisible(blockSprite[collidedBlockIndex], FALSE);
+        score = score + 10;
+        showScore();
+        numVisible = numVisible - 1;
+        collidedBlockIndex = getOneCollidedBlockIndex();
+    done;
+    spriteMove(ballSprite, ballX, ballY);
+
+endfunc;
+
+function showMessage(message)
+    println("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n"
+          + "                                   ", message);
+    flush();
+endfunc;
+
+function gameOver()
+    lastScore = score;
+    if score > highScore then
+        highScore = score;
+    endif;
+    showMessage("Game over");
+    wait(3000);
+endfunc;
+
+function playRound()
+    setupNewRound();
+    local finished = FALSE;
+    while not finished do
+        local t = time();
+        batX = mouseX() - width(batSprite) / 2;
+        spriteMove(batSprite, batX, batY);
+        updateBallPos();
+        if ballY < 0 then
+            lives = lives - 1;
+            showScore();
+            if lives == 0 then
+                gameOver();
+                finished = TRUE;
+            else
+                setupNewRound();
+            endif;
+        elseif numVisible == 0 then
+            setupNewWall();
+            setupNewRound();
+        endif;
+        flush();
+        t = time() - t;
+        wait(30 - t);
+    done;
+endfunc;
+
+function playGame()
+    for q = 1 to maxIndex(blockSprite) do
+        spriteVisible(blockSprite[q], FALSE);
+    done;
+    spriteVisible(batSprite, FALSE);
+    spriteVisible(ballSprite, FALSE);
+    cls();
+    println("\n\n    --- BREAKOUT ---");
+    println("\n\n    Last score: ", lastScore, "    Highscore: ", highScore);
+    println("\n\n    Use the mouse to control the \"bat\"");
+    println("    Press F12 to quit");
+    println("\n\n    Press any key to start");
+    flush();
+    readChar();
+    setupNewGame();
+    playRound();
+endfunc;
+
+autoFlush(FALSE);
+while TRUE do
+    playGame();
+done;

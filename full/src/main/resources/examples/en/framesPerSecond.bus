@@ -1,0 +1,23 @@
+/* Runs a test to examine the display update speed */
+
+SECONDS = 5;
+frames = 0;
+println("Please wait for ", SECONDS, " seconds");
+wait(2000);
+
+autoFlush(FALSE);
+startTime = time();
+endTime = startTime + SECONDS * 1000;
+while time() < endTime do
+    cls();
+    print(time() - startTime);
+    flush();
+    frames = frames + 1;
+done;
+endTime = time();
+autoFlush(TRUE);
+
+cls();
+seconds = (endTime - startTime) / 1000.0;
+println(frames, " frames in ", seconds, " seconds");
+println(toReal(frames) / seconds, " frames per second");

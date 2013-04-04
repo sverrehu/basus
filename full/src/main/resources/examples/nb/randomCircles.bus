@@ -1,0 +1,14 @@
+repeat 100 times
+
+    // Velg en tilfeldig farge (rød, grønn, blå)
+    color(random(255), random(255), random(255));
+
+    x = random(width() - 1);
+    y = random(height() - 1);
+    full_radius = random(10, 100);
+
+    for step_radius = 0 to full_radius do
+        fillCircle(x, y, step_radius);
+    done;
+
+done;

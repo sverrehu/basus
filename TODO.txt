@@ -1,0 +1,33 @@
+Bugs
+
+Short term
+  * "Back" in the help browser should remember the scrollbar position
+  * Translate help to Norwegian.
+  * Fix TODOs.
+  * When returning to the IDE from full-screen mode, copy sprites as
+    well.
+  * When running outside IDE (applet, window, fullscreen): Error
+    messages should appear in the output window.  Make sure background
+    and foreground are reasonable.
+
+Long term
+  * Graphical texts (set font, location, ...).
+  * Sound.
+  * Debugging.
+
+Probably never
+  * Clean up the bloody GUI code.  My GUI code is always a mess.
+  * Run program as a screen saver (screensavers.dev.java.net).
+  * Make Basus-programs run on mobile phones (major task).
+      * Need to get rid of lots of classes to reduce the size.
+      * Basus programs should probably be precompiled to some format
+        so that the compiler classes may be left out.  (Serializable
+        is not supported, so the precompiled format cannot rely on
+        (Java-style) serialized syntax trees.)
+      * Decide what to do about floating point expressions/functions.
+        Real FP requires CLDC 1.1, which I suspect is not widely
+        available.  (There appears to be FP-simulating code
+        available.)
+      * Thread.interrupt is not supported.  May not be an issue,
+        although the BasusRunner uses it to terminate a running
+        program.

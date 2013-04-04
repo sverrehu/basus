@@ -1,0 +1,289 @@
+/* Contributed by Jon S. Bratseth and Gabriel B. Stav 2008-09-03 */
+
+KEY_LEFT = 37;
+KEY_RIGHT = 39;
+KEY_UP = 40;
+KEY_DOWN = 38;
+S = 83;
+
+ddy = -0.2;
+thrust = 0.06;
+radius = 10;
+max_movement = 10;
+
+autoFlush(FALSE);
+
+initState();
+
+while TRUE do
+    t = time();
+    cls();
+
+    color(255, 255, 255);
+    println("Level ", level, "   Lives ", lives);
+    if level == 0 then
+        printWelcome();
+        greenCircle(400, 100, 30);
+    elseif level == 1 then
+        message(255, 100, 100, "Stay away from red balls!");
+        redCircle(300, 250, 50);
+        greenCircle(300, 400, 20);
+    elseif level == 2 then
+        redCircle(200, 50, 40);
+        redCircle(200, 150, 40);
+        redCircle(200, 250, 40);
+        greenCircle(600, 100, 20);
+    elseif level == 3 then
+        redCircle(150, 50, 40);
+        redCircle(150, 150, 40);
+        redCircle(400, 50, 40);
+        redCircle(400, 150, 40);
+        redCircle(400, 250, 40);
+        greenCircle(600, 100, 20);
+    elseif level == 4 then
+        redCircle(200, 250, 70);
+        redCircle(120, 350, 10);
+        redCircle(400, 250, 70);
+        greenCircle(250, 400, 20);
+    elseif level == 5 then
+        redCircle(200, 80, 50);
+        redCircle(370, 300, 70);
+        redCircle(350, 100, 20);
+        redCircle(535, 250, 50);
+        redCircle(500, 350, 45);
+        redCircle(614, 448, 20);
+        greenCircle(550, 450, 20);
+    elseif level == 6 then
+        redCircle(400, 150, 160);
+        redCircle(340, 400, 10);
+        greenCircle(600, 200, 20);
+    elseif level == 7 then
+        redSize = 50;
+        if y1 == 0 then
+            y1 = redSize
+            y2 = 400;
+            y3 = 200;
+            y1d = 4;
+            y2d = -4;
+            y3d = 4;
+        endif;
+        y1 = y1 + y1d;
+        y2 = y2 + y2d;
+        y3 = y3 + y3d;
+        if yWallCollision(y1, redSize) == 1 then
+            y1d = -y1d;
+        endif;
+        if yWallCollision(y2, redSize) == 1 then
+            y2d = -y2d;
+        endif;
+        if yWallCollision(y3, redSize) == 1 then
+            y3d = -y3d;
+        endif;
+        redCircle(180, y1, redSize);
+        redCircle(320, y2, redSize);
+        redCircle(500, y3, redSize);
+        greenCircle(580, 300, 20);
+    elseif level == 8 then
+        message(200, 170, 0, "Take the gold balls to unlock the greeen");
+        if gold1 == 0 then
+            if goldCircle(230, 400, 5) == 1 then
+                gold1 = 1;
+            endif;
+        endif;
+
+        if gold2 == 0 then
+            if goldCircle(270, 420, 5) == 1 then
+                gold2 = 1;
+            endif;
+        endif;
+        if gold3 == 0 then
+            if goldCircle(310, 400, 5) == 1 then
+                gold3 = 1;
+            endif;
+        endif;
+        redCircle(270, 280, 100);
+        redCircle(530, 380, 40);
+        if gold1 == 0 or gold2 == 0 or gold3 == 0 then
+            greyCircle(550, 300, 20);
+        else
+            greenCircle(550, 300, 20);
+        endif;
+    elseif level == 9 then
+        message(255, 255, 255, "You won! Now you make this level...");
+        flush();
+        wait(6 * 1000);
+        initState();
+    endif;
+
+    color(100, 100, 255);
+    fillCircle(x,  y,  radius);
+    checkSKey();
+    moveBall();
+
+    flush();
+    wait(20 - (time() - t));
+done;
+
+function initState()
+    initBallState();
+    level = 0;
+    lives = 3;
+    sReleased = 1;
+    y1 = 0;
+    gold1 = 0;
+    gold2 = 0;
+    gold3 = 0;
+endfunc;
+
+function initBallState()
+    x = radius + 5;
+    y = 200;
+    dx = 0;
+    dy = 0;
+endfunc;
+
+function checkSKey()
+    if keyPressed(S) and sReleased == 1 then
+        level = level + 1;
+        sReleased = 0
+    endif;
+    if not keyPressed(S) then
+        sReleased = 1;
+    endif;
+endfunc;
+
+function checkThrust()
+    if keyPressed(KEY_LEFT) then
+        dx = dx - thrust;
+    endif
+    if keyPressed(KEY_RIGHT) then
+        dx = dx + thrust;
+    endif
+    if keyPressed(KEY_UP) then
+        dy = dy - thrust;
+    endif
+    if keyPressed(KEY_DOWN) then
+        dy = dy + thrust;
+    endif
+endfunc;
+
+function moveBall()
+    checkThrust();
+    dy = dy + ddy;
+
+    x = x + dx;
+    if xWallCollision(x, radius) == 1 then
+        x = x - dx;
+        dx = -dx;
+    endif;
+
+    y = y + dy;
+    if yWallCollision(y, radius) == 1 then
+        y = y - dy;
+        dy = -dy;
+    endif;
+endfunc;
+
+function xWallCollision(x, radius)
+    if x < radius or x > (width() - radius) then
+        return 1;
+    else
+        return 0;
+    endif;
+endfunc;
+
+function yWallCollision(y, radius)
+    if y < radius or y > (height() - radius) then
+        return 1;
+    else
+        return 0;
+    endif;
+endfunc;
+
+function redCircle(circleX, circleY, circleR)
+    color(200, 0, 0);
+    if collidedCircle(circleX, circleY, circleR) == 1 then
+        lives = lives - 1;
+        if lives < 0 then
+            message(255, 50, 50, "Game over!");
+            flush();
+            wait(4 * 1000);
+            initState();
+        else
+            message(255, 100, 100, "You lost a life");
+            flush();
+            wait(2 * 1000);
+            initBallState();
+        endif;
+    endif;
+endfunc;
+
+function goldCircle(circleX, circleY, circleR)
+    color(200, 170, 0);
+    if collidedCircle(circleX, circleY, circleR) == 1 then
+        return 1;
+    else
+        return 0;
+    endif;
+endfunc;
+
+function greyCircle(circleX, circleY, circleR)
+    color(150, 150, 150);
+    fillCircle(circleX, circleY, circleR);
+endfunc;
+
+function pinkCircle(circleX, circleY, circleR)
+    color(200, 50, 100);
+    if collidedCircle(circleX, circleY, circleR) == 1 then
+        angle = atan((circleY - y) / (circleX - x));
+    endif;
+endfunc;
+
+function greenCircle(circleX, circleY, circleR)
+    color(0, 200, 0);
+    if collidedCircle(circleX, circleY, circleR) == 1 then
+        message(50, 255, 50, "Well done!");
+        flush();
+        wait(2 * 1000);
+        level=level + 1;
+        lives=lives + 1;
+        initBallState();
+    endif;
+endfunc;
+
+function collidedCircle(circleX, circleY, circleR)
+    fillCircle(circleX, circleY, circleR);
+    if distance(circleX, circleY, x, y)<circleR + radius then
+        return 1;
+    else
+        return 0;
+    endif;
+endfunc;
+
+function distance(x1, y1, x2, y2)
+    return sqrt((x2 - x1) * (x2 - x1) + (y2 - y1) * (y2 - y1));
+endfunc;
+
+function message(red, green, blue, text)
+    color(red, green, blue);
+    println("");
+    print("   ");
+    println(text);
+endfunc;
+
+function printWelcome()
+    println("");
+    println("");
+    println("");
+    color(255, 255, 0);
+    println("                                 B  A  L  L");
+    color(255, 255, 255);
+    println("");
+    println("");
+    println("                  Hit the green ball to advance to the next level");
+    println("");
+    println("                               using the ARROW KEYS");
+    println("");
+    println("");
+    println("");
+endfunc;

@@ -1,0 +1,24 @@
+<h1>Embedding a Basus Program in a Web Page</h1>
+
+<p>In order to embedd a basus program in a web page, you will need to
+upload the Basus jar file, your Basus program and any images it loads
+to a directory of the web server.  Then create an index.html (or
+default.htm if running on a Microsoft web server) in the same
+directory, and let it contain the following where you want the program
+to be included:</p>
+
+<pre>
+    &lt;applet archive="basus-1.0.jar"
+            code="no.shhsoft.basus.ui.BasusApplet.class"
+            width="640" height="480"&gt;
+        &lt;param name="program" value="name-of-the-program.bus"/&gt;
+        Your browser does not support the applet tag.
+    &lt;/applet&gt;
+</pre>
+
+<p>Note that the value of the archive attribute should be the name of
+the Basus jar file you uploaded.  The value attribute of the program
+param should be the name of your Basus program file.</p>
+
+<p>When everything is in place, just visit the web page you just
+created in a Java enabled browser, and enjoy.</p>

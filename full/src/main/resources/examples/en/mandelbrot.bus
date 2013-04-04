@@ -1,0 +1,113 @@
+/* Contributed by Glenn T. Lines */
+
+KEY_UP = 38;
+KEY_DOWN = 40;
+KEY_LEFT = 37;
+KEY_RIGHT = 39;
+KEY_ENTER = 10;
+KEY_ESC = 27;
+
+x_min = -2.5;
+x_max = 1.5;
+y_min = -1.5;
+y_max = 1.5;
+
+max_it = 20;
+
+function transfer(t)
+    return 255 * (tanh(5.0 * ((sinr(2.0 * PI * t - 0.75 * PI) + 1.0)
+                  / 2.0 - 0.5)) + 1.0) / 2.0;
+endfunc;
+
+function calc_colormap()
+    for i = 0 to max_it do
+        t = toReal(i) / max_it;
+        r[i] = transfer(0.75 * t - 0.05);
+        g[i] = transfer(0.75 * t + 0.25);
+        b[i] = transfer(0.75 * t + 0.5 + 0.05);
+    done;
+    r[max_it] = 0;
+    g[max_it] = 0;
+    b[max_it] = 0;
+endfunc;
+
+autoFlush(FALSE);
+
+function draw_mandel()
+    world_width = x_max - x_min;
+    world_height = y_max - y_min;
+    for px = 0 to width() do
+        color(0, 0, 0);
+        line(px, 0, px, height());
+        flush();
+        x = x_min + px * (world_width / width());
+        for py = 0 to height() do
+            y = y_min + py * (world_height / height());
+
+            x_i = x;
+            y_i = y;
+
+            count = 0;
+            value = 0;
+
+            while value < 4 and count < max_it do
+                count = count + 1;
+                x_tmp = x_i * x_i - y_i * y_i + x;
+                y_i = 2 * x_i * y_i + y;
+                x_i = x_tmp;
+                value = x_i * x_i + y_i * y_i;
+            done;
+            value = min(255, count * (255 / max_it));
+            count = max_it * (count / toReal(max_it))^0.5;
+            color(r[count], g[count], b[count]);
+            plot(px, py);
+        done;
+        flush();
+    done;
+endfunc;
+
+function navigate()
+    captureBackground();
+    color(255, 255, 255);
+    width = width() / 10;
+    height = height() / 10;
+    xp = (width() - width) / 2;
+    yp = (height() - height) / 2;
+    d = 5;
+    finished = FALSE;
+    while not finished do
+        cls();
+        rect(xp, yp, width, height);
+        if keyPressed(KEY_UP) then
+            yp = yp + d;
+        elseif keyPressed(KEY_DOWN) then
+            yp = yp - d;
+        elseif keyPressed(KEY_LEFT) then
+            xp = xp - d;
+        elseif keyPressed(KEY_RIGHT) then
+            xp = xp + d;
+        elseif keyPressed(KEY_ESC) then
+            terminate = TRUE;
+            finished = TRUE;
+        elseif keyPressed(KEY_ENTER) then
+            x_diff = x_max - x_min;
+            y_diff = y_max - y_min;
+            x_min = x_min + (toReal(xp) / width()) * x_diff;
+            x_max = x_min + x_diff / 10.0;
+            y_min = y_min + (toReal(yp) / height()) * y_diff;
+            y_max = y_min + y_diff / 10.0;
+            finished = TRUE;
+        endif;
+        flush();
+        wait(10);
+    done;
+    clearBackground();
+endfunc;
+
+terminate = FALSE;
+while not terminate do
+    calc_colormap();
+    draw_mandel();
+    navigate();
+    max_it = max_it + 5;
+done;

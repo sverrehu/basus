@@ -1,0 +1,30 @@
+<h1>Sprite Data Type</h1>
+
+<p>Sprites are images that may be moved around independently of what's
+on the screen; thay appear to float in front of whatever has been
+drawn using other graphic functions.</p>
+
+<p>A sprite is created by converting
+an <a href="types/image">image</a> to a sprite using
+the <a href="func/toSprite">toSprite</a> function.</p>
+
+<p>In order for the sprite to be shown, it must be made visible using
+the <a href="func/spriteVisible">spriteVisible</a> function and moved
+to a location on screen
+using <a href="func/spriteMove">spriteMove</a>.  The location of a
+sprite may be queried using the <a href="func/spriteX">spriteX and
+spriteY</a> functions, and it's size may be queried
+using <a href="func/width">width</a>
+and <a href="func/height">height</a>.</p>
+
+<p>If multiple sprites are present, you may control which are in front
+of which by adjusting a depth property using
+the <a href="func/spriteDepth">spriteDepth</a> function.  By default,
+the depth is zero (0), which is closer to the viewer.  Setting the
+depth to higher numbers moves the sprite closer to the background.
+Sprites with lower depth numbers will appear to pass in front of sprites
+with higher depth numbers.</p>
+
+<p>You may check for collision between any two sprites using
+the <a href="func/spriteCollision">spriteCollision</a> function.  A
+sprite must be visible in order be collidable.</p>

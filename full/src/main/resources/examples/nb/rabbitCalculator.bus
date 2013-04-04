@@ -1,0 +1,16 @@
+antall_kaniner = 2;
+unger_per_kull = 7;
+
+println("Kaningenerasjonskalkulator.");
+println("Vi antar at ", unger_per_kull,
+        " unger fødes i hvert kull,");
+println("at det er en 50/50-fordeling av kjønn,");
+println("og at alle lever og formerer seg.");
+println();
+
+for generasjon = 1 to 10 do
+    println("generasjon ", generasjon, ": ",
+            antall_kaniner , " kaniner.");
+    nye_kaniner = (antall_kaniner / 2) * unger_per_kull;
+    antall_kaniner = antall_kaniner + nye_kaniner;
+done;

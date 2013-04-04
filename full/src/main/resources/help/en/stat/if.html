@@ -1,0 +1,45 @@
+<h1>if</h1>
+<p>Executes a list of statements if a boolean condition
+is true.  Optionally, one may add one or more
+<span class="code">elseif</span>-branches
+to add more conditions that are
+evaluated if previous conditions are false, and a final
+<span class="code">else</span> that is executed if none of
+the conditions were true.</p>
+
+<h2>Syntax</h2>
+<pre>
+    if <span class="pseudo">boolean-expression</span> then
+        <span class="pseudo">block-of-code</span>
+    endif;
+</pre>
+<p>or</p>
+<pre>
+    if <span class="pseudo">boolean-expression</span> then
+        <span class="pseudo">block-of-code</span>
+    else
+        <span class="pseudo">block-of-code</span>
+    endif;
+</pre>
+<p>or</p>
+<pre>
+    if <span class="pseudo">boolean-expression</span> then
+        <span class="pseudo">block-of-code</span>
+    elseif <span class="pseudo">boolean-expression</span> then
+        <span class="pseudo">block-of-code</span>
+    else
+        <span class="pseudo">block-of-code</span>
+    endif;
+</pre>
+
+<h2>Example</h2>
+<pre>
+    charCode = readChar();
+    if charCode == 'y' then
+        println("yes");
+    elseif charCode == 'n' then
+        println("no");
+    else
+        println("maybe");
+    endif;
+</pre>

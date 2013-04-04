@@ -1,0 +1,193 @@
+KEY_LEFT = 37;
+KEY_RIGHT = 39;
+KEY_SPACE = 32;
+
+SHIP_WIDTH = width() / 13;
+SHIP_HEIGHT = SHIP_WIDTH / 2;
+SPEED = SHIP_WIDTH / 6;
+
+function waitForA(message)
+    println(message);
+    println("Please press 'a'.");
+    flush();
+    while readChar() != 'a' do
+    done;
+endfunc;
+
+function navigatePlayer()
+    if keyPressed(KEY_LEFT) then
+        if x[0] - SPEED >= 0 then
+            x[0] = x[0] - SPEED;
+        endif;
+    elseif keyPressed(KEY_RIGHT) then
+        if x[0] + SPEED < width() then
+            x[0] = x[0] + SPEED;
+        endif;
+    elseif keyPressed(KEY_SPACE) then
+        if shot_x[0] < 0 then
+            shot_x[0] = x[0] + SHIP_WIDTH / 2;
+            shot_y[0] = y[0] + SHIP_HEIGHT + 1;
+        endif;
+    endif;
+endfunc;
+
+function drawShips()
+    for q = 0 to num_enemies do
+        if x[q] >= 0 then
+            color(red[q], green[q], blue[q]);
+            if q > 0 then
+                /* draw enemy */
+                fillShape(x[q] + SHIP_WIDTH / 2, y[q],
+                          x[q], y[q] + SHIP_HEIGHT / 2,
+                          x[q] + SHIP_WIDTH, y[q] + SHIP_HEIGHT / 2);
+                fillRect(x[q], y[q] + SHIP_HEIGHT / 2,
+                         SHIP_WIDTH, SHIP_HEIGHT / 2);
+            else
+                /* draw my thing */
+                fillRect(x[q], y[q], SHIP_WIDTH, SHIP_HEIGHT / 2);
+                fillShape(x[q], y[q] + SHIP_HEIGHT / 2 - 1,
+                          x[q] + SHIP_WIDTH, y[q] + SHIP_HEIGHT / 2 - 1,
+                          x[q] + SHIP_WIDTH / 2, y[q] + SHIP_HEIGHT);
+            endif;
+        endif;
+    done;
+endfunc;
+
+function updatePlayerShot()
+    if shot_x[0] >= 0 then
+        if not isBackground(shot_x[0], shot_y[0] + SHIP_HEIGHT / 2) then
+            r = getRed(shot_x[0], shot_y[0] + SHIP_HEIGHT / 2);
+            g = getGreen(shot_x[0], shot_y[0] + SHIP_HEIGHT / 2);
+            b = getBlue(shot_x[0], shot_y[0] + SHIP_HEIGHT / 2);
+            if r != 255 and g != 255 and b != 255 then
+                shot_x[0] = -1;
+                score = score + 10;
+                for q = 1 to num_enemies do
+                    if shot_y[0] + SHIP_HEIGHT / 2 >= y[q]
+                       and shot_y[0] + SHIP_HEIGHT / 2 <= y[q] + SHIP_HEIGHT then
+                        x[q] = -1;
+                        enemies_left = enemies_left - 1;
+                        if enemies_left == 0 then
+                            stage_finished = TRUE;
+                        endif;
+                    endif;
+                done;
+            endif;
+        endif;
+    endif;
+    if shot_x[0] >= 0 then
+        color(255, 128, 128);
+        line(shot_x[0], shot_y[0], shot_x[0], shot_y[0] + SHIP_HEIGHT / 2);
+        shot_y[0] = shot_y[0] + SPEED;
+        if shot_y[0] >= height() then
+            shot_x[0] = -1;
+        endif;
+    endif;
+endfunc;
+
+function updateEnemyShots()
+    color(255, 255, 255);
+    for q = 1 to num_enemies do
+        if shot_x[q] >= 0 then
+            if shot_y[q] <= y[0] + SHIP_HEIGHT then
+                r = getRed(shot_x[q], shot_y[q]);
+                g = getGreen(shot_x[q], shot_y[q]);
+                b = getBlue(shot_x[q], shot_y[q]);
+                if r == red[0] and g == green[0] and b == blue[0] then
+                    finished = TRUE;
+                endif;
+            endif;
+            line(shot_x[q], shot_y[q], shot_x[q], shot_y[q] + SHIP_HEIGHT / 2);
+            shot_y[q] = shot_y[q] - SPEED;
+            if shot_y[q] < 0 then
+                shot_x[q] = -1;
+            endif;
+        elseif x[q] >= 0 and x[q] >= x[0] - 2 * SHIP_WIDTH
+               and x[q] <= x[0] + 3 * SHIP_WIDTH and random(20) == 0 then
+            shot_x[q] = x[q] + SHIP_WIDTH / 2;
+            shot_y[q] = y[q];
+        endif;
+    done;
+endfunc;
+
+function navigateEnemies()
+    for q = 1 to num_enemies do
+        if x[q] >= 0 then
+            if random(70) == 1 then
+                dx[q] = -dx[q];
+            endif;
+            x[q] = x[q] + dx[q] * SPEED;
+            if x[q] < 0 then
+                x[q] = x[q] + 2 * SPEED;;
+                dx[q] = -dx[q];
+            elseif x[q] >= width() - SHIP_WIDTH then
+                x[q] = x[q] - 2 * SPEED;;
+                dx[q] = -dx[q];
+            endif;
+        endif;
+    done;
+endfunc;
+
+function playStage()
+    while not finished and not stage_finished do
+        cls();
+        t = time();
+
+        navigatePlayer();
+                drawShips();
+                updatePlayerShot();
+                updateEnemyShots();
+                navigateEnemies();
+
+        color(255, 255, 255);
+        println("Score: ", score);
+        flush();
+        t = time() - t;
+        wait(50 - t);
+    done;
+endfunc;
+
+function playGame()
+    finished = FALSE;
+    score = 0;
+    stage = 0;
+    while not finished do
+        x[0] = (width() - SHIP_WIDTH) / 2;
+        y[0] = 10;
+        red[0] = 255;
+        green[0] = 255;
+        blue[0] = 0;
+        shot_x[0] = -1;
+        shot_y[0] = -1;
+
+        num_enemies = 0;
+        next_y = 4 * SHIP_HEIGHT;
+        while next_y < height() - SHIP_HEIGHT do
+            num_enemies = num_enemies + 1;
+            x[num_enemies] = random(0, width() - SHIP_WIDTH);
+            y[num_enemies] = next_y;
+            red[num_enemies] = random(50, 254);
+            green[num_enemies] = random(50, 254);
+            blue[num_enemies] = random(50, 254);
+            dx[num_enemies] = 1;
+            if random(1) == 1 then
+                dx[num_enemies] = -1;
+            endif;
+            shot_x[num_enemies] = -1;
+            shot_y[num_enemies] = -1;
+            next_y = next_y + 2 * SHIP_HEIGHT + 5;
+        done;
+        enemies_left = num_enemies;
+        stage_finished = FALSE;
+        stage = stage + 1;
+        waitForA("Use left and right arrow to move, and space to fire.\n"
+                 + "Get ready for stage " + toString(stage) + ".");
+        playStage();
+    done;
+endfunc;
+
+autoFlush(FALSE);
+playGame();
+autoFlush(TRUE);
+waitForA("Game over.");
+cls();

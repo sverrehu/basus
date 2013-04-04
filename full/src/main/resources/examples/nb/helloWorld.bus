@@ -1,0 +1,6 @@
+/*
+    Skriver litt tekst.  Dette er det tradisjonelle
+    "første programmet" for ethvert programmeringsspråk.
+*/
+
+println("Hei, verden!");

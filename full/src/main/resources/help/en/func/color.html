@@ -1,0 +1,33 @@
+<h1>color</h1>
+
+<p>Sets the color that will be used for the next printing or drawing
+operation.</p>
+
+<p>This function expects three or four integers between 0 and 255 to
+specify the color.  The first three specify the color components, the
+optional fourth specifies the alpha value (opacity).  The first
+number indicates how much of the color red to add.  The second is for
+green, and the third is for blue.  Zero indicates nothing of the
+corresponding color component, while 255 indicates "as much as
+possible".
+</p>
+
+<p>Think of the values as how much colored light to add for each of
+the red, green and blue color components.  To have black, you wouldn't
+add any light at all.  Black is thus represented
+by <span class="code">(0, 0, 0)</span>.  To have white, you would add
+all colors at max: <span class="color">(255, 255, 255)</span>.  You
+could mix red and blue to have magenta: <span class="code">(255, 0,
+255)</span>.  A more red magenta would appear if you didn't add that
+much blue: <span class="color">(255, 0, 200)</span>.</p>
+
+<p>The alpha value indicates the level of opacity for the color.  A
+value of 0 indicates that the color should be fully transparent.  A
+value of 255 indicates that it should be opaque (solid).  The default
+alpha value is 255.</p>
+
+<h2>Usage</h2>
+<pre>
+    color(0, 255, 0);
+    color(0, 255, 0, 128);
+</pre>

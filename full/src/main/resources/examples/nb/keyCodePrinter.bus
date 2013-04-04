@@ -1,0 +1,14 @@
+/*
+    waitKey() og keyPressed() forholder seg til
+    tastaturkoder istedenfor tegnkoder.  Du kan bruke
+    dette lille programmet for å finne ut hva
+    tastaturkoden er for de tastene du trykker på.
+*/
+
+println("Trykk taster for å se tastaturkoder.");
+while TRUE do
+
+    tastaturkode = waitKey();
+    println("tastaturkode: ", tastaturkode);
+
+done;

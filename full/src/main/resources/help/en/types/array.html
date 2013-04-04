@@ -1,0 +1,67 @@
+<h1>Array Data Type</h1>
+
+<a>Arrays are numbered lists of values.  One may address individual
+values in the list by <i>indexing</i>.  If the
+variable <span class="code">arr</span> is an array, one may reference
+the fifth element by using five as an index in square brackets, like
+this:</p>
+<pre>
+    fifthElement = arr[5];
+</pre>
+
+<p>Note that it is illegal to refer to an array element that has not
+been given a value.</p>
+
+<p>In Basus, arrays automatically extend as values are added to them.
+Assigning values to array items is done by indexing with an array as
+the left hand side of the assignment:</p>
+<pre>
+    arr[5] = "foo";
+</pre>
+
+<p>The function <a href="func/maxIndex">maxIndex</a> will return the
+highest valid index for an array, in other words the highest index
+that has been assigned a value.  This may be used for looping over
+array elements, like this:</p>
+<pre>
+    for index = 1 to maxIndex(arr) do
+        println(arr[index]);
+    done;
+</pre>
+
+<p>Note that Basus doesn't set any rules for what the first index of
+an array should be.  In some languages arrays are indexed from one.
+In others they are indexed from zero.  In Basus, you may pick any
+value for the start index, depending on personal preferences and what
+best matches what you intend to do.</p>
+
+<p>The individual values of an array may have any type, including
+arrays.  All the following statements are valid:
+</p>
+<pre>
+    arr[1] = 42;
+    arr[2] = 3.14;
+    arr[3] = TRUE;
+    arr[4] = "Basus";
+
+    other_arr[1] = arr;
+</pre>
+
+<p>Note how the last statement above assigns
+the <span class="code">arr</span> array to the first element of
+the <span class="code">other_arr</span> array.  The latter array thus
+becomes a <i>multi-dimensional array</i>.  Given a multi-dimensional
+array, you may index into underlying arrays by listing several indexes
+in square brackets, separated by commas.  Based on the assignments
+above, the following would print <tt>Basus</tt>:</p>
+<pre>
+    println(other_arr[1, 4]);
+</pre>
+
+<p>This would change the fourth value of
+  the <span class="code">arr</span> array to <tt>foo</tt> by indexing
+  through the <span class="code">other_arr</span> array:
+</p>
+<pre>
+    other_arr[1, 4] = "foo";
+</pre>

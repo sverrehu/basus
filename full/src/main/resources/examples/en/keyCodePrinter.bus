@@ -1,0 +1,14 @@
+/*
+    waitKey() and keyPressed() work with key codes
+    rather than character codes.  You can use this
+    small program to figure out what the code for
+    whatever key you press is.
+*/
+
+println("Press keys to see their key codes.");
+while TRUE do
+
+    keyCode = waitKey();
+    println("key code: ", keyCode);
+
+done;

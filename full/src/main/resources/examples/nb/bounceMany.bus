@@ -1,0 +1,53 @@
+ANT_BALLER = 40;
+MAX_FORFLYTNING = 7;
+
+for q = 1 to ANT_BALLER do
+    radius[q] = 5 + random(30);
+
+    x[q] = random(width() - 1);
+    y[q] = random(height() - 1);
+
+    dx[q] = random(MAX_FORFLYTNING) - MAX_FORFLYTNING / 2;
+    dy[q] = random(MAX_FORFLYTNING) - MAX_FORFLYTNING / 2;
+
+    rød[q] = random(50, 255);
+    grønn[q] = random(50. 255);
+    blå[q] = random(50, 255);
+done;
+
+autoFlush(FALSE);
+
+while TRUE do
+
+    t = time();
+
+    cls();
+
+    for q = 1 to ANT_BALLER do
+        color(rød[q], grønn[q], blå[q]);
+        fillCircle(x[q], y[q], radius[q]);
+
+        x[q] = x[q] + dx[q];
+        if x[q] < 0 then
+            x[q] = 0;
+            dx[q] = -dx[q];
+        elseif x[q] > width() then
+            x[q] = width();
+            dx[q] = -dx[q];
+        endif;
+
+        y[q] = y[q] + dy[q];
+        if y[q] < 0 then
+            y[q] = 0;
+            dy[q] = -dy[q];
+        elseif y[q] > height() then
+            y[q] = height();
+            dy[q] = -dy[q];
+        endif;
+    done;
+
+    flush();
+
+    wait(20 - (time() - t));
+
+done;

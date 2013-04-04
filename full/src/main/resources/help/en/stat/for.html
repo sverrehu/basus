@@ -1,0 +1,36 @@
+<h1>for</h1>
+<p>Repeats a list of statements while looping a variable
+over a set of values.  The set of values is defined by
+a start value and an end value, and optionally a stepping
+value used to increase the variable.  If the stepping
+value is not given, stepping is done by one.</p>
+
+<p>Looping ends as soon as the variable value has been
+stepped beyond to given end value.</p>
+
+<p>Note that the loop variable will be <i>local</i> to
+any <a href="stat/function">function</a> containing the
+<span class="code">for</span> statement.</p>
+
+<h2>Syntax</h2>
+<pre>
+    for <span class="pseudo">variable-name</span> = <span class="pseudo">numeric-expression</span>
+      to <span class="pseudo">numeric-expression</span> do
+        <span class="pseudo">block-of-code</span>
+    done;
+</pre>
+<p>or</p>
+<pre>
+    for <span class="pseudo">variable-name</span> = <span class="pseudo">numeric-expression</span>
+      to <span class="pseudo">numeric-expression</span>
+      step <span class="pseudo">numeric-expression</span> do
+        <span class="pseudo">block-of-code</span>
+    done;
+</pre>
+
+<h2>Example</h2>
+<pre>
+    for x = 10 to 1 step -1 do
+        println("x is ", x);
+    done;
+</pre>

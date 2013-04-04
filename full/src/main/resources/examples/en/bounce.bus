@@ -1,0 +1,43 @@
+radius = 10;
+
+x = random(width() - 1);
+y = random(height() - 1);
+
+max_movement = 10;
+
+dx = random(max_movement) - max_movement / 2;
+dy = random(max_movement) - max_movement / 2;
+
+color(100, 100, 255);
+autoFlush(FALSE);
+
+while TRUE do
+
+    t = time();
+
+    cls();
+    fillCircle(x, y, radius);
+
+    x = x + dx;
+    if x < 0 then
+        x = 0;
+        dx = -dx;
+    elseif x > width() then
+        x = width();
+        dx = -dx;
+    endif;
+
+    y = y + dy;
+    if y < 0 then
+        y = 0;
+        dy = -dy;
+    elseif y > height() then
+        y = height();
+        dy = -dy;
+    endif;
+
+    flush();
+
+    wait(20 - (time() - t));
+
+done;

@@ -1,0 +1,20 @@
+<h1>autoFlush</h1>
+
+<p>Enables or disables immediate display updates for all functions
+that prints or draws anything.  By
+default, <span class="code">autoFlush</span> is enabled.</p>
+
+<p>Behind the scenes, every single call to functions that update the
+display first updates an internal image, and then flushes this image
+to the display.  When you do animations, this flushing for every
+single drawing operation may lead to flicker.  In such cases, you may
+want to disable the automatic flushing, and take care of the flushing
+yourself: Call <span class="code">autoFlush(FALSE)</span>, do all the
+drawing you want in a single animation step, and call
+<a href="func/flush">flush</a> to have everything displayed.</p>
+
+<h2>Usage</h2>
+<pre>
+    autoFlush(FALSE);
+    autoFlush(TRUE);
+</pre>

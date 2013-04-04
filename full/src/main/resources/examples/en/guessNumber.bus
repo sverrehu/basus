@@ -1,0 +1,44 @@
+println("Think of a number between 1 and 100");
+println("Press a key when you're ready.");
+readChar();
+
+finished = FALSE;
+min = 1;
+max = 100;
+tries = 0;
+
+function readYesOrNo()
+    answer = readChar();
+    while answer != 'y' and answer != 'n' do
+        println();
+        print("Please press 'y' or 'n'");
+        answer = readChar();
+    done;
+    if answer == 'y' then
+        println(" yes");
+    else
+        println(" no");
+    endif;
+    return answer;
+endfunc;
+
+while not finished do
+    number = min + (max - min ) / 2;
+    tries = tries + 1;
+    print("Are you thinking of ", number, "?  (y/n)");
+    if readYesOrNo() == 'y' then
+        println("I made it with ", tries, " tries.");
+        finished = TRUE;
+    else
+        print("Is the number less than ", number, "?  (y/n)");
+        if readYesOrNo() == 'y' then
+            max = number - 1;
+        else
+            min = number + 1;
+        endif;
+        if max < min then
+            println("I think you're kidding me.");
+            finished = TRUE;
+        endif;
+    endif;
+done;

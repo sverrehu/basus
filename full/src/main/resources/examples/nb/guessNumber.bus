@@ -1,0 +1,44 @@
+println("Tenkt på et tall mellom 1 og 100");
+println("Trykk en tast når du er klar.");
+readChar();
+
+ferdig = FALSE;
+min = 1;
+maks = 100;
+forsøk = 0;
+
+function lesJaEllerNei()
+    svar = readChar();
+    while svar != 'j' and svar != 'n' do
+        println();
+        print("Vennligst trykk 'j' eller 'n'");
+        svar = readChar();
+    done;
+    if svar == 'j' then
+        println(" ja");
+    else
+        println(" nei");
+    endif;
+    return svar;
+endfunc;
+
+while not ferdig do
+    tall = min + (maks - min ) / 2;
+    forsøk = forsøk + 1;
+    print("Tenker du på ", tall, "?  (j/n)");
+    if lesJaEllerNei() == 'j' then
+        println("Jeg klarte det på ", forsøk, " forsøk.");
+        ferdig = TRUE;
+    else
+        print("Er tallet mindre enn ", tall, "?  (j/n)");
+        if lesJaEllerNei() == 'j' then
+            maks = tall - 1;
+        else
+            min = tall + 1;
+        endif;
+        if maks < min then
+            println("Jeg tror du tuller med meg.");
+            ferdig = TRUE;
+        endif;
+    endif;
+done;

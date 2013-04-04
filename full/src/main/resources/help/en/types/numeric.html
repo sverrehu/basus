@@ -1,0 +1,34 @@
+<h1>Numeric Data Type</h1>
+
+<p>Basus operates with two different kinds of numbers: Integers and
+reals (floating point).  Integers do not contain any fractional part,
+while reals do.</p>
+
+<p>Integers are (32 bit) numbers between -2147483648 and 2147483647.
+Any constant written without a decimal point (".") will be treated as
+an integer.  The following assignment would
+make <span class="code">x</span> an integer:</p>
+<pre>
+    x = 3;
+</pre>
+
+<p>Reals are (IEEE 754 64 bit) double precision numbers.  Any constant
+written with a decimal part is treated as a real.  The following
+assignment would make <span class="code">x</span> a real number:</p>
+<pre>
+    x = 3.0;
+</pre>
+
+<p>Real numbers may optionally be given an exponent using the "e"
+character.  Writing <span class="code">2.1e5</span> would mean
+2.1*10^5</span>.  The exponent may be negative.
+
+<p>The smallest possible positive real that is not zero, is 4.9e-324.
+The largest possible real is 1.7976931348623157e308.
+
+<p>Note that every single part of an expression operating on one or
+two integers will result in an integer.  If you
+write <span class="code">1/3</span>, the answer would be 0, since
+the calculation is performed on integers.  If you want to make the
+calculation floating point, make sure at least one of the numbers is a
+floating point, e.g: <span class="code">1.0/3</span>.</p>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<help>
+    <search-prefixes>
+        <prefix>func</prefix>
+        <prefix>stat</prefix>
+        <prefix>lang</prefix>
+    </search-prefixes>
+    <synonyms>
+        <label name="if">
+            <synonym>then</synonym>
+            <synonym>else</synonym>
+            <synonym>endif</synonym>
+        </label>
+        <label name="for">
+            <synonym>to</synonym>
+            <synonym>step</synonym>
+        </label>
+        <label name="repeat">
+            <synonym>times</synonym>
+        </label>
+        <label name="getRed">
+            <synonym>getGreen</synonym>
+            <synonym>getBlue</synonym>
+        </label>
+        <label name="cos">
+            <synonym>cosr</synonym>
+        </label>
+        <label name="sin">
+            <synonym>sinr</synonym>
+        </label>
+        <label name="tan">
+            <synonym>tanr</synonym>
+        </label>
+        <label name="mouseX">
+            <synonym>mouseY</synonym>
+        </label>
+        <label name="spriteX">
+            <synonym>spriteY</synonym>
+        </label>
+        <label name="toLower">
+            <synonym>toUpper</synonym>
+        </label>
+        <label name="function">
+            <synonym>return</synonym>
+            <synonym>local</synonym>
+        </label>
+        <label name="constants">
+            <synonym>TRUE</synonym>
+            <synonym>FALSE</synonym>
+            <synonym>PI</synonym>
+        </label>
+    </synonyms>
+</help>

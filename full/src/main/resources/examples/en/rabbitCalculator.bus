@@ -1,0 +1,16 @@
+num_rabbits = 2;
+babies_per_litter = 7;
+
+println("Rabbit generation calculator.");
+println("We assume ", babies_per_litter,
+        " new rabbits per litter,");
+println("a 50/50 distribution of males and females,");
+println("and that all rabbits live and breed.");
+println();
+
+for generation = 1 to 10 do
+    println("generation ", generation, ": ",
+            num_rabbits , " rabbits.");
+    new_rabbits = (num_rabbits / 2) * babies_per_litter;
+    num_rabbits = num_rabbits + new_rabbits;
+done;

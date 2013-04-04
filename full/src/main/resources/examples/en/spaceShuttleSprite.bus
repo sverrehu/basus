@@ -1,0 +1,18 @@
+moon = loadImage("examples/moon.png");
+shuttle = toSprite(loadImage("examples/space-shuttle.png"));
+
+/* draw some stars */
+repeat 100 times
+    color(random(200, 255), random(150, 255), random(200, 255));
+    fillCircle(random(width()), random(height()), random(1, 2));
+done;
+
+drawImage(moon, 150, 250);
+spriteMove(shuttle, -100, 400);
+spriteVisible(shuttle, TRUE);
+
+while spriteX(shuttle) < width() do
+    t = time();
+    spriteMove(shuttle, spriteX(shuttle) + 2, spriteY(shuttle) - 1);
+    wait(80 - (time() - t));
+done;
