@@ -33,7 +33,7 @@ implements Tokenizer {
     }
 
     private void error(final String key, final Object... args) {
-        throw new ParserException(ErrorUtils.getMessage(key, null, args));
+        throw new ParserException(ErrorUtils.getMessage(key, null, args), getCurrentTextLocation());
     }
 
     private char nextChar() {
