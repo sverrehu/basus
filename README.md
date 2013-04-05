@@ -15,5 +15,12 @@ notes to whoever happens to pass by:
   * I really never intended this to be a collaboration project, so
     there is no developer documentation.
 
+  * Staring point for launching the IDE: no.shhsoft.basus.Main
+
+  * Build and run from command line:
+
+        mvn clean package
+        java -jar full/target/basus-1.3-SNAPSHOT.jar
+
 
 Sverre.
