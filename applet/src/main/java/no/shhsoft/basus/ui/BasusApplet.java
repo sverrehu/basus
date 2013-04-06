@@ -57,17 +57,18 @@ extends Applet {
     @Override
     public void init() {
         super.init();
+    }
+
+    @Override
+    public void start() {
+        super.start();
         SwingUtils.invokeAndWait(new Runnable() {
             @Override
             public void run() {
                 createGui();
             }
         });
-    }
-
-    @Override
-    public void start() {
-        super.start();
+        outputCanvas.waitUntilInitiated();
         runner.runProgram(program, outputCanvas, outputCanvas, null, programUrl);
         outputCanvas.requestFocusInWindow();
     }
