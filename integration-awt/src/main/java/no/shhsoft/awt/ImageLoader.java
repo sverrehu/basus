@@ -4,6 +4,7 @@ import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.GraphicsConfiguration;
 import java.awt.GraphicsEnvironment;
+import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
 import java.awt.image.RescaleOp;
@@ -84,8 +85,8 @@ public final class ImageLoader {
             if (scaling != 0.0) {
                 op = new RescaleOp((float) scaling, 0.0f, null);
             }
-            img = getGraphicsConfiguration().createCompatibleImage(
-                src.getWidth(), src.getHeight(), src.getColorModel().getTransparency());
+            img = createCompatibleImage(
+                src.getWidth(), src.getHeight(), src.getColorModel().getTransparency() != Transparency.OPAQUE);
             final Graphics2D g2d = img.createGraphics();
             g2d.setComposite(AlphaComposite.Src);
             g2d.drawImage(src, op, 0, 0);
@@ -104,6 +105,11 @@ public final class ImageLoader {
 
     public void setScaling(final double scaling) {
         this.scaling = scaling;
+    }
+
+    public BufferedImage createCompatibleImage(final int width, final int height, final boolean hasAlphaChannel) {
+        return getGraphicsConfiguration().createCompatibleImage(width, height,
+                                                                hasAlphaChannel ? Transparency.TRANSLUCENT : Transparency.OPAQUE);
     }
 
     public synchronized BufferedImage get(final URL url) {

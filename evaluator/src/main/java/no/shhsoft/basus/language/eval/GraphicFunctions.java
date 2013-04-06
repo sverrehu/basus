@@ -2,6 +2,7 @@ package no.shhsoft.basus.language.eval;
 
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.awt.Transparency;
 import java.awt.image.BufferedImage;
 
 import no.shhsoft.basus.language.eval.runtime.DrawingArea;
@@ -475,7 +476,9 @@ final class GraphicFunctions {
             final BufferedImage image = ((ImageValue) args[0]).getValue();
             final int width = ((NumericValue) args[1]).getValueAsInteger();
             final int height = ((NumericValue) args[2]).getValueAsInteger();
-            final BufferedImage scaledImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+            final BufferedImage scaledImage
+                = context.getDrawingArea().createCompatibleImage(width, height,
+                                                                 image.getTransparency() != Transparency.OPAQUE);
             final Graphics2D g2 = scaledImage.createGraphics();
             g2.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
             g2.drawImage(image, 0, 0, width, height, 0, 0, image.getWidth(), image.getHeight(), null);

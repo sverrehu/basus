@@ -72,6 +72,8 @@ public interface DrawingArea {
 
     BufferedImage loadImage(URL url);
 
+    BufferedImage createCompatibleImage(int width, int height, boolean hasAlphaChannel);
+
     void drawImage(BufferedImage image, int x, int y);
 
     SpriteManager getSpriteManager();
