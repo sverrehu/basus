@@ -1,5 +1,6 @@
 package no.shhsoft.basus.ui.ide;
 
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -7,6 +8,13 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+import java.awt.Window;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import no.shhsoft.i18n.I18N;
 import no.shhsoft.swing.InputPanel;
@@ -22,6 +30,7 @@ final class PreferencesBox {
     private final JDialog dialog;
     private JComboBox languages;
     private JComboBox fontSize;
+    private JComboBox theme;
     private JCheckBox versionCheck;
 
     private static class LanguageItem
@@ -56,6 +65,38 @@ final class PreferencesBox {
 
     }
 
+    private static class ThemeItem
+            extends DefaultComboBoxModel {
+
+        private static final long serialVersionUID = 1L;
+        private final UIManager.LookAndFeelInfo info;
+
+        public ThemeItem(final UIManager.LookAndFeelInfo info) {
+            this.info = info;
+        }
+
+        public String getClassName() {
+            return info.getClassName();
+        }
+
+        @Override
+        public String toString() {
+            return info.getName();
+        }
+
+        @Override
+        public boolean equals(final Object obj) {
+            return obj != null && obj instanceof ThemeItem
+                    && info.getName().equals(((ThemeItem) obj).info.getName());
+        }
+
+        @Override
+        public int hashCode() {
+            return info.getName().hashCode();
+        }
+
+    }
+
     private void fillPreferences() {
         languages.setSelectedItem(new LanguageItem(I18N.getLocale().getLanguage()));
         fontSize.setSelectedItem(new Integer(AppProps.getInt("editor.font.size")));
@@ -83,13 +124,33 @@ final class PreferencesBox {
         for (final String language : supportedLanguages) {
             selectableLanguages[idx++] = new LanguageItem(language);
         }
-        languages = new JComboBox(selectableLanguages);
+        languages = new JComboBox<LanguageItem>(selectableLanguages);
         panel.addFields(new JLabel(I18N.msg("preferences.label.language")), languages);
         final Integer[] selectableFontSizes = new Integer[] {
             8, 9, 10, 11, 12, 14, 16, 18, 20
         };
-        fontSize = new JComboBox(selectableFontSizes);
+        fontSize = new JComboBox<Integer>(selectableFontSizes);
         panel.addFields(new JLabel(I18N.msg("preferences.label.editor.font.size")), fontSize);
+        List<String> selectableThemes = new ArrayList<String>();
+        for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+            selectableThemes.add(info.getName());
+        }
+        UIManager.LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
+        ThemeItem[] themeItems = new ThemeItem[lookAndFeels.length];
+        idx = 0;
+        for (final UIManager.LookAndFeelInfo info : lookAndFeels) {
+            themeItems[idx++] = new ThemeItem(info);
+        }
+        theme = new JComboBox<ThemeItem>(themeItems);
+        theme.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    applyTheme((ThemeItem) e.getItem());
+                }
+            }
+        });
+        panel.addFields(new JLabel(I18N.msg("preferences.label.theme")), theme);
         versionCheck = new JCheckBox();
         panel.addFields(new JLabel(I18N.msg("preferences.label.versionChecker")), versionCheck);
         return panel;
@@ -113,4 +174,15 @@ final class PreferencesBox {
         }
     }
 
+    public void applyTheme(ThemeItem theme) {
+        try {
+            UIManager.setLookAndFeel(theme.getClassName());
+            for (Window window : Window.getWindows()) {
+                SwingUtilities.updateComponentTreeUI(window);
+            }
+        } catch (Exception ex) {
+            // Worst thing that can happen is that we don't change the look and feel
+            ex.printStackTrace();
+        }
+    }
 }
