@@ -8,9 +8,7 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
-import java.awt.Window;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -69,38 +67,38 @@ final class PreferencesBox {
             extends DefaultComboBoxModel {
 
         private static final long serialVersionUID = 1L;
-        private final UIManager.LookAndFeelInfo info;
+        private final String name;
 
-        public ThemeItem(final UIManager.LookAndFeelInfo info) {
-            this.info = info;
-        }
-
-        public String getClassName() {
-            return info.getClassName();
+        public ThemeItem(final String name) {
+            this.name = name;
         }
 
         @Override
         public String toString() {
-            return info.getName();
+            return name;
         }
 
         @Override
         public boolean equals(final Object obj) {
             return obj != null && obj instanceof ThemeItem
-                    && info.getName().equals(((ThemeItem) obj).info.getName());
+                    && name.equals(((ThemeItem) obj).name);
         }
 
         @Override
         public int hashCode() {
-            return info.getName().hashCode();
+            return name.hashCode();
         }
 
+        public String getName() {
+            return name;
+        }
     }
 
     private void fillPreferences() {
         languages.setSelectedItem(new LanguageItem(I18N.getLocale().getLanguage()));
         fontSize.setSelectedItem(new Integer(AppProps.getInt("editor.font.size")));
         versionCheck.setSelected(parent.getVersionChecker().isEnabled());
+        theme.setSelectedItem(new ThemeItem(AppProps.get("theme.name")));
     }
 
     private void storePreferences() {
@@ -113,6 +111,7 @@ final class PreferencesBox {
         parent.setEditorFontSize(size);
         AppProps.set("editor.font.size", size);
         parent.getVersionChecker().setEnabled(versionCheck.isSelected());
+        AppProps.set("theme.name", ((ThemeItem) theme.getSelectedItem()).getName());
     }
 
     @SuppressWarnings("boxing")
@@ -139,14 +138,14 @@ final class PreferencesBox {
         ThemeItem[] themeItems = new ThemeItem[lookAndFeels.length];
         idx = 0;
         for (final UIManager.LookAndFeelInfo info : lookAndFeels) {
-            themeItems[idx++] = new ThemeItem(info);
+            themeItems[idx++] = new ThemeItem(info.getName());
         }
         theme = new JComboBox<ThemeItem>(themeItems);
         theme.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
-                    applyTheme((ThemeItem) e.getItem());
+                    parent.applyTheme(((ThemeItem) e.getItem()).getName());
                 }
             }
         });
@@ -171,18 +170,6 @@ final class PreferencesBox {
         dialog.setVisible(true);
         if (pane.getValue().equals(JOptionPane.OK_OPTION)) {
             storePreferences();
-        }
-    }
-
-    public void applyTheme(ThemeItem theme) {
-        try {
-            UIManager.setLookAndFeel(theme.getClassName());
-            for (Window window : Window.getWindows()) {
-                SwingUtilities.updateComponentTreeUI(window);
-            }
-        } catch (Exception ex) {
-            // Worst thing that can happen is that we don't change the look and feel
-            ex.printStackTrace();
         }
     }
 }
