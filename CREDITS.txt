@@ -1,0 +1,7 @@
+Lots of thanks to the following people:
+
+  * Jon S. Bratseth, Gabriel B. Stav, Glenn T. Lines and Kjetil
+    Valstadsve for contributing sample code.
+
+  * Kjetil Østerås for fixing bugs.
+
