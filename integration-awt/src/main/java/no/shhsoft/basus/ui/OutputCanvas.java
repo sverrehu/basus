@@ -29,8 +29,8 @@ import no.shhsoft.awt.ImageLoader;
 import no.shhsoft.basus.language.eval.runtime.Console;
 import no.shhsoft.basus.language.eval.runtime.DrawingArea;
 import no.shhsoft.basus.language.eval.runtime.TerminationRequestListener;
-import no.shhsoft.basus.ui.sprite.Sprite;
 import no.shhsoft.basus.ui.sprite.AwtSpriteManager;
+import no.shhsoft.basus.ui.sprite.Sprite;
 import no.shhsoft.basus.ui.sprite.SpriteManager;
 
 /**
@@ -541,6 +541,11 @@ implements Console, DrawingArea, ComponentListener, KeyListener,
     @Override
     public BufferedImage loadImage(final URL url) {
         return imageLoader.get(url);
+    }
+
+    @Override
+    public BufferedImage createCompatibleImage(final int width, final int height, final boolean hasAlphaChannel) {
+        return imageLoader.createCompatibleImage(width, height, hasAlphaChannel);
     }
 
     @Override
