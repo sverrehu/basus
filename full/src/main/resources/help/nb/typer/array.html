@@ -1,0 +1,49 @@
+<h1>Array Datatype</h1>
+
+<a>Arrays er en nummerert liste av verdier. Hvert element i en Array kan brukes ved hjelp av <i>indeksering</i>. Hvis en variabel <span class="code">arr</span> er en array så kan man hente ut det femte elementet ved å bruke fem som en index, slik som dette:</p>
+<pre>
+    x = arr[5];
+</pre>
+
+<p>Merk at det er ulovlig å hente ut et array element som ikke har blitt git en verdi.</p>
+
+<p>I Basus så utvides arrays automatisk når verdier blir lagt til. Tilordning av verdier til array elementer blir gjordt ved å bruke en array variabel og indeks på venstre side av et likhetstegn:</p>
+<pre>
+    arr[5] = "foo";
+</pre>
+
+<p>Funksjonen <a href="func/maxIndex">maxIndex</a> vil returnere den høyeste gyldige indeksen for en array, med andre ord den høyeste indeksen som har blitt tilordnet en verdi. Dette kan bli brukt for å gå igjennom elementene i en array, som i dette eksempelet:</p>
+<pre>
+    for index = 1 to maxIndex(arr) do
+        println(arr[index]);
+    done;
+</pre>
+
+<p>Basus har ingen regel for hva den første indeksen i en array skal
+være. I noen språk må array indeksen starte fra 1 i andre språk fra
+0. Med Basus kan man velge selv hvilken indeks man vil starte med,
+utifra hva som passer beste med hva man ønsker å gjøre.</p>
+
+<p>Verdiene i en array kan ha vilkårlig datatype, inkludert array. Her
+er et eksempel på hvordan man kan legge forskjellige datatyper i samme
+array:</p>
+<pre>
+    arr[1] = 42;
+    arr[2] = 3.14;
+    arr[3] = TRUE;
+    arr[4] = "Basus";
+
+    other_arr[1] = arr;
+</pre>
+
+<p>Merk at det siste uttrykket i eksempelet over tilordner <span class="code">arr</span> array som det første elementet i <span class="code">other_arr</span> array.  Dette fører til at <span class="code">other_arr</span> blir en <i>multi-dimensjonal array</i>.  For å hente verdier fra en multi-dimensjonal array så bruker man en liste av indekser separert med komma. Basert på eksempelet over så kan man gjøre dette for å hente ut <tt>"Basus"</tt>:</p>
+<pre>
+    println(other_arr[1, 4]);
+</pre>
+
+<p>Her er et eksempel på hvordan man kan tilordne en ny verdi til det
+samme elementet.
+</p>
+<pre>
+    other_arr[1, 4] = "foo";
+</pre>
