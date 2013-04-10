@@ -179,6 +179,11 @@ public final class Evaluator {
     private Value evaluateIndexExpression(final IndexExpression expression,
                                           final EvaluationContext context) {
         final ArrayAndIndex arrayAndIndex = evaluateArrayAndIndex(expression, context, false, false);
+        final ArrayValue array = arrayAndIndex.getArray();
+        final int index = arrayAndIndex.getIndex();
+        if (!array.hasValue(index)) {
+            error("err.expectedUndefinedArrayElement", expression, Integer.valueOf(index));
+        }
         return arrayAndIndex.getArray().getValue(arrayAndIndex.getIndex());
     }
 
