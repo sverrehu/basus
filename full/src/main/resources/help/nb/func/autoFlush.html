@@ -1,0 +1,20 @@
+<h1>autoFlush</h1>
+
+<p>Aktiverer eller deaktiverer umiddelbar oppdatering av skjermen for
+alle funksjoner som skriver ut eller tegner noe. Standardverdien
+til <span class="code">autoFlush</span> er aktiv.</p>
+
+<p>Bak scenen så vil alle funksjoner som oppdaterer skjermen først
+oppdatere et internt bilde, og senere overføre dette bilde til
+skjermen. Når man lager animasjoner så kan denne overføringen føre til
+flimring. I disse tilfellene kan man ha behov for å deaktivere
+autoFlush og selv bestemme når det interne bilde skal overføres til
+skjermen: Kall <span class="code">autoFlush(FALSE)</span>, gjør all
+tegning du har lyst til å gjøre i et animasjons steg, og
+kall <a href="func/flush">flush</a> for å vise det på skjermen.</p>
+
+<h2>Bruk</h2>
+<pre>
+    autoFlush(FALSE);
+    autoFlush(TRUE);
+</pre>
