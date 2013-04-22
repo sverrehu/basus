@@ -1,0 +1,23 @@
+<h1>waitKey</h1>
+
+<p>Venter til brukeren har trykket en tast og returnerer så koden til
+denne tasten. Koden er et heltall som representerer knappen på
+tastaturet. Denne funksjonen kan bli brukt for å lytte etter om
+brukeren trykker piltastene, home, end, shift, ctrl. Hvert tastetrykk
+kan bli identifisert selv de som ikke representerer en bokstav, tall
+eller et symbol.</p>
+
+<p>For å finne ut hvilken kode en knapp representerer kan man kjøre
+programmet under. Dette programmet vil skrive ut koden for alle
+knapper som blir trykket fortløpende.</p>
+<pre>
+    while TRUE do
+        keyCode = waitKey();
+        println("key code: ", keyCode);
+    done;
+</pre>
+
+<h2>Bruk</h2>
+<pre>
+    keyCode = waitKey();
+</pre>
