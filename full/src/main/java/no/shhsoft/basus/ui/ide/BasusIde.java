@@ -7,7 +7,9 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Frame;
 import java.awt.Toolkit;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -35,6 +37,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.text.BadLocationException;
 
 import no.shhsoft.awt.FullScreenDisplayModeOptimizer;
@@ -735,6 +739,9 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
         if (language != null) {
             I18N.setLanguage(language);
         }
+        String theme = AppProps.get("theme.name");
+        applyTheme(theme);
+
         setJMenuBar(createMenuBar(isFileOperationsAllowed()));
 
         content.add(createEditorComponent(), BorderLayout.CENTER);
@@ -955,6 +962,21 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
 
     @Override
     public void endStatement(final Statement statement, final EvaluationContext context) {
+    }
+
+    public void applyTheme(String theme) {
+        try {
+            for (UIManager.LookAndFeelInfo lookAndFeel : UIManager.getInstalledLookAndFeels()) {
+                if (lookAndFeel.getName().equalsIgnoreCase(theme)) {
+                    UIManager.setLookAndFeel(lookAndFeel.getClassName());
+                    for (Window window : Window.getWindows()) {
+                        SwingUtilities.updateComponentTreeUI(window);
+                    }
+                }
+            }
+        } catch (Exception ex) {
+            /* ignore */
+        }
     }
 
 }
