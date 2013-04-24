@@ -1,0 +1,33 @@
+<h1>Numerisk datatype</h1>
+
+<p>Basus har to forskjellige tall typer: heltall og flyttall. Flyttall brukes for tall som har comma, mens heltall bruker når tallet ikke har komma.</p>
+
+<p>Et heltall kan ha en verdi mellom -2147483648 og 2147483647. Enhver
+konstant som blir skrevet uten komma vil bli håndtert som et
+heltall. Følgende tilordning vil lage en variabel med
+navn <span class="code">x</span> og datatypen heltall:</p>
+<pre>
+    x = 3;
+</pre>
+
+<p>Flyttall følger IEEE 754 standarden for representasjon av 64bit flyttall. Enhver konstant som blir skrevet med et komma blir håndtert som et flyttall. Følgende tilordning vil lage en variable med navn <span class="code">x</span> og datatypen flyttall:</p>
+<pre>
+    x = 3.0;
+</pre>
+
+<p>Flyttall kan også bli skrevet ved å bruke eksponent "e"
+bokstaven. Skriver man <span class="code">2.1e5</span> vil det bli det
+samme som <span class="code">2.1*10^5</span>. Eksponenten kan være
+negativ.</p>
+
+<p>Det minste positive flyttallet som ikke er 0 er 4.9e-324, mens det
+største flyttallet som kan representeres i basus er
+1.7976931348623157e308.</p>
+
+<p>Merk at når et uttryk opererer med en eller to heltall så vil
+resultatet også bli et heltall. Hvis du
+skriver <span class="code">1/3</span> så vil svaret være 0 siden
+beregningen blir gjort med kun heltall. Hvis du vil gjøre beregningen
+med flyttall så må du passe på å gjøre minst en av tallene til et
+flyttall. Dette kan gjøres på denne
+måten: <span class="code">1.0/3</span>.</p>

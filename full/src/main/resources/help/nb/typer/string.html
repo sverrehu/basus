@@ -1,0 +1,53 @@
+<h1>Streng datatype</h1>
+
+<P>Strenger er tekst som består av en tabell av bokstaver. Streng
+konstanter blir laget ved å skrive tekst som har anførselstegn både
+forran og bak. Som for eksempel "hei".</p>
+
+<p>Inni en streng så brukes backslash for å skrive tegn som kan ha
+speciell betydning, og for å skrive bokstaver som ikke kan blir
+representert så lett i teksten. Et godt eksempel på dette er
+anførselstegn. Siden dette er brukt for å markerer starten og slutten
+av en tekst streng, hvordan skal man da representere et anførselstegn
+inni en streng. For å gjøre dette må man bruke backslash slik som det
+er gjort i dette eksempelet.</p>
+
+<pre>
+    "Hun sa \"au!\""
+</pre>
+
+<p>Dette vil bli tolket som tekst strengen</p>
+
+<pre>
+    Hun sa "ouch!"
+</pre>
+
+<p>Backslash kan bli brukt for å enkode andre bokstaver også. Denne
+tabellen viser hvilke tegn man kan lage med backslash:</p>
+
+<table>
+  <tr>
+    <td>\b</td>
+    <td>Backspace, ASCII 8</td>
+  </tr>
+  <tr>
+    <td>\t</td>
+    <td>Horisontal tab, ASCII 9</td>
+  </tr>
+  <tr>
+    <td>\n</td>
+    <td>Ny linje, ASCII 10</td>
+  </tr>
+  <tr>
+    <td>\r</td>
+    <td>Linje retur, ASCII 13</td>
+  </tr>
+  <tr>
+    <td>\\</td>
+    <td>Backslash</td>
+  </tr>
+</table>
+
+<p>Backslash etterfulgt av en annen bokstav vil representere bokstaven
+selv. Som man ser i tabellen over så betyr dette at en backslash selv
+må skrives ved 2 backslash etter hverandre.</p>
