@@ -142,6 +142,10 @@ final class PreferencesBox {
         final ThemeItem[] themeItems = new ThemeItem[lookAndFeels.length];
         idx = 0;
         for (final UIManager.LookAndFeelInfo info : lookAndFeels) {
+            if (info.getName().startsWith("Mac")) {
+                /* Only causes trouble. */
+                continue;
+            }
             themeItems[idx++] = new ThemeItem(info.getName());
         }
         theme = new JComboBox(themeItems);
@@ -176,4 +180,5 @@ final class PreferencesBox {
             storePreferences();
         }
     }
+
 }
