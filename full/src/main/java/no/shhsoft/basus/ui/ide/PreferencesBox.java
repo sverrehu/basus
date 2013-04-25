@@ -99,7 +99,10 @@ final class PreferencesBox {
         languages.setSelectedItem(new LanguageItem(I18N.getLocale().getLanguage()));
         fontSize.setSelectedItem(new Integer(AppProps.getInt("editor.font.size")));
         versionCheck.setSelected(parent.getVersionChecker().isEnabled());
-        theme.setSelectedItem(new ThemeItem(AppProps.get("theme.name")));
+        final String themeName = AppProps.get("theme.name");
+        if (themeName != null) {
+            theme.setSelectedItem(new ThemeItem(themeName));
+        }
     }
 
     private void storePreferences() {
