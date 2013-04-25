@@ -7,7 +7,6 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Frame;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.ActionEvent;
@@ -739,7 +738,7 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
         if (language != null) {
             I18N.setLanguage(language);
         }
-        String theme = AppProps.get("theme.name");
+        final String theme = AppProps.get("theme.name");
         applyTheme(theme);
 
         setJMenuBar(createMenuBar(isFileOperationsAllowed()));
@@ -964,18 +963,19 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
     public void endStatement(final Statement statement, final EvaluationContext context) {
     }
 
-    public void applyTheme(String theme) {
+    public void applyTheme(final String theme) {
         try {
-            for (UIManager.LookAndFeelInfo lookAndFeel : UIManager.getInstalledLookAndFeels()) {
+            for (final UIManager.LookAndFeelInfo lookAndFeel : UIManager.getInstalledLookAndFeels()) {
                 if (lookAndFeel.getName().equalsIgnoreCase(theme)) {
                     UIManager.setLookAndFeel(lookAndFeel.getClassName());
-                    for (Window window : Window.getWindows()) {
+                    for (final Window window : Window.getWindows()) {
                         SwingUtilities.updateComponentTreeUI(window);
                     }
                 }
             }
-        } catch (Exception ex) {
+        } catch (final Exception ex) {
             /* ignore */
+            return;
         }
     }
 

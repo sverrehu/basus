@@ -1,6 +1,11 @@
 package no.shhsoft.basus.ui.ide;
 
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -9,10 +14,6 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import no.shhsoft.i18n.I18N;
 import no.shhsoft.swing.InputPanel;
@@ -31,7 +32,7 @@ final class PreferencesBox {
     private JComboBox theme;
     private JCheckBox versionCheck;
 
-    private static class LanguageItem
+    private static final class LanguageItem
     extends DefaultComboBoxModel {
 
         private static final long serialVersionUID = 1L;
@@ -63,8 +64,8 @@ final class PreferencesBox {
 
     }
 
-    private static class ThemeItem
-            extends DefaultComboBoxModel {
+    private static final class ThemeItem
+    extends DefaultComboBoxModel {
 
         private static final long serialVersionUID = 1L;
         private final String name;
@@ -123,27 +124,27 @@ final class PreferencesBox {
         for (final String language : supportedLanguages) {
             selectableLanguages[idx++] = new LanguageItem(language);
         }
-        languages = new JComboBox<LanguageItem>(selectableLanguages);
+        languages = new JComboBox(selectableLanguages);
         panel.addFields(new JLabel(I18N.msg("preferences.label.language")), languages);
         final Integer[] selectableFontSizes = new Integer[] {
             8, 9, 10, 11, 12, 14, 16, 18, 20
         };
-        fontSize = new JComboBox<Integer>(selectableFontSizes);
+        fontSize = new JComboBox(selectableFontSizes);
         panel.addFields(new JLabel(I18N.msg("preferences.label.editor.font.size")), fontSize);
-        List<String> selectableThemes = new ArrayList<String>();
-        for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+        final List<String> selectableThemes = new ArrayList<String>();
+        for (final UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
             selectableThemes.add(info.getName());
         }
-        UIManager.LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
-        ThemeItem[] themeItems = new ThemeItem[lookAndFeels.length];
+        final UIManager.LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
+        final ThemeItem[] themeItems = new ThemeItem[lookAndFeels.length];
         idx = 0;
         for (final UIManager.LookAndFeelInfo info : lookAndFeels) {
             themeItems[idx++] = new ThemeItem(info.getName());
         }
-        theme = new JComboBox<ThemeItem>(themeItems);
+        theme = new JComboBox(themeItems);
         theme.addItemListener(new ItemListener() {
             @Override
-            public void itemStateChanged(ItemEvent e) {
+            public void itemStateChanged(final ItemEvent e) {
                 if (e.getStateChange() == ItemEvent.SELECTED) {
                     parent.applyTheme(((ThemeItem) e.getItem()).getName());
                 }
