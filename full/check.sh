@@ -48,7 +48,7 @@ function xml_check()
 function spell_check()
 {
     FILE=$1
-    hunspell -d $DICTIONARY $FILE
+    hunspell -d $DICTIONARY -p ./personal.dict -i UTF-8 $FILE
 }
 
 function error()
@@ -63,7 +63,7 @@ CHECK_SPELLING=
 CHECK_LINK=
 CHECK_XML=
 
-while getopts “hl:cx” OPTION
+while getopts “hl:scx” OPTION
 do
     case $OPTION in
         h)
