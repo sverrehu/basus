@@ -48,6 +48,7 @@ function xml_check()
 function spell_check()
 {
     FILE=$1
+    echo "[SPELL]" $FILE
     hunspell -d $DICTIONARY -p ./personal.dict -i UTF-8 $FILE
 }
 
