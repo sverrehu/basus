@@ -6,6 +6,6 @@ Lots of thanks to the following people:
   * Jon S. Bratseth, Gabriel B. Stav, Glenn T. Lines and Kjetil
     Valstadsve for contributing sample code.
 
-  * Kjetil Østerås for fixing bugs and providing support for changing
-    theme (look & feel).
+  * Kjetil Østerås for fixing bugs, providing support for changing
+    theme (look & feel), and for translating help pages to Norwegian.
 
