@@ -1,0 +1,22 @@
+<h1>Innebygging av et Basus program i en web side</h1>
+
+<p>For å bygge inn et Basus program i en web side så trenger du å laste
+opp Basus jar filen, ditt Basus program og alle bildene som lastes av
+programmet på en katalog på web serveren. Så lager man en index.html
+fil i samme katalog med dette inneholdet:</p>
+
+<pre>
+    &lt;applet archive="basus-1.0.jar"
+            code="no.shhsoft.basus.ui.BasusApplet.class"
+            width="640" height="480"&gt;
+        &lt;param name="program" value="name-of-the-program.bus"/&gt;
+        Your browser does not support the applet tag.
+    &lt;/applet&gt;
+</pre>
+
+<p>Merk at verdien til archive attributten må være navnet til Basus
+jar filen du lastet opp. value attributten i param elementet må være
+navnet på Basus programmet ditt.</p>
+
+<p>Når alt er på plass så trenger du bare å åpne web siden i en
+nettleser som har støtte for Java.</p>

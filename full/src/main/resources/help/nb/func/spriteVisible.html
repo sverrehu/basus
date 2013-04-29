@@ -1,0 +1,28 @@
+<h1>spriteVisible</h1>
+
+<p>Henter eller setter om en <a href="types/sprite">sprite</a> skal
+være synlig.</p>
+
+<p>Kaller man denne funksjonen med kun en sprite som argument så vil
+denne funksjonen returnere om spriten er synlig eller ikke.</p>
+
+<p>For å angi at et sprite skal være synlig eller usynlig så kaller
+man denne funksjonen med en sprite og et boolsk argument. Sprites er
+i utgangspunktet usynlig. Usynlige sprites vil aldri kollidere med
+andre sprites selv om de har overlappende pixler.</p>
+
+<h2>Bruk</h2>
+<p>Gjør en sprite synlig:</p>
+<pre>
+    spriteVisible(sprite, TRUE);
+</pre>
+<p>Gjør en sprite usynlig:</p>
+<pre>
+    spriteVisible(sprite, FALSE);
+</pre>
+<p>Sjekker om en sprite er synlig:</p>
+<pre>
+    if spriteVisible(sprite) then
+      :
+    endif;
+</pre>

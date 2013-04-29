@@ -1,0 +1,16 @@
+<h1>height</h1>
+
+<p>Returnerer høyden til skjermen i pixler. Siden skjermen er
+adressert fra 0, så vil den øverste pixelen på skjermen være en mindre
+en høyden.</p>
+
+<p>Hvis man sender med en ekstra <a href="types/sprite">sprite</a>
+eller <a href="types/image">image</a> som argument, så vil denne
+funksjonen returnere dens høyde.</p>
+
+<h2>Bruk</h2>
+<pre>
+    MAX_Y = height() - 1;
+    image_height = height(image);
+    sprite_height = height(sprite);
+</pre>

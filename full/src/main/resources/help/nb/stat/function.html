@@ -1,0 +1,45 @@
+<h1>function</h1>
+<p>Definerer en funksjon som en kodeblokk som kan bli kalt av andre
+deler av koden. Funksjonen kan ta 0 eller flere argument.</p>
+
+<p>En funksjon kan returnere en verdi ved å bruke en 
+<span class="code">return</span> setning. I tillegg til å gi en retur
+verdi så kan en return setning også brukes til å avslutte
+eksekveringen av en funksjon før den har nådd bunnen.</p>
+
+<p>Variabler som blir satt eller endret inni funksjonen vil også bli
+forandret på utsiden av funksjonen, med mindre tilordningen blir
+prefikset med nøkkelordet <span class="code">local</span>. Funksjons
+argumentene er local uten at man trenger å spesifisere dette, men merk
+at tabeller blir sendt ved hjelp av referanse så alle endringer som
+blir gjort med en tabell vil bli synlig etter kallet til
+funksjonen.</p>
+
+<h2>Syntaks</h2>
+<pre>
+    function <span class="pseudo">funksjon-navn</span>(<span class="pseudo">variabel-liste</span>)
+        <span class="pseudo">kodeblokk</span>
+    endfunc;
+</pre>
+<p>En variabel-liste er en komma separert liste med variabel
+navn. Listen kan være tom hvis funksjonen ikke tar noen argument.</p>
+
+<h2>Eksempel</h2>
+<pre>
+    function sayHello(name)
+        println("Hello, ", name);
+    endfunc;
+
+    sayHello("boss");
+</pre>
+<p>eller</p>
+<pre>
+    function addPercentage(value, percentage)
+        local toAdd = value * percentage / 100.0;
+        return value + toAdd;
+    endfunc;
+
+    vatPercentage = 25.0;
+    priceWithoutVat = 50.0;
+    toPay = addPercentage(priceWithoutVat, vatPercentage);
+</pre>

@@ -1,0 +1,33 @@
+<h1>color</h1>
+
+<p>Setter fargen som vil bli brukt ved neste skrive eller tegne operasjon.</p>
+
+<p>Denne funksjonen forventer tre eller fire heltall mellom 0 og 255
+for å spesifisere fargen. De første tre angir fargekomponentene, den
+valgfrie fjerde argumentet angir alfa verdien (opasitet eller
+ugjennomsiktighet). De tre første tallene angir hvor mye rød, grønn og
+blå fargen skal være. 0 angir at man ikke skal ha den gjeldende farge
+komponenten, mens 255 indikerer maksimalt verdien.
+</p>
+
+<p>Tenk på verdiene som hvor mye farget lys man vil legge til for hver
+av fargene rød, grønn og blå. For å lage fargen svart så vil man ikke
+ha noe lys i det hele tatt, derfor er svart representert
+ved <span class="code">(0, 0, 0)</span>. For å lager fargen hvis så
+vil man ha alle fargene på maks, derfor representeres dette
+ved <span class="color">(255, 255, 255)</span>. Du kan mikse rød og
+blå for å lage magenta <span class="code">(255, 0,255)</span>. En mer
+rød magenta kan man lage ved å ikke legge til så mye blått for
+eksempel <span class="color">(255, 0, 200)</span>.</p>
+
+<p>Alfa verdien angir opasiteten til en farge, dette er et mål på hvor
+ugjennomsiktig fargen er. En verdi på 0 angir at fargen skal være helt
+gjennomsiktig. En verdi på 255 angir at fargen skal være heldekkende
+altså ikke noe gjennomsiktig. Standardverdien til alfa komponenten er
+255.</p>
+
+<h2>Bruk</h2>
+<pre>
+    color(0, 255, 0);       // Heldekkende grønn
+    color(0, 255, 0, 128);  // Grønn som er litt gjennomsiktig 
+</pre>
