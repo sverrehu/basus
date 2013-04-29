@@ -29,7 +29,14 @@ function link_check()
 {
     FILE=$1
     echo "[LINK]" $(basename $FILE)
-    linkchecker $FILE -ocsv | cut -s -d';' -f1,9 | tail -n +2
+    LINKS=$(sed -nr 's/.?*href="(.+)".*/\1/p' $FILE)
+    for link in $LINKS
+    do
+	if [ ! -d $DIR/$link ] && [ ! -f $DIR/$link.html ]
+	then
+	  error "Could not find $link"
+        fi
+    done;
 }
 
 function xml_check()
