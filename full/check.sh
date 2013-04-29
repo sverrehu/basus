@@ -28,13 +28,14 @@ EOF
 function link_check()
 {
     FILE=$1
-    echo "CHECK LINKS " $(basename $FILE)
+    echo "[LINK]" $(basename $FILE)
     linkchecker $FILE -ocsv | cut -s -d';' -f1,9 | tail -n +2
 }
 
 function xml_check()
 {
     FILE=$1
+    echo "[XML]" $(basename $FILE)
     echo "<root>" > /tmp/check.xml
     cat $FILE >> /tmp/check.xml
     echo "</root>" >> /tmp/check.xml
@@ -48,7 +49,7 @@ function xml_check()
 function spell_check()
 {
     FILE=$1
-    echo "[SPELL]" $FILE
+    echo "[SPELL]" $(basename $FILE)
     hunspell -d $DICTIONARY -p ./personal.dict -i UTF-8 $FILE
 }
 
@@ -113,7 +114,6 @@ case "$LANG" in
 	;;
 esac
 
-echo $DIR
 
 FILES=$(find $DIR -name *.html)
 for FILE in $FILES
