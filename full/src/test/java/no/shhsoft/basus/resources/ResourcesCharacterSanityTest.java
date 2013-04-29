@@ -22,7 +22,7 @@ import org.junit.Test;
  */
 public final class ResourcesCharacterSanityTest {
 
-    private static final String NORWEGIAN_CHARS = "\u00e6\u00f8\u00e5\u00c6\u00d8\u00c5";
+    private static final String NORWEGIAN_CHARS = "\u00e6\u00f8\u00e5\u00c6\u00d8\u00c5\u00e9";
     private static final String SPECIAL_CHARS = " !\"#%&/()=?`;[]{}|\\<>.:,;'*@$_-+^\n\r";
     private static final String WHITELIST = ValidationUtils.ALNUM + NORWEGIAN_CHARS + SPECIAL_CHARS;
     private boolean wasError;
