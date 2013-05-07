@@ -7,5 +7,6 @@ Lots of thanks to the following people:
     Valstadsve for contributing sample code.
 
   * Kjetil Østerås for fixing bugs, providing support for changing
-    theme (look & feel), and for translating help pages to Norwegian.
+    theme (look & feel), translating help pages to Norwegian, and for
+    correcting mistakes in the English help pages.  Major contributor!
 
