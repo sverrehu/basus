@@ -2,7 +2,6 @@ Bugs
 
 Short term
   * "Back" in the help browser should remember the scrollbar position
-  * Translate help to Norwegian.
   * Fix TODOs.
   * When returning to the IDE from full-screen mode, copy sprites as
     well.

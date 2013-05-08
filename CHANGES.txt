@@ -1,7 +1,9 @@
 unreleased
+
+1.2.1, 2013-05-08
   * Norwegian translation of help pages.  (Contributed by Kjetil
     Østerås)
-  * May select theme (look & feel).  (Contributed by Kjetil Østerås)
+  * Selectable theme (look & feel).  (Contributed by Kjetil Østerås)
   * Bugfixes
 
 1.2.0, 2012-06-12
