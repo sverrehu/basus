@@ -97,6 +97,42 @@
                 </executions>
             </plugin>
 
+            <plugin>
+                <groupId>com.github.wvengen</groupId>
+                <artifactId>proguard-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>proguard</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <proguardVersion>4.8</proguardVersion>
+                    <injar>${project.artifactId}-${project.version}-big.jar</injar>
+                    <outjar>basus-${project.version}.jar</outjar>
+                    <inFilter>!META-INF/maven/**</inFilter>
+                    <includeDependency>false</includeDependency>
+                    <options>
+                        <option>-allowaccessmodification</option>
+                        <option>-overloadaggressively</option>
+                        <option>-repackageclasses</option>
+                        <option>-optimizationpasses 5</option>
+                        <option>-dontskipnonpubliclibraryclasses</option>
+                        <option>-keep public class * extends java.applet.Applet { *; }</option>
+                        <option>-keep public class no.shhsoft.basus.Main { *; }</option>
+                        <option>-keep public class no.shhsoft.basus.ui.Console { *; }</option>
+                        <option>-keep public class no.shhsoft.basus.ui.DrawingArea { *; }</option>
+                    </options>
+                    <libs>
+                        <lib>${java.home}/lib/rt.jar</lib>
+                        <lib>${java.home}/lib/jsse.jar</lib>
+                        <lib>${java.home}/lib/jce.jar</lib>
+                    </libs>
+                </configuration>
+            </plugin>
+
         </plugins>
     </build>
 
