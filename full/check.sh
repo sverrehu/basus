@@ -113,7 +113,7 @@ case "$LANG" in
 	;;
     en)
 	DIR=src/main/resources/help/en
-	DICTIONARY=en_GB
+	DICTIONARY=en_US
 	;;
     *)
 	list_lang
