@@ -870,7 +870,7 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
         helpWindow.openContents();
     }
 
-    public void setCurrentSourceUrl(final URL url) {
+    void setCurrentSourceUrl(final URL url) {
         if (url == null && fileOperationsAllowed) {
             currentSourceUrl = IoUtils.fileToUrl(System.getProperty("user.dir"));
         } else {
@@ -878,7 +878,7 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
         }
     }
 
-    public void setCurrentFile(final File currentFile) {
+    void setCurrentFile(final File currentFile) {
         this.currentFile = currentFile;
         final StringBuilder sb = new StringBuilder();
         sb.append(I18N.msg("window.title.main"));
@@ -916,7 +916,7 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
         });
     }
 
-    public void format() {
+    void format() {
         SwingUtils.invokeAndWait(new Runnable() {
             @Override
             public void run() {

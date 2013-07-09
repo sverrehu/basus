@@ -62,7 +62,7 @@ public final class VersionData {
         }
     }
 
-    public static VersionData getVersionDataFromResource(final String resourceName) {
+    private static VersionData getVersionDataFromResource(final String resourceName) {
         return createFromProperties(readPropertiesFromResource(resourceName));
     }
 

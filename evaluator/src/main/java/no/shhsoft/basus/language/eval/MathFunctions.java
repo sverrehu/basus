@@ -42,12 +42,12 @@ final class MathFunctions {
     }
 
     /* not private to avoid "synthetic access" */
-    public static double degToRad(final double deg) {
+    private static double degToRad(final double deg) {
         return 2.0 * Math.PI * (deg / 360.0);
     }
 
     /* not private to avoid "synthetic access" */
-    public static double radToDeg(final double rad) {
+    private static double radToDeg(final double rad) {
         return 360.0 * rad / (2.0 * Math.PI);
     }
 

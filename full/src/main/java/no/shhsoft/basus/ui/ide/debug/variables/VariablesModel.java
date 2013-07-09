@@ -17,7 +17,7 @@ import no.shhsoft.i18n.I18N;
 /**
  * @author <a href="mailto:shh@thathost.com">Sverre H. Huseby</a>
  */
-public final class VariablesModel
+final class VariablesModel
 implements TableModel {
 
     private Variable[] variables = new Variable[0]; /* should never be null */

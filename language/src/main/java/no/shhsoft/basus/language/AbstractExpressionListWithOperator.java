@@ -21,8 +21,8 @@ extends AbstractExpressionList {
         return operators[idx];
     }
 
-    public AbstractExpressionListWithOperator(final List<Expression> expressions,
-                                              final List<OperatorType> operators) {
+    AbstractExpressionListWithOperator(final List<Expression> expressions,
+                                       final List<OperatorType> operators) {
         super(expressions);
         setOperators(operators);
         if (operators.size() != getNumExpressions() - 1) {

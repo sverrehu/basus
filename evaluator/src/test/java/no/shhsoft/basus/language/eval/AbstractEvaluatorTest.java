@@ -46,13 +46,13 @@ public abstract class AbstractEvaluatorTest {
 
     }
 
-    protected final String formatProgram(final String program) {
+    final String formatProgram(final String program) {
         return new BasusFormatter().format(program);
     }
 
     protected abstract String transformProgram(String program);
 
-    protected final String evaluate(final String program) {
+    final String evaluate(final String program) {
         final StringBuilderConsole console = new StringBuilderConsole();
         final BasusRunner runner = new BasusRunner();
         runner.runProgram(transformProgram(program), console, null, null, null);
@@ -60,27 +60,27 @@ public abstract class AbstractEvaluatorTest {
         return console.toString().trim();
     }
 
-    protected final void assertOutputEquals(final String program,
-                                            final String expected) {
+    final void assertOutputEquals(final String program,
+                                  final String expected) {
         final String actual = evaluate(program);
         assertEquals(expected, actual);
     }
 
-    protected final void assertExpressionEquals(final String expression,
-                                                final String expected) {
+    final void assertExpressionEquals(final String expression,
+                                      final String expected) {
         assertOutputEquals("print(" + expression + ");", expected);
     }
 
-    protected final void assertNoArgCallEquals(final String pre, final String functionBody,
-                                          final String whatToPrint, final String expected) {
+    final void assertNoArgCallEquals(final String pre, final String functionBody,
+                                     final String whatToPrint, final String expected) {
         assertOutputEquals(pre + ";function foo() " + functionBody
                            + ";endfunc;foo();print(" + whatToPrint + ");",
                            expected);
     }
 
-    protected final void assertArgCallEquals(final String pre, final String functionBody,
-                                             final String argName, final String argValue,
-                                             final String whatToPrint, final String expected) {
+    final void assertArgCallEquals(final String pre, final String functionBody,
+                                   final String argName, final String argValue,
+                                   final String whatToPrint, final String expected) {
         assertOutputEquals(pre + ";function foo(" + argName + ") " + functionBody
                            + ";endfunc;foo(" + argValue + ");print(" + whatToPrint + ");",
                            expected);

@@ -53,7 +53,6 @@ implements Console, DrawingArea, ComponentListener, KeyListener,
     private BufferedImage screenImage;
     private BufferedImage bgImage;
     private Graphics2D screenGraphics;
-    private Font font;
     private final KeyboardBuffer keyboardBuffer = new KeyboardBuffer();
     private boolean cursorVisible;
     private Color backgroundColor;
@@ -120,7 +119,7 @@ implements Console, DrawingArea, ComponentListener, KeyListener,
         } else {
             setScaleAndOffset(1.0, 1.0, 0, 0);
         }
-        font = new Font(Font.MONOSPACED, Font.PLAIN, 14);
+        final Font font = new Font(Font.MONOSPACED, Font.PLAIN, 14);
         screenGraphics.setFont(font);
         final FontMetrics fm = screenGraphics.getFontMetrics();
         charWidth = fm.stringWidth("a");
@@ -587,12 +586,12 @@ implements Console, DrawingArea, ComponentListener, KeyListener,
         keyboardBuffer.addCharacter(e.getKeyChar());
     }
 
-    public void setCursorVisible(final boolean cursorVisible) {
+    void setCursorVisible(final boolean cursorVisible) {
         this.cursorVisible = cursorVisible;
         conditionallyRepaint();
     }
 
-    public boolean isCursorVisible() {
+    boolean isCursorVisible() {
         return cursorVisible;
     }
 

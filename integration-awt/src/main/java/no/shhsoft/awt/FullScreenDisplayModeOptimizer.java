@@ -38,7 +38,7 @@ public final class FullScreenDisplayModeOptimizer {
 
     }
 
-    static class ModeAndScoreComparator
+    private static class ModeAndScoreComparator
     implements Comparator<DisplayModeAndTransform> {
 
         @Override
@@ -171,8 +171,8 @@ public final class FullScreenDisplayModeOptimizer {
         return score;
     }
 
-    public static DisplayModeAndTransform[] getScoredDisplayModes(final int wantedWidth,
-                                                                  final int wantedHeight) {
+    private static DisplayModeAndTransform[] getScoredDisplayModes(final int wantedWidth,
+                                                                   final int wantedHeight) {
         final GraphicsEnvironment env = GraphicsEnvironment.getLocalGraphicsEnvironment();
         final GraphicsDevice device = env.getDefaultScreenDevice();
         final DisplayMode currentDisplayMode = device.getDisplayMode();

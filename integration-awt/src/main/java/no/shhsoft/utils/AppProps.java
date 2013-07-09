@@ -8,7 +8,7 @@ import java.io.IOException;
 public final class AppProps {
 
     private static String applicationName = null;
-    private static TypedProperties props = new TypedProperties();
+    private static final TypedProperties props = new TypedProperties();
 
     private AppProps() {
         /* not to be instantiated */

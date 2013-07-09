@@ -115,7 +115,7 @@ extends DefaultHandler {
         chars.append(new String(ch, start, length));
     }
 
-    public void handlerCharacters() {
+    void handlerCharacters() {
         if (chars.length() == 0) {
             return;
         }

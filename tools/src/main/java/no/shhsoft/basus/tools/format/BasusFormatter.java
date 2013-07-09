@@ -54,9 +54,9 @@ public final class BasusFormatter {
     private static final int PRI_EXPONENTIAL = 2;
     private static final int PRI_UNARY = 1;
 
+    private static final String INDENT_STRING = "    ";
     private int level = 0;
     private StringBuilder sb;
-    private final String indentString = "    ";
     private boolean needBlankLine;
 
     private static void ignore() {
@@ -78,7 +78,7 @@ public final class BasusFormatter {
 
     private void formatIndent() {
         for (int q = level - 1; q >= 0; q--) {
-            sb.append(indentString);
+            sb.append(INDENT_STRING);
         }
     }
 
@@ -175,14 +175,13 @@ public final class BasusFormatter {
     }
 
     private void formatIndexExpression(final IndexExpression expression) {
-        final IndexExpression indexExpression = expression;
-        formatExpression(indexExpression.getArray(), PRI_NONE);
+        formatExpression(expression.getArray(), PRI_NONE);
         sb.append('[');
-        for (int q = 0; q < indexExpression.getNumExpressions(); q++) {
+        for (int q = 0; q < expression.getNumExpressions(); q++) {
             if (q > 0) {
                 sb.append(", ");
             }
-            formatExpression(indexExpression.getExpression(q), PRI_NONE);
+            formatExpression(expression.getExpression(q), PRI_NONE);
         }
         sb.append(']');
     }

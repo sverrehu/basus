@@ -12,11 +12,11 @@ implements TextLocationHolder {
     private TextLocation startLocation;
     private TextLocation endLocation;
 
-    public AbstractTextLocationHolder() {
+    protected AbstractTextLocationHolder() {
     }
 
-    public AbstractTextLocationHolder(final TextLocation startLocation,
-                                      final TextLocation endLocation) {
+    protected AbstractTextLocationHolder(final TextLocation startLocation,
+                                         final TextLocation endLocation) {
         setStartLocation(startLocation);
         setEndLocation(endLocation);
     }

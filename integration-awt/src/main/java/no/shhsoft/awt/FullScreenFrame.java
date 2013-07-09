@@ -40,14 +40,14 @@ implements WindowListener {
         System.out.println("  is accel: " + ic.isAccelerated());
     }
 
-    public FullScreenFrame() {
+    protected FullScreenFrame() {
         addWindowListener(this);
     }
 
-    public void afterEnteringFullScreen() {
+    protected void afterEnteringFullScreen() {
     }
 
-    public void afterLeavingFullScreen() {
+    void afterLeavingFullScreen() {
     }
 
     public final FullScreenDisplayModeOptimizer.FullScreenTransform enterFullScreen(

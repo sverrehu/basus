@@ -50,7 +50,7 @@ extends JPanel {
         clear();
     }
 
-    public final void clear() {
+    final void clear() {
         panel.removeAll();
 
         gbl = new GridBagLayout();
@@ -59,8 +59,8 @@ extends JPanel {
         gbc.insets = new Insets(2, 5, 2, 5);
     }
 
-    public final void addFields(final Component field1, final Component field2,
-                                final Component field3) {
+    final void addFields(final Component field1, final Component field2,
+                         final Component field3) {
         if (field1 != null) {
             addField(field1, 1, 1, 0, 0, 0);
         }
@@ -77,7 +77,7 @@ extends JPanel {
         addFields(field1, field2, null);
     }
 
-    public final void addFields(final String label, final Component field2, final Component field3) {
+    final void addFields(final String label, final Component field2, final Component field3) {
         addFields(new JLabel(label), field2, field3);
     }
 

@@ -13,42 +13,42 @@ implements TextLocationHolder {
     private static final long serialVersionUID = 1L;
     private TextLocation textLocation;
 
-    public AbstractBasusException() {
+    protected AbstractBasusException() {
     }
 
-    public AbstractBasusException(final String message) {
+    protected AbstractBasusException(final String message) {
         super(message);
     }
 
-    public AbstractBasusException(final Throwable cause) {
+    protected AbstractBasusException(final Throwable cause) {
         super(cause);
     }
 
-    public AbstractBasusException(final String message, final Throwable cause) {
+    protected AbstractBasusException(final String message, final Throwable cause) {
         super(message, cause);
     }
 
-    public AbstractBasusException(final TextLocation textLocation) {
+    protected AbstractBasusException(final TextLocation textLocation) {
         setTextLocation(textLocation);
     }
 
-    public AbstractBasusException(final String message, final TextLocation textLocation) {
+    protected AbstractBasusException(final String message, final TextLocation textLocation) {
         super(message);
         setTextLocation(textLocation);
     }
 
-    public AbstractBasusException(final Throwable cause, final TextLocation textLocation) {
+    protected AbstractBasusException(final Throwable cause, final TextLocation textLocation) {
         super(cause);
         setTextLocation(textLocation);
     }
 
-    public AbstractBasusException(final String message, final Throwable cause,
-                                  final TextLocation textLocation) {
+    protected AbstractBasusException(final String message, final Throwable cause,
+                                     final TextLocation textLocation) {
         super(message, cause);
         setTextLocation(textLocation);
     }
 
-    public final void setTextLocation(final TextLocation textLocation) {
+    final void setTextLocation(final TextLocation textLocation) {
         this.textLocation = textLocation;
     }
 

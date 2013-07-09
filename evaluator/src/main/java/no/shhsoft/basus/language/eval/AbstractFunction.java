@@ -45,19 +45,19 @@ implements Function {
         throw new RuntimeException("Unhandled expected type " + type.getName());
     }
 
-    protected static void ignore() {
+    static void ignore() {
     }
 
     protected abstract Value implCall(EvaluationContext context, TextLocationHolder locationHolder,
                                       Value[] args);
 
-    protected static void error(final String key, final TextLocationHolder holder,
-                                final Object... args) {
+    static void error(final String key, final TextLocationHolder holder,
+                      final Object... args) {
         Evaluator.error(key, holder, args);
     }
 
-    public AbstractFunction(final String name, final int numArgs,
-                            final Class<?>[] argTypes) {
+    AbstractFunction(final String name, final int numArgs,
+                     final Class<?>[] argTypes) {
         this.name = name;
         this.numArgs = numArgs;
         this.argTypes = argTypes;

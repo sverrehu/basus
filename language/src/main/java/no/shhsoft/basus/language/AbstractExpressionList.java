@@ -23,7 +23,7 @@ extends AbstractExpression {
         return expressions[idx];
     }
 
-    public AbstractExpressionList(final List<Expression> expressions) {
+    AbstractExpressionList(final List<Expression> expressions) {
         setExpressions(expressions);
     }
 

@@ -14,7 +14,7 @@ public final class SwingUtils {
     private SwingUtils() {
     }
 
-    public static void invokeAndWait(final Runnable runnable, final boolean ignoreInterrupt) {
+    private static void invokeAndWait(final Runnable runnable, final boolean ignoreInterrupt) {
         if (EventQueue.isDispatchThread()) {
             runnable.run();
             return;

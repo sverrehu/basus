@@ -97,7 +97,7 @@ extends DaemonThread {
         return checkIntervalMinutes;
     }
 
-    public void setLastCheckMinute(final long lastCheckMinute) {
+    void setLastCheckMinute(final long lastCheckMinute) {
         this.lastCheckMinute = lastCheckMinute;
         AppProps.set(PROP_LAST_CHECK, lastCheckMinute);
         interrupt();
@@ -107,7 +107,7 @@ extends DaemonThread {
         return lastCheckMinute;
     }
 
-    public void setLastReportedSerial(final int lastReportedSerial) {
+    void setLastReportedSerial(final int lastReportedSerial) {
         this.lastReportedSerial = lastReportedSerial;
         AppProps.set(PROP_LAST_REPORTED_SERIAL, lastReportedSerial);
     }

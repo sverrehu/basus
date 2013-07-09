@@ -10,7 +10,7 @@ implements WidthAndHeightValue {
 
     private final BufferedImage image;
 
-    public AbstractImageValue(final BufferedImage image) {
+    AbstractImageValue(final BufferedImage image) {
         this.image = image;
     }
 

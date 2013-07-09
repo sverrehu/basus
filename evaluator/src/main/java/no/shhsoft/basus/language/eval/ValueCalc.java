@@ -11,7 +11,7 @@ import no.shhsoft.basus.value.Value;
 /**
  * @author <a href="mailto:shh@thathost.com">Sverre H. Huseby</a>
  */
-public final class ValueCalc {
+final class ValueCalc {
 
     private ValueCalc() {
     }

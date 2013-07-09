@@ -30,7 +30,7 @@ public enum Reserved {
     PI("PI"),
     BREAKPOINT("breakpoint");
 
-    private String word;
+    private final String word;
 
     private Reserved(final String word) {
         this.word = word;

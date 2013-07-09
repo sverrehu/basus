@@ -6,7 +6,7 @@ import no.shhsoft.basus.value.Value;
 /**
  * @author <a href="mailto:shh@thathost.com">Sverre H. Huseby</a>
  */
-public interface Function {
+interface Function {
 
     int NUM_ARGS_ANY = -1;
     int NUM_ARGS_ANY_EVEN = -2;

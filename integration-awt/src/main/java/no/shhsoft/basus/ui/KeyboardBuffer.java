@@ -3,7 +3,7 @@ package no.shhsoft.basus.ui;
 /**
  * @author <a href="mailto:shh@thathost.com">Sverre H. Huseby</a>
  */
-public final class KeyboardBuffer {
+final class KeyboardBuffer {
 
     private final char[] characters = new char[10];
     private int length;
@@ -16,7 +16,7 @@ public final class KeyboardBuffer {
         notifyAll();
     }
 
-    public synchronized boolean isCharacterWaiting() {
+    synchronized boolean isCharacterWaiting() {
         return length > 0;
     }
 

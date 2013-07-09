@@ -40,35 +40,35 @@ implements ComponentListener, WindowStateListener {
         AppProps.set(propertyPrefix + MAXIMIZED, state);
     }
 
-    public final void setDefaultLocation(final int x, final int y) {
+    protected final void setDefaultLocation(final int x, final int y) {
         AppProps.setDefault(propertyPrefix + LOCATION_X, x);
         AppProps.setDefault(propertyPrefix + LOCATION_Y, y);
     }
 
-    public final Point getWantedLocation() {
+    final Point getWantedLocation() {
         return new Point(AppProps.getInt(propertyPrefix + LOCATION_X),
                          AppProps.getInt(propertyPrefix + LOCATION_Y));
     }
 
-    public final void setDefaultDimension(final int width, final int height) {
+    protected final void setDefaultDimension(final int width, final int height) {
         AppProps.setDefault(propertyPrefix + DIMENSION_WIDTH, width);
         AppProps.setDefault(propertyPrefix + DIMENSION_HEIGHT, height);
     }
 
-    public final Dimension getWantedDimension() {
+    final Dimension getWantedDimension() {
         return new Dimension(AppProps.getInt(propertyPrefix + DIMENSION_WIDTH),
                              AppProps.getInt(propertyPrefix + DIMENSION_HEIGHT));
     }
 
-    public final void setDefaultMaximized(final boolean state) {
+    protected final void setDefaultMaximized(final boolean state) {
         AppProps.setDefault(propertyPrefix + MAXIMIZED, state);
     }
 
-    public final boolean getWantedMaximized() {
+    final boolean getWantedMaximized() {
         return AppProps.getBoolean(propertyPrefix + MAXIMIZED);
     }
 
-    public AppFrame(final String propertyPrefix) {
+    protected AppFrame(final String propertyPrefix) {
         this.propertyPrefix = propertyPrefix;
         addComponentListener(this);
         addWindowStateListener(this);

@@ -49,12 +49,12 @@ final class StringFunctions {
             return IntegerValue.ZERO;
         }
 
-        protected AbstractStringOrCharacterFunction(final String name) {
+        AbstractStringOrCharacterFunction(final String name) {
             super(name, 1, new Class<?>[] { Value.class });
         }
 
-        protected AbstractStringOrCharacterFunction(final String name, final int numArgs,
-                                                    final Class<?>[] argTypes) {
+        AbstractStringOrCharacterFunction(final String name, final int numArgs,
+                                          final Class<?>[] argTypes) {
             super(name, numArgs, argTypes);
         }
 

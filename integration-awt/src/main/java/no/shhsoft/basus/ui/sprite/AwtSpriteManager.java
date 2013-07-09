@@ -15,7 +15,7 @@ public final class AwtSpriteManager implements SpriteManager {
     private final List<Sprite> sprites = new ArrayList<Sprite>();
     private static final DepthComparator DEPTH_COMPARATOR = new DepthComparator();
 
-    static class DepthComparator
+    private static class DepthComparator
     implements Comparator<Sprite> {
 
         @Override

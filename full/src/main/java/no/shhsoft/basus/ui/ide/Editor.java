@@ -169,7 +169,7 @@ implements DocumentListener, KeyListener {
     }
 
     /* Copied from JTextArea */
-    public int getLineCount() {
+    int getLineCount() {
         final Element map = getDocument().getDefaultRootElement();
         return map.getElementCount();
     }
@@ -190,7 +190,7 @@ implements DocumentListener, KeyListener {
     }
 
     /* Copied from JTextArea */
-    public int getLineEndOffset(final int line)
+    int getLineEndOffset(final int line)
     throws BadLocationException {
         final int lineCount = getLineCount();
         if (line < 0) {

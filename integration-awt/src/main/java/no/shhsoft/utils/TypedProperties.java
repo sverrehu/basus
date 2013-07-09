@@ -8,7 +8,7 @@ import java.util.Properties;
 /**
  * @author <a href="mailto:shh@thathost.com">Sverre H. Huseby</a>
  */
-public final class TypedProperties {
+final class TypedProperties {
 
     private final Properties defaultProp = new Properties();
     private final Properties prop = new Properties(defaultProp);
