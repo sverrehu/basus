@@ -7,6 +7,6 @@ public interface HelpProvider {
 
     void openHelpContents();
 
-    void openContexHelp(String word);
+    void openContextHelp(String word);
 
 }

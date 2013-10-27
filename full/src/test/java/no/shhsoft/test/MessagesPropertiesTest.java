@@ -25,7 +25,6 @@ public final class MessagesPropertiesTest {
     private static final String PROP_SUFFIX = ".properties";
 
     private static Properties master;
-    private static String masterResource;
 
     private static Properties loadProperties(final String resourceName) {
         final URL resourceUrl
@@ -61,7 +60,7 @@ public final class MessagesPropertiesTest {
 
     @BeforeClass
     public static void beforeClass() {
-        masterResource = PROP_PREFIX + PROP_SUFFIX;
+        final String masterResource = PROP_PREFIX + PROP_SUFFIX;
         master = loadProperties(masterResource);
     }
 

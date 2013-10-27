@@ -101,7 +101,6 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
     private JMenuItem menuEditCut;
     private JMenuItem menuEditCopy;
     private JMenuItem menuEditPaste;
-    private JMenuItem menuEditFormat;
     private JMenuItem menuRunRun;
     private JMenuItem menuRunStep;
     private JMenuItem menuRunStop;
@@ -220,14 +219,14 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
     }
 
     private void unconditionalOpen(final File file) {
-        byte[] data = null;
+        byte[] data;
         try {
             data = IoUtils.readFile(file.getPath());
         } catch (final UncheckedIoException e) {
             errorDialog("err.unableToLoad", file.getPath());
             return;
         }
-        String text = null;
+        String text;
         try {
             text = new String(data, "UTF-8");
         } catch (final UnsupportedEncodingException e) {
@@ -242,7 +241,7 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
         if (file.getName().indexOf('.') < 0) {
             actualFile = new File(file.getPath() + ".bus");
         }
-        byte[] data = null;
+        byte[] data;
         try {
             data = editor.getText().getBytes("UTF-8");
         } catch (final UnsupportedEncodingException e) {
@@ -595,7 +594,7 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
         menuEditCut = createJMenuItem("menu.edit.cut");
         menuEditCopy = createJMenuItem("menu.edit.copy");
         menuEditPaste = createJMenuItem("menu.edit.paste");
-        menuEditFormat = createJMenuItem("menu.edit.format");
+        final JMenuItem menuEditFormat = createJMenuItem("menu.edit.format");
         menuBar.add(menuEdit);
         setAccelKeyWithCtrl(menuEditUndo, 'Z');
         menuEdit.add(menuEditUndo);
@@ -861,7 +860,7 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
     }
 
     @Override
-    public void openContexHelp(final String word) {
+    public void openContextHelp(final String word) {
         helpWindow.openTopic(word);
     }
 
@@ -954,7 +953,7 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
                 Thread.sleep(t);
             }
         } catch (final InterruptedException e) {
-            /* ingore */
+            /* ignore */
             return;
         }
     }

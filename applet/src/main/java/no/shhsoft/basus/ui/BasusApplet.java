@@ -29,7 +29,7 @@ extends Applet {
             throw new RuntimeException("missing `" + name + "' parameter");
         }
         try {
-            if (param.indexOf("://") >= 0) {
+            if (param.contains("://")) {
                 return new URL(param);
             }
             return new URL(getDocumentBase(), param);

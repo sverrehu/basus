@@ -3,7 +3,6 @@ package no.shhsoft.basus.ui.ide;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
-import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -71,7 +70,7 @@ implements DocumentListener, KeyListener {
                 final int end = rootElement.getElement(line).getEndOffset();
                 final int length = end - start;
                 final String text = doc.getText(start, length);
-                int offset = 0;
+                int offset;
                 for (offset = 0; offset < length; offset++) {
                     final char c = text.charAt(offset);
                     if (c != ' ' && c != '\t') {
@@ -283,15 +282,8 @@ implements DocumentListener, KeyListener {
             if (helpProvider == null) {
                 return;
             }
-            boolean openContext = (e.getModifiers() & InputEvent.CTRL_MASK) != 0;
-            /* let's just open the context help in any case. */
-            openContext = true;
-            if (openContext) {
-                final String word = getCurrentWord();
-                helpProvider.openContexHelp(word);
-            } else {
-                helpProvider.openHelpContents();
-            }
+            final String word = getCurrentWord();
+            helpProvider.openContextHelp(word);
         }
     }
 

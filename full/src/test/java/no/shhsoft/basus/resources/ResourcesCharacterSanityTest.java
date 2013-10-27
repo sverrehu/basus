@@ -24,14 +24,14 @@ public final class ResourcesCharacterSanityTest {
 
     private static final String NORWEGIAN_CHARS = "\u00e6\u00f8\u00e5\u00c6\u00d8\u00c5\u00e9";
     private static final String SPECIAL_CHARS = " !\"#%&/()=?`;[]{}|\\<>.:,;'*@$_-+^\n\r";
-    private static final String WHITELIST = ValidationUtils.ALNUM + NORWEGIAN_CHARS + SPECIAL_CHARS;
+    private static final String WHITE_LIST = ValidationUtils.ALNUM + NORWEGIAN_CHARS + SPECIAL_CHARS;
     private boolean wasError;
 
     private String getNonWhiteListedChars(final String s) {
         final StringBuilder sb = new StringBuilder();
         for (int q = s.length() - 1; q >= 0; q--) {
             final char c = s.charAt(q);
-            if (WHITELIST.indexOf(c) < 0) {
+            if (WHITE_LIST.indexOf(c) < 0) {
                 sb.append(String.format("\\u%04x ", Integer.valueOf(c)));
             }
         }
@@ -39,7 +39,7 @@ public final class ResourcesCharacterSanityTest {
     }
 
     private boolean isSane(final String s) {
-        return StringUtils.containsOnly(s, WHITELIST);
+        return StringUtils.containsOnly(s, WHITE_LIST);
     }
 
     private void assertResourceSane(final String name) {

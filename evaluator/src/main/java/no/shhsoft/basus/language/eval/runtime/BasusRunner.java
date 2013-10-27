@@ -101,7 +101,7 @@ implements Runnable {
     }
 
     public void waitForProgramToFinish() {
-        Thread t = null;
+        Thread t;
         synchronized (this) {
             t = thread;
             if (t == null) {

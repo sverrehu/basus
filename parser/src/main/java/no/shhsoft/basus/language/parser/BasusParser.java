@@ -161,7 +161,7 @@ public final class BasusParser {
 
     private Expression parseFunctionOrVariableExpression() {
         Expression expression;
-        final String identifier = token.getIdentifer();
+        final String identifier = token.getIdentifier();
         next();
         if (isOperatorMatch(OperatorType.LEFT_PAREN)) {
             nextCheckEof();
@@ -348,7 +348,7 @@ public final class BasusParser {
         return parseConditionalOrExpression();
     }
 
-    private Token lookahead() {
+    private Token lookAhead() {
         final Token currToken = token;
         nextCheckEof();
         final Token nextToken = token;
@@ -482,7 +482,7 @@ public final class BasusParser {
         if (token.getType() != TokenType.IDENTIFIER) {
             error("err.functionDefNotIdentifier");
         }
-        final String name = token.getIdentifer();
+        final String name = token.getIdentifier();
         nextCheckEof();
         if (!isOperatorMatch(OperatorType.LEFT_PAREN)) {
             error("err.missingFuncDefLeftParen");
@@ -493,7 +493,7 @@ public final class BasusParser {
             if (token.getType() != TokenType.IDENTIFIER) {
                 error("err.functionDefVarNotIdentifier", token.toString());
             }
-            argumentList.add(token.getIdentifer());
+            argumentList.add(token.getIdentifier());
             nextCheckEof();
             if (isOperatorMatch(OperatorType.COMMA)) {
                 nextCheckEof();
@@ -542,7 +542,7 @@ public final class BasusParser {
         if (token.getType() != TokenType.IDENTIFIER) {
             error("err.functionNotIdentifier");
         }
-        final String name = token.getIdentifer();
+        final String name = token.getIdentifier();
         nextCheckEof();
         if (!isOperatorMatch(OperatorType.LEFT_PAREN)) {
             error("err.missingLeftParen");
@@ -590,7 +590,7 @@ public final class BasusParser {
             statement = new CommentStatement(token.getComment());
             nextCheckEof();
         } else {
-            final Token nextToken = lookahead();
+            final Token nextToken = lookAhead();
             if (nextToken.getType() == TokenType.OPERATOR
                 && nextToken.getOperator() == OperatorType.LEFT_PAREN) {
                 statement = parseCallStatement();

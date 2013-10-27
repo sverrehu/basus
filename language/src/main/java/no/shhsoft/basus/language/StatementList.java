@@ -11,14 +11,9 @@ import java.util.Map;
 public final class StatementList {
 
     private final List<Statement> statements = new ArrayList<Statement>();
-    private final Map<String, Integer> labels = new HashMap<String, Integer>();
 
     public void addStatement(final Statement statement) {
         statements.add(statement);
-    }
-
-    public void addLabel(final String label) {
-        labels.put(label, Integer.valueOf(statements.size()));
     }
 
     public int getNumStatements() {

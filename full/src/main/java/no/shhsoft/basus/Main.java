@@ -64,7 +64,7 @@ implements TerminationRequestListener {
         } catch (final UncheckedIoException e) {
             fatal("Unable to load `" + fileName + "'");
         }
-        String text = null;
+        String text;
         try {
             text = new String(data, "UTF-8");
         } catch (final UnsupportedEncodingException e) {

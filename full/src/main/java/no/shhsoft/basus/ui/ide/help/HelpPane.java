@@ -195,8 +195,8 @@ implements HyperlinkListener {
     }
 
     public synchronized void open(final String docName) {
-        if (documentStack.size() == 0
-            || !documentStack.get(documentStack.size() - 1).equals(docName)) {
+        if (documentStack.isEmpty()
+            || !documentStack.get(documentStack.size() - 1).getDocName().equals(docName)) {
             documentStack.add(new HelpLocation(docName, getCaretPosition()));
         }
         openNoHistory(docName);

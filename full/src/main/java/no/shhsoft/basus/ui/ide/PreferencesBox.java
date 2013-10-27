@@ -134,10 +134,6 @@ final class PreferencesBox {
         };
         fontSize = new JComboBox(selectableFontSizes);
         panel.addFields(new JLabel(I18N.msg("preferences.label.editor.font.size")), fontSize);
-        final List<String> selectableThemes = new ArrayList<String>();
-        for (final UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-            selectableThemes.add(info.getName());
-        }
         final UIManager.LookAndFeelInfo[] lookAndFeels = UIManager.getInstalledLookAndFeels();
         final ThemeItem[] themeItems = new ThemeItem[lookAndFeels.length];
         idx = 0;

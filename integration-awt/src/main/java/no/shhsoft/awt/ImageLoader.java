@@ -1,24 +1,18 @@
 package no.shhsoft.awt;
 
-import java.awt.AlphaComposite;
-import java.awt.Graphics2D;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsEnvironment;
-import java.awt.Transparency;
+import no.shhsoft.utils.IoUtils;
+import no.shhsoft.utils.UncheckedIoException;
+
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.awt.image.BufferedImageOp;
-import java.awt.image.RescaleOp;
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.imageio.ImageIO;
-
-import no.shhsoft.utils.IoUtils;
-import no.shhsoft.utils.UncheckedIoException;
 
 /**
  * @author <a href="mailto:shh@thathost.com">Sverre H. Huseby</a>
@@ -27,7 +21,6 @@ public final class ImageLoader {
 
     private GraphicsConfiguration gc = null;
     private final Map<URL, CachedImage> images = new HashMap<URL, CachedImage>();
-    private double scaling = 0.0;
 
     private static class CachedImage {
 
@@ -49,16 +42,8 @@ public final class ImageLoader {
             return image;
         }
 
-        public int getRefcount() {
-            return refCount;
-        }
-
         public int incRefCount() {
             return ++refCount;
-        }
-
-        public int decRefCount() {
-            return --refCount;
         }
 
     }
@@ -82,9 +67,10 @@ public final class ImageLoader {
                 throw new UncheckedIoException("No resource found for `" + url.toString() + "'");
             }
             src = ImageIO.read(new BufferedInputStream(in, 65536));
-            if (scaling != 0.0) {
-                op = new RescaleOp((float) scaling, 0.0f, null);
-            }
+//            final double scaling = 0.0;
+//            if (scaling != 0.0) {
+//                op = new RescaleOp((float) scaling, 0.0f, null);
+//            }
             img = createCompatibleImage(
                 src.getWidth(), src.getHeight(), src.getColorModel().getTransparency() != Transparency.OPAQUE);
             final Graphics2D g2d = img.createGraphics();
@@ -97,14 +83,6 @@ public final class ImageLoader {
             IoUtils.closeSilently(in);
         }
         return img;
-    }
-
-    public void setGraphicsConfiguration(final GraphicsConfiguration gc) {
-        this.gc = gc;
-    }
-
-    public void setScaling(final double scaling) {
-        this.scaling = scaling;
     }
 
     public BufferedImage createCompatibleImage(final int width, final int height, final boolean hasAlphaChannel) {
@@ -121,17 +99,6 @@ public final class ImageLoader {
         }
         ci.incRefCount();
         return ci.getImage();
-    }
-
-    public synchronized void release(final String key) {
-        final CachedImage ci = images.get(key);
-        if (ci == null) {
-            return;
-        }
-        if (ci.decRefCount() <= 0) {
-            ci.getImage().flush();
-            images.remove(key);
-        }
     }
 
     public synchronized void releaseAll() {

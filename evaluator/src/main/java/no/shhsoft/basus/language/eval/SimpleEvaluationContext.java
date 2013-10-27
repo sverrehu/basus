@@ -190,7 +190,7 @@ implements EvaluationContext {
             }
             error("err.load.invalidName", holder, name);
         }
-        if (name.indexOf("..") >= 0 || name.startsWith("/")) {
+        if (name.contains("..") || name.startsWith("/")) {
             error("err.load.invalidName", holder, name);
         }
         URL url = null;

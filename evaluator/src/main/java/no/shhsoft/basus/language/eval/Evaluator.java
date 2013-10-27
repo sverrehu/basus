@@ -109,7 +109,7 @@ public final class Evaluator {
         return sb.toString();
     }
 
-    /* TODO: this is a hotspot for optimizations */
+    /* TODO: this is a hot spot for optimizations */
     @SuppressWarnings("boxing")
     private ArrayAndIndex evaluateArrayAndIndex(final IndexExpression expression,
                                                 final EvaluationContext context,
@@ -117,7 +117,7 @@ public final class Evaluator {
                                                 final boolean local) {
         /* writeOperations may index outside existing arrays, and create new
          * variables.  other operations may not. */
-        Value expectedArrayValue = null;
+        Value expectedArrayValue;
         if (expression.getArray() instanceof VariableExpression) {
             final VariableExpression variableExpression = (VariableExpression) expression.getArray();
             if (context.isDefined(variableExpression.getVariableName()) || !writeOperation) {
@@ -395,7 +395,7 @@ public final class Evaluator {
                 return;
             }
             assign(assignable, context, current, true, statement);
-            Value step = null;
+            Value step;
             if (statement.getStep() != null) {
                 step = evaluateExpression(statement.getStep(), context);
                 if (!(step instanceof NumericValue)) {

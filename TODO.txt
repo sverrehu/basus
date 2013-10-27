@@ -5,7 +5,7 @@ Short term
   * Fix TODOs.
   * When returning to the IDE from full-screen mode, copy sprites as
     well.
-  * When running outside IDE (applet, window, fullscreen): Error
+  * When running outside IDE (applet, window, full screen): Error
     messages should appear in the output window.  Make sure background
     and foreground are reasonable.
 

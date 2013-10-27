@@ -29,7 +29,7 @@ final class MiscFunctions {
         @Override
         protected final Value implCall(final EvaluationContext context,
                                        final TextLocationHolder locationHolder, final Value[] args) {
-            final StringBuffer sb = new StringBuffer();
+            final StringBuilder sb = new StringBuilder();
             for (final Value arg : args) {
                 sb.append(arg.toString());
             }

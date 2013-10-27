@@ -234,7 +234,7 @@ implements Tokenizer {
     }
 
     private IntegerValue scanCharacter() {
-        IntegerValue value = null;
+        IntegerValue value;
         char c = nextChar();
         if (c == EOF) {
             error("err.charNotTerminated");

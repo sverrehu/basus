@@ -29,9 +29,9 @@ extends AbstractFunction {
         return localContext.getVariable(RETURN_VARIABLE_NAME, locationHolder);
     }
 
-    public UserFunction(final FunctionStatement functionStatement, final Evaluator evlauator) {
+    public UserFunction(final FunctionStatement functionStatement, final Evaluator evaluator) {
         super(functionStatement.getName(), functionStatement.getArgumentNames().length, null);
-        this.evaluator = evlauator;
+        this.evaluator = evaluator;
         this.functionStatement = functionStatement;
     }
 

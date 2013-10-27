@@ -93,7 +93,7 @@ extends AbstractTextLocationHolder {
         return constant;
     }
 
-    public String getIdentifer() {
+    public String getIdentifier() {
         if (type != TokenType.IDENTIFIER) {
             throw new RuntimeException("getIdentifier called for a token that is not an identifier");
         }
@@ -126,7 +126,7 @@ extends AbstractTextLocationHolder {
     public String toString() {
         switch (getType()) {
             case IDENTIFIER:
-                return "IDENTIFIER: " + getIdentifer();
+                return "IDENTIFIER: " + getIdentifier();
             case CONSTANT:
                 return "CONSTANT: " + getConstant();
             case OPERATOR:

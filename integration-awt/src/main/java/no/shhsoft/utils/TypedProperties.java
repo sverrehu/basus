@@ -27,9 +27,9 @@ final class TypedProperties {
         if (propsSaved) {
             return;
         }
-        final FileOutputStream fout = new FileOutputStream(filename);
-        prop.storeToXML(fout, "Generated file.  Do not edit.");
-        fout.close();
+        final FileOutputStream out = new FileOutputStream(filename);
+        prop.storeToXML(out, "Generated file.  Do not edit.");
+        out.close();
         propsSaved = true;
     }
 
