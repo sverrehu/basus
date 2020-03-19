@@ -202,7 +202,7 @@ extends DefaultHandler {
         }
         if (loader.searchPrefixes != null) {
             helpPane.setSearchPrefixes(loader.searchPrefixes.toArray(
-                                              new String[loader.searchPrefixes.size()]));
+            new String[0]));
         }
         if (loader.synonyms != null) {
             helpPane.setSynonyms(loader.synonyms);

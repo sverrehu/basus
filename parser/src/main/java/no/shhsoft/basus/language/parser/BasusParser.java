@@ -502,7 +502,7 @@ public final class BasusParser {
                 }
             }
         }
-        final String[] arguments = argumentList.toArray(new String[argumentList.size()]);
+        final String[] arguments = argumentList.toArray(new String[0]);
         nextCheckEof();
         final StatementList statements = parseStatementList(FUNCTION_ENDS);
         if (!isReservedMatch(Reserved.ENDFUNC)) {

@@ -68,7 +68,7 @@ public final class AwtSpriteManager implements SpriteManager {
                 }
             }
         }
-        final Sprite[] ret = spritesToDraw.toArray(new Sprite[spritesToDraw.size()]);
+        final Sprite[] ret = spritesToDraw.toArray(new Sprite[0]);
         Arrays.sort(ret, DEPTH_COMPARATOR);
         return ret;
     }

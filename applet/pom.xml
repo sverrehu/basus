@@ -74,11 +74,6 @@
                     <descriptors>
                         <descriptor>assembly.xml</descriptor>
                     </descriptors>
-                    <archive>
-                        <manifest>
-                            <mainClass>no.shhsoft.basus.Main</mainClass>
-                        </manifest>
-                    </archive>
                 </configuration>
                 <executions>
                     <execution>
@@ -103,7 +98,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <proguardVersion>4.8</proguardVersion>
                     <injar>${project.artifactId}-${project.version}-big.jar</injar>
                     <!--
                          Cannot use this, since the full IDE will include the default
@@ -130,14 +124,6 @@
                         <lib>${java.home}/lib/jce.jar</lib>
                     </libs>
                 </configuration>
-                <dependencies>
-                    <dependency>
-                        <groupId>net.sf.proguard</groupId>
-                        <artifactId>proguard-base</artifactId>
-                        <version>4.8</version>
-                        <scope>runtime</scope>
-                    </dependency>
-                </dependencies>
             </plugin>
 
         </plugins>

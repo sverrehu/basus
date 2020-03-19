@@ -53,7 +53,7 @@ public final class MessagesPropertiesTest {
                 missing.add((String) key);
             }
         }
-        final String[] ret = missing.toArray(new String[missing.size()]);
+        final String[] ret = missing.toArray(new String[0]);
         Arrays.sort(ret);
         return ret;
     }
