@@ -403,13 +403,13 @@ implements CrossCompiler {
         int q = 0;
         for (final Expression condition : statement.getConditions()) {
             if (q == 0) {
-                sb.append("if ");
+                sb.append("if (");
             } else {
                 formatIndent();
-                sb.append("elseif ");
+                sb.append("else if (");
             }
             translateExpression(condition, PRI_NONE);
-            sb.append(" then\n");
+            sb.append(") {\n");
             incLevel();
             translateStatementList(statement.getConditionStatements().get(q));
             decLevel();
@@ -417,13 +417,13 @@ implements CrossCompiler {
         }
         if (statement.getElseStatements() != null) {
             formatIndent();
-            sb.append("else\n");
+            sb.append("} else {\n");
             incLevel();
             translateStatementList(statement.getElseStatements());
             decLevel();
         }
         formatIndent();
-        sb.append("endif");
+        sb.append("}");
     }
 
     private void translateReturnStatement(final ReturnStatement statement) {
@@ -471,12 +471,16 @@ implements CrossCompiler {
             translateAssignmentStatement((AssignmentStatement) statement);
         } else if (statement instanceof ForStatement) {
             translateForStatement((ForStatement) statement);
+            semicolonNeeded = false;
         } else if (statement instanceof RepeatStatement) {
             translateRepeatStatement((RepeatStatement) statement);
+            semicolonNeeded = false;
         } else if (statement instanceof WhileStatement) {
             translateWhileStatement((WhileStatement) statement);
+            semicolonNeeded = false;
         } else if (statement instanceof IfStatement) {
             translateIfStatement((IfStatement) statement);
+            semicolonNeeded = false;
         } else if (statement instanceof ReturnStatement) {
             translateReturnStatement((ReturnStatement) statement);
         } else if (statement instanceof FunctionStatement) {
@@ -521,18 +525,18 @@ implements CrossCompiler {
     private static void checkJavaScript(final String s) {
         final Parser parser = new Parser(new CompilerEnvirons(), new ErrorReporter() {
             @Override
-            public void warning(final String s, final String s1, final int i, final String s2, final int i1) {
-                System.err.println(s);
+            public void warning(final String message, final String sourceName, final int line, final String lineSource, final int lineOffset) {
+                System.err.println("Line " + line + ": " + message);
             }
 
             @Override
-            public void error(final String s, final String s1, final int i, final String s2, final int i1) {
-                System.err.println(s);
+            public void error(final String message, final String sourceName, final int line, final String lineSource, final int lineOffset) {
+                System.err.println("Line " + line + ": " + message);
             }
 
             @Override
-            public EvaluatorException runtimeError(final String s, final String s1, final int i, final String s2, final int i1) {
-                return new EvaluatorException(s);
+            public EvaluatorException runtimeError(final String message, final String sourceName, final int line, final String lineSource, final int lineOffset) {
+                return new EvaluatorException(message);
             }
         });
         if (parser.parse(s, "", 0) == null) {
@@ -541,7 +545,7 @@ implements CrossCompiler {
     }
 
     public static void main(final String[] args) {
-        final String code = new String(IoUtils.readFile(System.getProperty("user.home") + "/basus/formatter-test.bus"));
+        final String code = new String(IoUtils.readFile(System.getProperty("user.home") + "/basus/spaceWar.bus"));
         final String js = new JavaScriptCrossCompiler().compile(code);
         System.out.println(js);
         checkJavaScript(js);
