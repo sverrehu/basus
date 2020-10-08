@@ -22,6 +22,7 @@
         <module>tools</module>
         <module>evaluator</module>
         <module>parser</module>
+        <module>crosscompilers</module>
         <module>applet</module>
         <module>full</module>
     </modules>
@@ -81,6 +82,13 @@
             <dependency>
                 <groupId>no.shhsoft</groupId>
                 <artifactId>basus-parser</artifactId>
+                <version>${project.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>no.shhsoft</groupId>
+                <artifactId>basus-crosscompilers</artifactId>
                 <version>${project.version}</version>
                 <scope>compile</scope>
             </dependency>
