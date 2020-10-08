@@ -15,13 +15,13 @@
     </properties>
 
     <modules>
-        <module>utils</module>
         <module>integration-api</module>
-        <module>integration-awt</module>
+        <module>utils</module>
         <module>language</module>
-        <module>tools</module>
-        <module>evaluator</module>
         <module>parser</module>
+        <module>evaluator</module>
+        <module>integration-awt</module>
+        <module>tools</module>
         <module>crosscompilers</module>
         <!-- <module>applet</module> -->
         <module>full</module>

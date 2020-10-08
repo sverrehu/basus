@@ -1,5 +1,6 @@
-package no.shhsoft.basus.tools.format;
+package no.shhsoft.basus.crosscompilers.javascript;
 
+import no.shhsoft.basus.crosscompilers.CrossCompiler;
 import no.shhsoft.basus.language.*;
 import no.shhsoft.basus.language.parser.BasusParser;
 import no.shhsoft.basus.value.*;
@@ -9,7 +10,8 @@ import no.shhsoft.utils.StringUtils;
 /**
  * @author <a href="mailto:shh@thathost.com">Sverre H. Huseby</a>
  */
-public final class BasusFormatter {
+public final class JavaScriptCrossCompiler
+implements CrossCompiler {
 
     private static final int PRI_NONE = 20;
     private static final int PRI_LOGICAL_OR = 12;
@@ -503,21 +505,22 @@ public final class BasusFormatter {
         }
     }
 
-    public synchronized String format(final String code) {
+    @Override
+    public String compile(final StatementList statementList) {
         level = 0;
         needBlankLine = false;
         sb = new StringBuilder();
-        final StatementList statementList = BasusParser.parse(code, true);
         formatStatementList(statementList);
-        final String formattedCode = sb.toString();
-        /* Parse it on order to have an exception if the formatter generates invalid code. */
-        BasusParser.parse(formattedCode);
-        return formattedCode;
+        return sb.toString();
+    }
+
+    public synchronized String compile(final String code) {
+        return compile(BasusParser.parse(code, true));
     }
 
     public static void main(final String[] args) {
         final String code = new String(IoUtils.readFile(System.getProperty("user.home") + "/basus/formatter-test.bus"));
-        final String formatted = new BasusFormatter().format(code);
+        final String formatted = new JavaScriptCrossCompiler().compile(code);
         System.out.println(formatted);
     }
 
