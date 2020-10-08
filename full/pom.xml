@@ -62,18 +62,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <descriptors>
@@ -108,7 +96,6 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <proguardVersion>4.8</proguardVersion>
                     <injar>${project.artifactId}-${project.version}-big.jar</injar>
                     <outjar>basus-${project.version}.jar</outjar>
                     <inFilter>!META-INF/maven/**</inFilter>

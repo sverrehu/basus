@@ -9,6 +9,11 @@
     <name>basus</name>
     <url>http://basus.no</url>
 
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    </properties>
+
     <modules>
         <module>utils</module>
         <module>integration-api</module>
@@ -117,15 +122,7 @@
                 <plugin>
                     <groupId>com.github.wvengen</groupId>
                     <artifactId>proguard-maven-plugin</artifactId>
-                    <version>2.0.14</version>
-                    <dependencies>
-                        <dependency>
-                            <groupId>net.sf.proguard</groupId>
-                            <artifactId>proguard-base</artifactId>
-                            <version>6.0.3</version>
-                            <scope>runtime</scope>
-                        </dependency>
-                    </dependencies>
+                    <version>2.3.1</version>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -133,9 +130,10 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                 </configuration>
             </plugin>
         </plugins>
