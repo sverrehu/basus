@@ -6,6 +6,10 @@ import no.shhsoft.basus.language.parser.BasusParser;
 import no.shhsoft.basus.value.*;
 import no.shhsoft.utils.IoUtils;
 import no.shhsoft.utils.StringUtils;
+import org.mozilla.javascript.CompilerEnvirons;
+import org.mozilla.javascript.ErrorReporter;
+import org.mozilla.javascript.EvaluatorException;
+import org.mozilla.javascript.Parser;
 
 /**
  * @author <a href="mailto:shh@thathost.com">Sverre H. Huseby</a>
@@ -514,10 +518,33 @@ implements CrossCompiler {
         return compile(BasusParser.parse(code, true));
     }
 
+    private static void checkJavaScript(final String s) {
+        final Parser parser = new Parser(new CompilerEnvirons(), new ErrorReporter() {
+            @Override
+            public void warning(final String s, final String s1, final int i, final String s2, final int i1) {
+                System.err.println(s);
+            }
+
+            @Override
+            public void error(final String s, final String s1, final int i, final String s2, final int i1) {
+                System.err.println(s);
+            }
+
+            @Override
+            public EvaluatorException runtimeError(final String s, final String s1, final int i, final String s2, final int i1) {
+                return new EvaluatorException(s);
+            }
+        });
+        if (parser.parse(s, "", 0) == null) {
+            throw new RuntimeException("JavaScript parsing failed.");
+        }
+    }
+
     public static void main(final String[] args) {
         final String code = new String(IoUtils.readFile(System.getProperty("user.home") + "/basus/formatter-test.bus"));
-        final String formatted = new JavaScriptCrossCompiler().compile(code);
-        System.out.println(formatted);
+        final String js = new JavaScriptCrossCompiler().compile(code);
+        System.out.println(js);
+        checkJavaScript(js);
     }
 
 }
