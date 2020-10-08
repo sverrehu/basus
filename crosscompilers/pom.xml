@@ -24,6 +24,11 @@
 
         <dependency>
             <groupId>no.shhsoft</groupId>
+            <artifactId>basus-language</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>no.shhsoft</groupId>
             <artifactId>basus-tools</artifactId>
             <scope>test</scope>
         </dependency>
