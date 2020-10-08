@@ -183,11 +183,11 @@ implements CrossCompiler {
     }
 
     private void translateConditionalOrExpression(final ConditionalOrExpression expression, final int encapsulatingPriority) {
-        translateConditionalExpression(expression, " or ", encapsulatingPriority, PRI_LOGICAL_OR);
+        translateConditionalExpression(expression, " || ", encapsulatingPriority, PRI_LOGICAL_OR);
     }
 
     private void translateConditionalAndExpression(final ConditionalAndExpression expression, final int encapsulatingPriority) {
-        translateConditionalExpression(expression, " and ", encapsulatingPriority, PRI_LOGICAL_AND);
+        translateConditionalExpression(expression, " && ", encapsulatingPriority, PRI_LOGICAL_AND);
     }
 
     private void translateRelationalExpression(final RelationalExpression expression, @SuppressWarnings("unused") final int encapsulatingPriority) {
@@ -203,7 +203,7 @@ implements CrossCompiler {
     private void translateOperatorType(final OperatorType operator) {
         switch (operator) {
             case AND:
-                sb.append(" and ");
+                sb.append(" && ");
                 break;
             case ASSIGN:
                 sb.append(" = ");
@@ -218,7 +218,7 @@ implements CrossCompiler {
                 sb.append(" == ");
                 break;
             case EXPONENTIATE:
-                sb.append(" ^ ");
+                sb.append(" ** ");
                 break;
             case GREATER:
                 sb.append(" > ");
@@ -248,13 +248,13 @@ implements CrossCompiler {
                 sb.append(" * ");
                 break;
             case NOT:
-                sb.append("not ");
+                sb.append("!");
                 break;
             case NOT_EQUAL:
                 sb.append(" != ");
                 break;
             case OR:
-                sb.append(" or ");
+                sb.append(" || ");
                 break;
             case PLUS:
                 sb.append(" + ");
@@ -288,7 +288,7 @@ implements CrossCompiler {
                     sb.append('-');
                     break;
                 case NOT:
-                    sb.append("not ");
+                    sb.append("!");
                     break;
                 default:
                     throw new RuntimeException("Unhandled negate operator: " + expression.getOperatorType().toString());
@@ -336,8 +336,7 @@ implements CrossCompiler {
 
     private void translateAssignableExpression(final AssignableExpression expression, final boolean local) {
         if (local) {
-            sb.append(Reserved.LOCAL.toString());
-            sb.append(' ');
+            sb.append("let ");
         }
         if (expression instanceof VariableExpression) {
             translateVariableExpression((VariableExpression) expression);
@@ -356,22 +355,22 @@ implements CrossCompiler {
     }
 
     private void translateForStatement(final ForStatement statement) {
-        sb.append("for ");
+        sb.append("for (");
         translateAssignableExpression(statement.getAssignable(), false);
         sb.append(" = ");
         translateExpression(statement.getFrom(), PRI_NONE);
-        sb.append(" to ");
+        sb.append("; ");
         translateExpression(statement.getTo(), PRI_NONE);
         if (statement.getStep() != null) {
             sb.append(" step ");
             translateExpression(statement.getStep(), PRI_NONE);
         }
-        sb.append(" do\n");
+        sb.append(") {\n");
         incLevel();
         translateStatementList(statement.getStatements());
         decLevel();
         formatIndent();
-        sb.append("done");
+        sb.append("}");
     }
 
     private void translateRepeatStatement(final RepeatStatement statement) {
@@ -386,14 +385,14 @@ implements CrossCompiler {
     }
 
     private void translateWhileStatement(final WhileStatement statement) {
-        sb.append("while ");
+        sb.append("while (");
         translateExpression(statement.getCondition(), PRI_NONE);
-        sb.append(" do\n");
+        sb.append(") {\n");
         incLevel();
         translateStatementList(statement.getStatements());
         decLevel();
         formatIndent();
-        sb.append("done");
+        sb.append("}");
     }
 
     private void translateIfStatement(final IfStatement statement) {
