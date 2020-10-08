@@ -50,18 +50,17 @@ implements CrossCompiler {
         }
     }
 
-    private void formatAbstractExpressionListWithOperator(final AbstractExpressionListWithOperator expression,
-                                                          final int encapsulatingPriority,
-                                                          final int myPriority) {
+    private void translateAbstractExpressionListWithOperator(final AbstractExpressionListWithOperator expression,
+                                                             final int encapsulatingPriority, final int myPriority) {
         final boolean addParens = expression.getNumExpressions() > 1 && needsParens(encapsulatingPriority, myPriority);
         if (addParens) {
             sb.append('(');
         }
         final int numExpressions = expression.getNumExpressions();
         for (int q = 0; q < numExpressions; q++) {
-            formatExpression(expression.getExpression(q), myPriority);
+            translateExpression(expression.getExpression(q), myPriority);
             if (q < numExpressions - 1) {
-                formatOperatorType(expression.getOperator(q));
+                translateOperatorType(expression.getOperator(q));
             }
         }
         if (addParens) {
@@ -69,15 +68,15 @@ implements CrossCompiler {
         }
     }
 
-    private void formatBooleanValue(final BooleanValue value) {
+    private void translateBooleanValue(final BooleanValue value) {
         if (value.getValue()) {
-            sb.append("TRUE");
+            sb.append("true");
         } else {
-            sb.append("FALSE");
+            sb.append("false");
         }
     }
 
-    private void formatIntegerValue(final IntegerValue value) {
+    private void translateIntegerValue(final IntegerValue value) {
         if (value.isFromCharacterConstant()) {
             sb.append('\'');
             switch (value.getValue()) {
@@ -108,9 +107,9 @@ implements CrossCompiler {
         }
     }
 
-    private void formatNumericValue(final NumericValue value) {
+    private void translateNumericValue(final NumericValue value) {
         if (value instanceof IntegerValue) {
-            formatIntegerValue((IntegerValue) value);
+            translateIntegerValue((IntegerValue) value);
         } else if (value instanceof RealValue) {
             sb.append(((RealValue) value).getValue());
         } else {
@@ -118,56 +117,56 @@ implements CrossCompiler {
         }
     }
 
-    private void formatStringValue(final StringValue value) {
+    private void translateStringValue(final StringValue value) {
         sb.append('"');
-        sb.append(StringUtils.escapeJavaLikeString(value.getValue(), false, false));
+        sb.append(StringUtils.escapeJavaLikeString(value.getValue(), true, true));
         sb.append('"');
     }
 
-    private void formatValue(final Value value) {
+    private void translateValue(final Value value) {
         if (value instanceof ArrayValue) {
             throw new RuntimeException("I though this would only happen when the Evaluator was involved.");
         } else if (value instanceof BooleanValue) {
-            formatBooleanValue((BooleanValue) value);
+            translateBooleanValue((BooleanValue) value);
         } else if (value instanceof NumericValue) {
-            formatNumericValue((NumericValue) value);
+            translateNumericValue((NumericValue) value);
         } else if (value instanceof StringValue) {
-            formatStringValue((StringValue) value);
+            translateStringValue((StringValue) value);
         } else {
             throw new RuntimeException("Unhandled Value type " + value.getClass().getName());
         }
     }
 
-    private void formatVariableExpression(final VariableExpression expression) {
+    private void translateVariableExpression(final VariableExpression expression) {
         sb.append(expression.getVariableName());
     }
 
-    private void formatIndexExpression(final IndexExpression expression) {
-        formatExpression(expression.getArray(), PRI_NONE);
+    private void translateIndexExpression(final IndexExpression expression) {
+        translateExpression(expression.getArray(), PRI_NONE);
         sb.append('[');
         for (int q = 0; q < expression.getNumExpressions(); q++) {
             if (q > 0) {
                 sb.append(", ");
             }
-            formatExpression(expression.getExpression(q), PRI_NONE);
+            translateExpression(expression.getExpression(q), PRI_NONE);
         }
         sb.append(']');
     }
 
-    private void formatFunctionExpression(final FunctionExpression expression) {
+    private void translateFunctionExpression(final FunctionExpression expression) {
         sb.append(expression.getFunctionName());
         sb.append('(');
         for (int q = 0; q < expression.getNumExpressions(); q++) {
             if (q > 0) {
                 sb.append(", ");
             }
-            formatExpression(expression.getExpression(q), PRI_NONE);
+            translateExpression(expression.getExpression(q), PRI_NONE);
         }
         sb.append(')');
     }
 
-    private void formatConditionalExpression(final AbstractExpressionList expressionList, final String separator,
-                                             final int encapsulatingPriority, final int myPriority) {
+    private void translateConditionalExpression(final AbstractExpressionList expressionList, final String separator,
+                                                final int encapsulatingPriority, final int myPriority) {
         final boolean addParens = expressionList.getNumExpressions() > 1 && needsParens(encapsulatingPriority, myPriority);
         if (addParens) {
             sb.append('(');
@@ -176,33 +175,32 @@ implements CrossCompiler {
             if (q > 0) {
                 sb.append(separator);
             }
-            formatExpression(expressionList.getExpression(q), myPriority);
+            translateExpression(expressionList.getExpression(q), myPriority);
         }
         if (addParens) {
             sb.append(')');
         }
     }
 
-    private void formatConditionalOrExpression(final ConditionalOrExpression expression, final int encapsulatingPriority) {
-        formatConditionalExpression(expression, " or ", encapsulatingPriority, PRI_LOGICAL_OR);
+    private void translateConditionalOrExpression(final ConditionalOrExpression expression, final int encapsulatingPriority) {
+        translateConditionalExpression(expression, " or ", encapsulatingPriority, PRI_LOGICAL_OR);
     }
 
-    private void formatConditionalAndExpression(final ConditionalAndExpression expression, final int encapsulatingPriority) {
-        formatConditionalExpression(expression, " and ", encapsulatingPriority, PRI_LOGICAL_AND);
+    private void translateConditionalAndExpression(final ConditionalAndExpression expression, final int encapsulatingPriority) {
+        translateConditionalExpression(expression, " and ", encapsulatingPriority, PRI_LOGICAL_AND);
     }
 
-    private void formatRelationalExpression(final RelationalExpression expression,
-                                            @SuppressWarnings("unused") final int encapsulatingPriority) {
-        formatExpression(expression.getLeftHandSide(), PRI_RELATIONAL);
-        formatOperatorType(expression.getOperator());
-        formatExpression(expression.getRightHandSide(), PRI_RELATIONAL);
+    private void translateRelationalExpression(final RelationalExpression expression, @SuppressWarnings("unused") final int encapsulatingPriority) {
+        translateExpression(expression.getLeftHandSide(), PRI_RELATIONAL);
+        translateOperatorType(expression.getOperator());
+        translateExpression(expression.getRightHandSide(), PRI_RELATIONAL);
     }
 
     private void formatAdditiveExpression(final AdditiveExpression expression, final int encapsulatingPriority) {
-        formatAbstractExpressionListWithOperator(expression, encapsulatingPriority, PRI_ADDITIVE);
+        translateAbstractExpressionListWithOperator(expression, encapsulatingPriority, PRI_ADDITIVE);
     }
 
-    private void formatOperatorType(final OperatorType operator) {
+    private void translateOperatorType(final OperatorType operator) {
         switch (operator) {
             case AND:
                 sb.append(" and ");
@@ -275,16 +273,15 @@ implements CrossCompiler {
         }
     }
 
-    private void formatMultiplicativeExpression(final MultiplicativeExpression expression, final int encapsulatingPriority) {
-        formatAbstractExpressionListWithOperator(expression, encapsulatingPriority, PRI_MULTIPLICATIVE);
+    private void translateMultiplicativeExpression(final MultiplicativeExpression expression, final int encapsulatingPriority) {
+        translateAbstractExpressionListWithOperator(expression, encapsulatingPriority, PRI_MULTIPLICATIVE);
     }
 
-    private void formatExponentialExpression(final ExponentialExpression expression, final int encapsulatingPriority) {
-        formatAbstractExpressionListWithOperator(expression, encapsulatingPriority, PRI_EXPONENTIAL);
+    private void translateExponentialExpression(final ExponentialExpression expression, final int encapsulatingPriority) {
+        translateAbstractExpressionListWithOperator(expression, encapsulatingPriority, PRI_EXPONENTIAL);
     }
 
-    private void formatUnaryExpression(final UnaryExpression expression,
-                                       @SuppressWarnings("unused") final int encapsulatingPriority) {
+    private void translateUnaryExpression(final UnaryExpression expression, @SuppressWarnings("unused") final int encapsulatingPriority) {
         if (expression.isNegate()) {
             switch (expression.getOperatorType()) {
                 case MINUS:
@@ -297,109 +294,109 @@ implements CrossCompiler {
                     throw new RuntimeException("Unhandled negate operator: " + expression.getOperatorType().toString());
             }
         }
-        formatExpression(expression.getExpression(), PRI_UNARY);
+        translateExpression(expression.getExpression(), PRI_UNARY);
     }
 
-    private void formatConstantExpression(final ConstantExpression expression) {
+    private void translateConstantExpression(final ConstantExpression expression) {
         final Value constant = expression.getConstant();
-        formatValue(constant);
+        translateValue(constant);
     }
 
-    private void formatExpression(final Expression expression, final int encapsulatingPriority) {
+    private void translateExpression(final Expression expression, final int encapsulatingPriority) {
         if (expression instanceof VariableExpression) {
-            formatVariableExpression((VariableExpression) expression);
+            translateVariableExpression((VariableExpression) expression);
         } else if (expression instanceof IndexExpression) {
-            formatIndexExpression((IndexExpression) expression);
+            translateIndexExpression((IndexExpression) expression);
         } else if (expression instanceof FunctionExpression) {
-            formatFunctionExpression((FunctionExpression) expression);
+            translateFunctionExpression((FunctionExpression) expression);
         } else if (expression instanceof ConditionalOrExpression) {
-            formatConditionalOrExpression((ConditionalOrExpression) expression, encapsulatingPriority);
+            translateConditionalOrExpression((ConditionalOrExpression) expression, encapsulatingPriority);
         } else if (expression instanceof ConditionalAndExpression) {
-            formatConditionalAndExpression((ConditionalAndExpression) expression, encapsulatingPriority);
+            translateConditionalAndExpression((ConditionalAndExpression) expression, encapsulatingPriority);
         } else if (expression instanceof RelationalExpression) {
-            formatRelationalExpression((RelationalExpression) expression, encapsulatingPriority);
+            translateRelationalExpression((RelationalExpression) expression, encapsulatingPriority);
         } else if (expression instanceof AdditiveExpression) {
             formatAdditiveExpression((AdditiveExpression) expression, encapsulatingPriority);
         } else if (expression instanceof MultiplicativeExpression) {
-            formatMultiplicativeExpression((MultiplicativeExpression) expression, encapsulatingPriority);
+            translateMultiplicativeExpression((MultiplicativeExpression) expression, encapsulatingPriority);
         } else if (expression instanceof ExponentialExpression) {
-            formatExponentialExpression((ExponentialExpression) expression, encapsulatingPriority);
+            translateExponentialExpression((ExponentialExpression) expression, encapsulatingPriority);
         } else if (expression instanceof UnaryExpression) {
-            formatUnaryExpression((UnaryExpression) expression, encapsulatingPriority);
+            translateUnaryExpression((UnaryExpression) expression, encapsulatingPriority);
         } else if (expression instanceof ConstantExpression) {
-            formatConstantExpression((ConstantExpression) expression);
+            translateConstantExpression((ConstantExpression) expression);
         } else {
             throw new RuntimeException("Unhandled Expression type " + expression.getClass().getName());
         }
     }
 
-    private void formatCallStatement(final CallStatement statement) {
-        formatFunctionExpression(statement.getFunctionExpression());
+    private void translateCallStatement(final CallStatement statement) {
+        translateFunctionExpression(statement.getFunctionExpression());
     }
 
-    private void formatAssignableExpression(final AssignableExpression expression, final boolean local) {
+    private void translateAssignableExpression(final AssignableExpression expression, final boolean local) {
         if (local) {
             sb.append(Reserved.LOCAL.toString());
             sb.append(' ');
         }
         if (expression instanceof VariableExpression) {
-            formatVariableExpression((VariableExpression) expression);
+            translateVariableExpression((VariableExpression) expression);
         } else if (expression instanceof IndexExpression) {
-            formatIndexExpression((IndexExpression) expression);
+            translateIndexExpression((IndexExpression) expression);
         } else {
             throw new RuntimeException("Something is forgotten in the state of Denmark");
         }
     }
 
-    private void formatAssignmentStatement(final AssignmentStatement statement) {
+    private void translateAssignmentStatement(final AssignmentStatement statement) {
         final AssignableExpression leftHandSide = statement.getLeftHandSide();
-        formatAssignableExpression(leftHandSide, statement.isLocal());
+        translateAssignableExpression(leftHandSide, statement.isLocal());
         sb.append(" = ");
-        formatExpression(statement.getRightHandSide(), PRI_NONE);
+        translateExpression(statement.getRightHandSide(), PRI_NONE);
     }
 
-    private void formatForStatement(final ForStatement statement) {
+    private void translateForStatement(final ForStatement statement) {
         sb.append("for ");
-        formatAssignableExpression(statement.getAssignable(), false);
+        translateAssignableExpression(statement.getAssignable(), false);
         sb.append(" = ");
-        formatExpression(statement.getFrom(), PRI_NONE);
+        translateExpression(statement.getFrom(), PRI_NONE);
         sb.append(" to ");
-        formatExpression(statement.getTo(), PRI_NONE);
+        translateExpression(statement.getTo(), PRI_NONE);
         if (statement.getStep() != null) {
             sb.append(" step ");
-            formatExpression(statement.getStep(), PRI_NONE);
+            translateExpression(statement.getStep(), PRI_NONE);
         }
         sb.append(" do\n");
         incLevel();
-        formatStatementList(statement.getStatements());
+        translateStatementList(statement.getStatements());
         decLevel();
         formatIndent();
         sb.append("done");
     }
 
-    private void formatRepeatStatement(final RepeatStatement statement) {
+    private void translateRepeatStatement(final RepeatStatement statement) {
         sb.append("repeat ");
-        formatExpression(statement.getTimes(), PRI_NONE);
+        translateExpression(statement.getTimes(), PRI_NONE);
         sb.append(" times\n");
         incLevel();
-        formatStatementList(statement.getStatements());
+        translateStatementList(statement.getStatements());
         decLevel();
         formatIndent();
         sb.append("done");
     }
 
-    private void formatWhileStatement(final WhileStatement statement) {
+    private void translateWhileStatement(final WhileStatement statement) {
         sb.append("while ");
-        formatExpression(statement.getCondition(), PRI_NONE);
+        translateExpression(statement.getCondition(), PRI_NONE);
         sb.append(" do\n");
         incLevel();
-        formatStatementList(statement.getStatements());
+        translateStatementList(statement.getStatements());
         decLevel();
         formatIndent();
         sb.append("done");
     }
 
-    private void formatIfStatement(final IfStatement statement) {
+    private void translateIfStatement(final IfStatement statement) {
         int q = 0;
         for (final Expression condition : statement.getConditions()) {
             if (q == 0) {
@@ -408,10 +405,10 @@ implements CrossCompiler {
                 formatIndent();
                 sb.append("elseif ");
             }
-            formatExpression(condition, PRI_NONE);
+            translateExpression(condition, PRI_NONE);
             sb.append(" then\n");
             incLevel();
-            formatStatementList(statement.getConditionStatements().get(q));
+            translateStatementList(statement.getConditionStatements().get(q));
             decLevel();
             ++q;
         }
@@ -419,22 +416,22 @@ implements CrossCompiler {
             formatIndent();
             sb.append("else\n");
             incLevel();
-            formatStatementList(statement.getElseStatements());
+            translateStatementList(statement.getElseStatements());
             decLevel();
         }
         formatIndent();
         sb.append("endif");
     }
 
-    private void formatReturnStatement(final ReturnStatement statement) {
+    private void translateReturnStatement(final ReturnStatement statement) {
         sb.append("return");
         if (statement.getExpression() != null) {
             sb.append(' ');
-            formatExpression(statement.getExpression(), PRI_NONE);
+            translateExpression(statement.getExpression(), PRI_NONE);
         }
     }
 
-    private void formatFunctionStatement(final FunctionStatement statement) {
+    private void translateFunctionStatement(final FunctionStatement statement) {
         sb.append("function ");
         sb.append(statement.getName());
         sb.append('(');
@@ -447,18 +444,18 @@ implements CrossCompiler {
         }
         sb.append(")\n");
         incLevel();
-        formatStatementList(statement.getStatements());
+        translateStatementList(statement.getStatements());
         decLevel();
         formatIndent();
         sb.append("endfunc");
     }
 
-    private void formatCommentStatement(final CommentStatement statement) {
+    private void translateCommentStatement(final CommentStatement statement) {
         /* TODO: format properly. */
         sb.append(statement.getComment());
     }
 
-    private void formatStatement(final Statement statement) {
+    private void translateStatement(final Statement statement) {
         if (needBlankLine) {
             sb.append('\n');
             needBlankLine = false;
@@ -466,27 +463,27 @@ implements CrossCompiler {
         boolean semicolonNeeded = true;
         formatIndent();
         if (statement instanceof CallStatement) {
-            formatCallStatement((CallStatement) statement);
+            translateCallStatement((CallStatement) statement);
         } else if (statement instanceof AssignmentStatement) {
-            formatAssignmentStatement((AssignmentStatement) statement);
+            translateAssignmentStatement((AssignmentStatement) statement);
         } else if (statement instanceof ForStatement) {
-            formatForStatement((ForStatement) statement);
+            translateForStatement((ForStatement) statement);
         } else if (statement instanceof RepeatStatement) {
-            formatRepeatStatement((RepeatStatement) statement);
+            translateRepeatStatement((RepeatStatement) statement);
         } else if (statement instanceof WhileStatement) {
-            formatWhileStatement((WhileStatement) statement);
+            translateWhileStatement((WhileStatement) statement);
         } else if (statement instanceof IfStatement) {
-            formatIfStatement((IfStatement) statement);
+            translateIfStatement((IfStatement) statement);
         } else if (statement instanceof ReturnStatement) {
-            formatReturnStatement((ReturnStatement) statement);
+            translateReturnStatement((ReturnStatement) statement);
         } else if (statement instanceof FunctionStatement) {
             if (sb.length() > 1 && sb.charAt(sb.length() - 1) == '\n' && sb.charAt(sb.length() - 2) != '\n') {
                 sb.append('\n');
             }
-            formatFunctionStatement((FunctionStatement) statement);
+            translateFunctionStatement((FunctionStatement) statement);
             needBlankLine = true;
         } else if (statement instanceof CommentStatement) {
-            formatCommentStatement((CommentStatement) statement);
+            translateCommentStatement((CommentStatement) statement);
             semicolonNeeded = false;
         } else if (statement instanceof BreakpointStatement) {
             ignore();
@@ -499,9 +496,9 @@ implements CrossCompiler {
         sb.append('\n');
     }
 
-    private void formatStatementList(final StatementList statementList) {
+    private void translateStatementList(final StatementList statementList) {
         for (int q = 0; q < statementList.getNumStatements(); q++) {
-            formatStatement(statementList.getStatement(q));
+            translateStatement(statementList.getStatement(q));
         }
     }
 
@@ -510,7 +507,7 @@ implements CrossCompiler {
         level = 0;
         needBlankLine = false;
         sb = new StringBuilder();
-        formatStatementList(statementList);
+        translateStatementList(statementList);
         return sb.toString();
     }
 
