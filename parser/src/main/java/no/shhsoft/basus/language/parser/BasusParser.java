@@ -139,7 +139,7 @@ public final class BasusParser {
 
     private FunctionExpression parseFunctionExpression(final String name) {
         final TextLocation startLocation = token.getStartLocation();
-        final List<Expression> args = new ArrayList<Expression>();
+        final List<Expression> args = new ArrayList<>();
         while (!isOperatorMatch(OperatorType.RIGHT_PAREN)) {
             args.add(parseExpression());
             if (isOperatorMatch(OperatorType.COMMA)) {
@@ -217,7 +217,7 @@ public final class BasusParser {
     private Expression parsePostfixExpression() {
         final TextLocation startLocation = token.getStartLocation();
         final Expression preExpression = parsePrimaryExpression();
-        final List<Expression> indexExpressions = new ArrayList<Expression>();
+        final List<Expression> indexExpressions = new ArrayList<>();
         if (isOperatorMatch(OperatorType.LEFT_BRACKET)) {
             nextCheckEof();
             for (;;) {
@@ -265,8 +265,8 @@ public final class BasusParser {
 
     private Expression parseExponentialExpression() {
         final TextLocation startLocation = token.getStartLocation();
-        final List<Expression> expressions = new ArrayList<Expression>();
-        final List<OperatorType> operators = new ArrayList<OperatorType>();
+        final List<Expression> expressions = new ArrayList<>();
+        final List<OperatorType> operators = new ArrayList<>();
         expressions.add(parseUnaryExpression());
         while (isOperatorMatch(OperatorType.EXPONENTIATE)) {
             operators.add(token.getOperator());
@@ -279,8 +279,8 @@ public final class BasusParser {
 
     private Expression parseMultiplicativeExpression() {
         final TextLocation startLocation = token.getStartLocation();
-        final List<Expression> expressions = new ArrayList<Expression>();
-        final List<OperatorType> operators = new ArrayList<OperatorType>();
+        final List<Expression> expressions = new ArrayList<>();
+        final List<OperatorType> operators = new ArrayList<>();
         expressions.add(parseExponentialExpression());
         while (isOperatorMatch(OperatorType.MULTIPLY) || isOperatorMatch(OperatorType.DIVIDE)
                || isOperatorMatch(OperatorType.MODULUS)) {
@@ -294,8 +294,8 @@ public final class BasusParser {
 
     private Expression parseAdditiveExpression() {
         final TextLocation startLocation = token.getStartLocation();
-        final List<Expression> expressions = new ArrayList<Expression>();
-        final List<OperatorType> operators = new ArrayList<OperatorType>();
+        final List<Expression> expressions = new ArrayList<>();
+        final List<OperatorType> operators = new ArrayList<>();
         expressions.add(parseMultiplicativeExpression());
         while (isOperatorMatch(OperatorType.PLUS) || isOperatorMatch(OperatorType.MINUS)) {
             operators.add(token.getOperator());
@@ -322,7 +322,7 @@ public final class BasusParser {
 
     private Expression parseConditionalAndExpression() {
         final TextLocation startLocation = token.getStartLocation();
-        final List<Expression> expressions = new ArrayList<Expression>();
+        final List<Expression> expressions = new ArrayList<>();
         expressions.add(parseRelationalExpression());
         while (isOperatorMatch(OperatorType.AND)) {
             nextCheckEof();
@@ -334,7 +334,7 @@ public final class BasusParser {
 
     private Expression parseConditionalOrExpression() {
         final TextLocation startLocation = token.getStartLocation();
-        final List<Expression> expressions = new ArrayList<Expression>();
+        final List<Expression> expressions = new ArrayList<>();
         expressions.add(parseConditionalAndExpression());
         while (isOperatorMatch(OperatorType.OR)) {
             nextCheckEof();
@@ -364,8 +364,8 @@ public final class BasusParser {
     private IfStatement parseIfStatement() {
         ++blockLevel;
         nextCheckEof();
-        final List<Expression> conditions = new ArrayList<Expression>();
-        final List<StatementList> conditionStatements = new ArrayList<StatementList>();
+        final List<Expression> conditions = new ArrayList<>();
+        final List<StatementList> conditionStatements = new ArrayList<>();
         StatementList elseStatements = null;
         for (;;) {
             final Expression condition = parseExpression();
@@ -488,7 +488,7 @@ public final class BasusParser {
             error("err.missingFuncDefLeftParen");
         }
         nextCheckEof();
-        final List<String> argumentList = new ArrayList<String>();
+        final List<String> argumentList = new ArrayList<>();
         while (!isOperatorMatch(OperatorType.RIGHT_PAREN)) {
             if (token.getType() != TokenType.IDENTIFIER) {
                 error("err.functionDefVarNotIdentifier", token.toString());

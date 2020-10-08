@@ -19,8 +19,7 @@ import java.util.Map;
  */
 public final class ImageLoader {
 
-    private GraphicsConfiguration gc = null;
-    private final Map<URL, CachedImage> images = new HashMap<URL, CachedImage>();
+    private final Map<URL, CachedImage> images = new HashMap<>();
 
     private static class CachedImage {
 
@@ -49,15 +48,11 @@ public final class ImageLoader {
     }
 
     private GraphicsConfiguration getGraphicsConfiguration() {
-        if (gc != null) {
-            return gc;
-        }
-        return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice()
-        .getDefaultConfiguration();
+        return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice().getDefaultConfiguration();
     }
 
     private BufferedImage loadManagedImage(final URL url) {
-        BufferedImage img = null;
+        BufferedImage img;
         BufferedImage src;
         BufferedImageOp op = null;
         InputStream in = null;

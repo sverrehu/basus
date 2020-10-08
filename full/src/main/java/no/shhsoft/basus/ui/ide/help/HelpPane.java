@@ -2,6 +2,7 @@ package no.shhsoft.basus.ui.ide.help;
 
 import java.awt.event.KeyEvent;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +25,7 @@ implements HyperlinkListener {
 
     private static final long serialVersionUID = 1L;
     private static final String HELP_DIRECTORY = "/help/";
-    private final List<HelpLocation> documentStack = new ArrayList<HelpLocation>();
+    private final List<HelpLocation> documentStack = new ArrayList<>();
     private String[] searchPrefixes;
     private Map<String, String> synonyms;
 
@@ -63,11 +64,7 @@ implements HyperlinkListener {
         if (data == null) {
             return null;
         }
-        try {
-            return new String(data, "UTF-8");
-        } catch (final UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        return new String(data, StandardCharsets.UTF_8);
     }
 
     private String findDocumentInMultipleDirectories(final String docName) {

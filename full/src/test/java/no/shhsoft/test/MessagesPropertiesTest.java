@@ -47,7 +47,7 @@ public final class MessagesPropertiesTest {
     }
 
     private String[] findMissingKeys(final Properties parent, final Properties child) {
-        final Set<String> missing = new HashSet<String>();
+        final Set<String> missing = new HashSet<>();
         for (final Object key : parent.keySet()) {
             if (child.get(key) == null) {
                 missing.add((String) key);

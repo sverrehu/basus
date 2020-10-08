@@ -3,9 +3,8 @@ package no.shhsoft.basus.resources;
 import static org.junit.Assert.fail;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
-import no.shhsoft.resourcetrav.Resource;
-import no.shhsoft.resourcetrav.ResourceHandler;
 import no.shhsoft.resourcetrav.ResourceTraverser;
 import no.shhsoft.utils.IoUtils;
 import no.shhsoft.utils.StringUtils;
@@ -44,30 +43,21 @@ public final class ResourcesCharacterSanityTest {
 
     private void assertResourceSane(final String name) {
         final byte[] data = IoUtils.readResource(name);
-        try {
-            final String content = new String(data, "UTF-8");
-            if (!isSane(content)) {
-                System.out.println("Bad chars in `" + name + "': " + getNonWhiteListedChars(content));
-                wasError = true;
-            }
-        } catch (final UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
+        final String content = new String(data, StandardCharsets.UTF_8);
+        if (!isSane(content)) {
+            System.out.println("Bad chars in `" + name + "': " + getNonWhiteListedChars(content));
+            wasError = true;
         }
     }
 
     @Test
     public void assertAllResourcesAreSane() {
-        new ResourceTraverser().traverse(new ResourceHandler() {
-            @SuppressWarnings("synthetic-access")
-            @Override
-            public boolean handle(final Resource resource) {
-                final String name = resource.getName();
-                if (name.endsWith(".html") || name.endsWith(".bus")) {
-                    assertResourceSane(name);
-                }
-                return true;
+        new ResourceTraverser().traverse(resource -> {
+            final String name = resource.getName();
+            if (name.endsWith(".html") || name.endsWith(".bus")) {
+                assertResourceSane(name);
             }
-
+            return true;
         }, "examples", "help");
         if (wasError) {
             fail("Found unwanted characters in one or more resources");

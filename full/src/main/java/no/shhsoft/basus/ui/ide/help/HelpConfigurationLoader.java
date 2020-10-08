@@ -62,7 +62,7 @@ extends DefaultHandler {
     private void startSearchPrefixes(final Attributes attributes) {
         assertAttributesSize(attributes, 0, TAG_SEARCH_PREFIXES);
         if (searchPrefixes == null) {
-            searchPrefixes = new ArrayList<String>();
+            searchPrefixes = new ArrayList<>();
         }
     }
 
@@ -81,7 +81,7 @@ extends DefaultHandler {
     private void startSynonyms(final Attributes attributes) {
         assertAttributesSize(attributes, 0, TAG_SYNONYMS);
         if (synonyms == null) {
-            synonyms = new HashMap<String, String>();
+            synonyms = new HashMap<>();
         }
     }
 
@@ -189,11 +189,7 @@ extends DefaultHandler {
             final SAXParserFactory parserFactory = SAXParserFactory.newInstance();
             final SAXParser parser = parserFactory.newSAXParser();
             parser.parse(in, loader);
-        } catch (final SAXException e) {
-            throwable = e;
-        } catch (final IOException e) {
-            throwable = e;
-        } catch (final ParserConfigurationException e) {
+        } catch (final SAXException | ParserConfigurationException | IOException e) {
             throwable = e;
         }
         if (throwable != null) {

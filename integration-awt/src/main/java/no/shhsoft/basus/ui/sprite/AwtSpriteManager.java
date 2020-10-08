@@ -12,7 +12,7 @@ import java.util.List;
  */
 public final class AwtSpriteManager implements SpriteManager {
 
-    private final List<Sprite> sprites = new ArrayList<Sprite>();
+    private final List<Sprite> sprites = new ArrayList<>();
     private static final DepthComparator DEPTH_COMPARATOR = new DepthComparator();
 
     private static class DepthComparator
@@ -61,7 +61,7 @@ public final class AwtSpriteManager implements SpriteManager {
     public Sprite[] getSpritesToDraw() {
         final List<Sprite> spritesToDraw;
         synchronized (sprites) {
-            spritesToDraw = new ArrayList<Sprite>(sprites.size());
+            spritesToDraw = new ArrayList<>(sprites.size());
             for (final Sprite sprite : sprites) {
                 if (sprite.isVisible()) {
                     spritesToDraw.add(sprite);

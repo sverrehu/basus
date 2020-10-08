@@ -2,6 +2,7 @@ package no.shhsoft.basus;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,7 +37,7 @@ implements TerminationRequestListener {
         FORMATTER,
     }
     private static final boolean IDE_AVAILABLE;
-    private final Set<RunType> runTypes = new HashSet<RunType>();
+    private final Set<RunType> runTypes = new HashSet<>();
     private final BasusRunner runner = new BasusRunner();
 
     static {
@@ -65,11 +66,7 @@ implements TerminationRequestListener {
             fatal("Unable to load `" + fileName + "'");
         }
         String text;
-        try {
-            text = new String(data, "UTF-8");
-        } catch (final UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        text = new String(data, StandardCharsets.UTF_8);
         return text;
     }
 

@@ -9,7 +9,7 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>basus-evaluator</artifactId>
+    <artifactId>basus-crosscompilers</artifactId>
     <packaging>jar</packaging>
     <version>${project.parent.version}</version>
     <name>basus-crosscompilers</name>

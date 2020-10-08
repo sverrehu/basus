@@ -26,7 +26,7 @@ implements Tokenizer {
     private int col;
     private int nextLine;
     private int nextCol;
-    private final List<Token> tokenStack = new ArrayList<Token>();
+    private final List<Token> tokenStack = new ArrayList<>();
 
     private TextLocation getCurrentTextLocation() {
         return new TextLocation(line, col, idx);

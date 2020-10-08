@@ -10,8 +10,6 @@ import javax.swing.ActionMap;
 import javax.swing.JTextPane;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultEditorKit;
 import javax.swing.text.DefaultHighlighter;
@@ -104,13 +102,10 @@ implements DocumentListener, KeyListener {
         basusSyntaxDocument = new BasusSyntaxDocument();
         setStyledDocument(basusSyntaxDocument);
         undoManager = new UndoManager();
-        getDocument().addUndoableEditListener(new UndoableEditListener() {
-            @Override
-            public void undoableEditHappened(final UndoableEditEvent e) {
-                if (!basusSyntaxDocument.isHighlighting()) {
-                    undoManager.addEdit(e.getEdit());
-                    notifyProvider();
-                }
+        getDocument().addUndoableEditListener(e -> {
+            if (!basusSyntaxDocument.isHighlighting()) {
+                undoManager.addEdit(e.getEdit());
+                notifyProvider();
             }
         });
         getDocument().addDocumentListener(this);

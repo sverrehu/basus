@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 
 import no.shhsoft.basus.language.eval.runtime.BasusRunner;
 import no.shhsoft.swing.SwingUtils;
@@ -48,7 +49,7 @@ extends Applet {
         runner = new BasusRunner();
         programUrl = getUrlParameter("program");
         try {
-            program = new String(IoUtils.read(programUrl.openStream()), "UTF-8");
+            program = new String(IoUtils.read(programUrl.openStream()), StandardCharsets.UTF_8);
         } catch (final IOException e) {
             throw new RuntimeException(e);
         }
@@ -62,12 +63,7 @@ extends Applet {
     @Override
     public void start() {
         super.start();
-        SwingUtils.invokeAndWait(new Runnable() {
-            @Override
-            public void run() {
-                createGui();
-            }
-        });
+        SwingUtils.invokeAndWait(this::createGui);
         outputCanvas.waitUntilInitiated();
         runner.runProgram(program, outputCanvas, outputCanvas, null, programUrl);
         outputCanvas.requestFocusInWindow();

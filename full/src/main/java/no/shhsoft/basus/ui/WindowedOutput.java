@@ -17,12 +17,7 @@ implements WindowListener {
     private final OutputCanvas outputCanvas;
 
     private void shutdown() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                System.exit(0);
-            }
-        }).start();
+        new Thread(() -> System.exit(0)).start();
     }
 
     public WindowedOutput() {

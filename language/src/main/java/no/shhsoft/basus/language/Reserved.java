@@ -32,7 +32,7 @@ public enum Reserved {
 
     private final String word;
 
-    private Reserved(final String word) {
+    Reserved(final String word) {
         this.word = word;
     }
 

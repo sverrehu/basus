@@ -13,7 +13,7 @@ import no.shhsoft.basus.language.eval.StatementListener;
 public final class DebugController
 implements StatementListener {
 
-    private final List<StepListener> stepListeners = new ArrayList<StepListener>();
+    private final List<StepListener> stepListeners = new ArrayList<>();
 
     private void notifyBeginStatement(final Statement statement, final EvaluationContext context) {
         synchronized (stepListeners) {

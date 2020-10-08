@@ -57,7 +57,7 @@ implements Console, DrawingArea, ComponentListener, KeyListener,
     private boolean cursorVisible;
     private Color backgroundColor;
     private Color foregroundColor;
-    private final Set<Integer> keysPressed = new HashSet<Integer>();
+    private final Set<Integer> keysPressed = new HashSet<>();
     private boolean hasLastKeyCodePressed;
     private int lastKeyCodePressed;
     private boolean autoFlush = true;
@@ -71,7 +71,7 @@ implements Console, DrawingArea, ComponentListener, KeyListener,
     private int screenAreaHeight;
     private boolean scaleAndOffsetLocked = false;
     private final List<TerminationRequestListener> terminationRequestListeners
-        = new ArrayList<TerminationRequestListener>();
+        = new ArrayList<>();
     private int realMouseX;
     private int realMouseY;
     private int mouseButtonFlags;

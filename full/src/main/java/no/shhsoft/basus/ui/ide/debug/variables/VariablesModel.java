@@ -21,7 +21,7 @@ final class VariablesModel
 implements TableModel {
 
     private Variable[] variables = new Variable[0]; /* should never be null */
-    private final List<TableModelListener> tableModelListeners = new ArrayList<TableModelListener>();
+    private final List<TableModelListener> tableModelListeners = new ArrayList<>();
 
     private static class Variable
     implements Comparable<Variable> {

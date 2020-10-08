@@ -4,7 +4,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import no.shhsoft.basus.language.AbstractBasusException;
 import no.shhsoft.basus.language.StatementList;
 import no.shhsoft.basus.language.eval.EvaluationContext;
 import no.shhsoft.basus.language.eval.Evaluator;
@@ -19,7 +18,7 @@ public final class BasusRunner
 implements Runnable {
 
     private Thread thread;
-    private final List<RunStatusListener> runStatusListeners = new ArrayList<RunStatusListener>();
+    private final List<RunStatusListener> runStatusListeners = new ArrayList<>();
     private String program;
     private Throwable lastThrowable;
     private DrawingArea drawingArea;
@@ -53,15 +52,13 @@ implements Runnable {
             final StatementList statements = BasusParser.parse(program);
             evaluator = new Evaluator(statementListener);
             evaluator.evaluate(statements, context);
-        } catch (final AbstractBasusException e) {
-            lastThrowable = e;
         } catch (final StackOverflowError e) {
             System.err.println("Stack overflow");
             lastThrowable = e;
-        } catch (final Throwable t) {
-            lastThrowable = t;
-//            t.printStackTrace(System.err);
-        } finally {
+        } catch (final Throwable e) {
+            lastThrowable = e;
+        }//            t.printStackTrace(System.err);
+        finally {
             synchronized (this) {
                 thread = null;
             }

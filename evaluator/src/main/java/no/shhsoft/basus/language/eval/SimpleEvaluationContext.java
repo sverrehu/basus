@@ -20,7 +20,7 @@ public final class SimpleEvaluationContext
 implements EvaluationContext {
 
     private final long startTime;
-    private final Map<String, Value> variables = new HashMap<String, Value>(1024);
+    private final Map<String, Value> variables = new HashMap<>(1024);
     private final Console console;
     private final DrawingArea drawingArea;
     private SimpleEvaluationContext parent;
@@ -48,7 +48,7 @@ implements EvaluationContext {
         this.console = console;
         this.drawingArea = drawingArea;
         this.sourceUrl = sourceUrl;
-        functions = new HashMap<String, Function>(1024);
+        functions = new HashMap<>(1024);
         startTime = System.currentTimeMillis();
         MathFunctions.register(this);
         ConversionFunctions.register(this);
@@ -123,7 +123,7 @@ implements EvaluationContext {
 
     @Override
     public Set<String> getVariableNames() {
-        final Set<String> variableNames = new HashSet<String>();
+        final Set<String> variableNames = new HashSet<>();
         variableNames.addAll(variables.keySet());
         if (parent != null) {
             variableNames.addAll(parent.getVariableNames());

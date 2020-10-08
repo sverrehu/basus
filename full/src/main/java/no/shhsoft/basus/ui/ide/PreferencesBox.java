@@ -1,10 +1,6 @@
 package no.shhsoft.basus.ui.ide;
 
-
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JCheckBox;
@@ -145,12 +141,9 @@ final class PreferencesBox {
             themeItems[idx++] = new ThemeItem(info.getName());
         }
         theme = new JComboBox(themeItems);
-        theme.addItemListener(new ItemListener() {
-            @Override
-            public void itemStateChanged(final ItemEvent e) {
-                if (e.getStateChange() == ItemEvent.SELECTED) {
-                    parent.applyTheme(((ThemeItem) e.getItem()).getName());
-                }
+        theme.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                parent.applyTheme(((ThemeItem) e.getItem()).getName());
             }
         });
         panel.addFields(new JLabel(I18N.msg("preferences.label.theme")), theme);

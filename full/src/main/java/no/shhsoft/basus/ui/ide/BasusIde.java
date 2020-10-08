@@ -9,8 +9,6 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.Window;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -19,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.security.AccessControlException;
 
 import javax.swing.AbstractButton;
@@ -111,7 +110,7 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
     private AppVersionChecker versionChecker;
     private final BasusFormatter formatter = new BasusFormatter();
 
-    private static enum Confirmation {
+    private enum Confirmation {
         YES, NO, CANCEL,
     }
 
@@ -160,24 +159,21 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
     }
 
     private void shutdown() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if (isFileOperationsAllowed()) {
-                    final File directory = fileChooser.getCurrentDirectory();
-                    AppProps.set("fullScreen", wantsFullScreen);
-                    if (directory != null) {
-                        AppProps.set("directory", directory.toString());
-                    }
-                    try {
-                        AppProps.save();
-                    } catch (final IOException e) {
-                        System.err.println("Error saving properties: " + e.getMessage());
-                    }
+        new Thread(() -> {
+            if (isFileOperationsAllowed()) {
+                final File directory = fileChooser.getCurrentDirectory();
+                AppProps.set("fullScreen", wantsFullScreen);
+                if (directory != null) {
+                    AppProps.set("directory", directory.toString());
                 }
-               if (continueWithoutSaving()) {
-                    System.exit(0);
+                try {
+                    AppProps.save();
+                } catch (final IOException e) {
+                    System.err.println("Error saving properties: " + e.getMessage());
                 }
+            }
+           if (continueWithoutSaving()) {
+                System.exit(0);
             }
         }).start();
     }
@@ -227,11 +223,7 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
             return;
         }
         String text;
-        try {
-            text = new String(data, "UTF-8");
-        } catch (final UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        text = new String(data, StandardCharsets.UTF_8);
         setEditorText(text);
         setCurrentFile(file);
     }
@@ -242,11 +234,7 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
             actualFile = new File(file.getPath() + ".bus");
         }
         byte[] data;
-        try {
-            data = editor.getText().getBytes("UTF-8");
-        } catch (final UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-        }
+        data = editor.getText().getBytes(StandardCharsets.UTF_8);
         try {
             IoUtils.writeFile(actualFile.getPath(), data);
             editor.setChanged(false);
@@ -376,30 +364,15 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
         final JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout(FlowLayout.LEFT));
         runButton = createButton(I18N.msg("butt.run"));
-        runButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                startRunning(RunMode.NORMAL);
-            }
-        });
+        runButton.addActionListener(e -> startRunning(RunMode.NORMAL));
         panel.add(runButton);
         stopButton = createButton(I18N.msg("butt.stop"));
         stopButton.setEnabled(false);
-        stopButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                runner.stopProgram();
-            }
-        });
+        stopButton.addActionListener(e -> runner.stopProgram());
         panel.add(stopButton);
         final JCheckBox fullScreenCheckBox = new JCheckBox(I18N.msg("butt.fullScreen"));
         fullScreenCheckBox.setSelected(wantsFullScreen);
-        fullScreenCheckBox.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                wantsFullScreen = fullScreenCheckBox.isSelected();
-            }
-        });
+        fullScreenCheckBox.addActionListener(e -> wantsFullScreen = fullScreenCheckBox.isSelected());
         panel.add(fullScreenCheckBox);
         return panel;
     }
@@ -471,19 +444,12 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
 
     private JMenuItem createExampleMenuItem(final String name) {
         final JMenuItem item = createJMenuItem("example." + name);
-        item.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent event) {
-                String program;
-                try {
-                    program = new String(I18N.readResource("/examples/", name), "UTF-8");
-                } catch (final UnsupportedEncodingException e) {
-                    throw new RuntimeException(e);
-                }
-                if (continueWithoutSaving()) {
-                    setEditorText(program);
-                    setCurrentFile(null);
-                }
+        item.addActionListener(event -> {
+            String program;
+            program = new String(I18N.readResource("/examples/", name), StandardCharsets.UTF_8);
+            if (continueWithoutSaving()) {
+                setEditorText(program);
+                setCurrentFile(null);
             }
         });
         return item;
@@ -502,29 +468,14 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
         menuRunRun = createJMenuItem("menu.run.run");
         setAccelKey(menuRunRun, KeyEvent.VK_F11);
         menuRun.add(menuRunRun);
-        menuRunRun.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                startRunning(RunMode.NORMAL);
-            }
-        });
+        menuRunRun.addActionListener(e -> startRunning(RunMode.NORMAL));
         menuRunStep = createJMenuItem("menu.run.step");
         menuRun.add(menuRunStep);
-        menuRunStep.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                startRunning(RunMode.AUTO_STEP);
-            }
-        });
+        menuRunStep.addActionListener(e -> startRunning(RunMode.AUTO_STEP));
         menuRunStop = createJMenuItem("menu.run.stop");
         setAccelKey(menuRunStop, KeyEvent.VK_F12);
         menuRun.add(menuRunStop);
-        menuRunStop.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                runner.stopProgram();
-            }
-        });
+        menuRunStop.addActionListener(e -> runner.stopProgram());
         return menuRun;
     }
 
@@ -540,53 +491,23 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
         final JMenuItem menuFileExit = createJMenuItem("menu.file.exit");
         menuBar.add(menuFile);
         menuFile.add(menuFileNew);
-        menuFileNew.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                newFile();
-            }
-        });
+        menuFileNew.addActionListener(e -> newFile());
         if (allowFileOperations) {
             setAccelKeyWithCtrl(menuFileOpen, 'O');
             menuFile.add(menuFileOpen);
-            menuFileOpen.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(final ActionEvent e) {
-                    open();
-                }
-            });
+            menuFileOpen.addActionListener(e -> open());
             setAccelKeyWithCtrl(menuFileSave, 'S');
             menuFile.add(menuFileSave);
-            menuFileSave.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(final ActionEvent e) {
-                    save();
-                }
-            });
+            menuFileSave.addActionListener(e -> save());
             menuFile.add(menuFileSaveAs);
-            menuFileSaveAs.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(final ActionEvent e) {
-                    saveAs();
-                }
-            });
+            menuFileSaveAs.addActionListener(e -> saveAs());
         }
         menuFile.add(new JSeparator());
         menuFile.add(menuFilePreferences);
-        menuFilePreferences.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                preferencesBox.open();
-            }
-        });
+        menuFilePreferences.addActionListener(e -> preferencesBox.open());
         menuFile.add(new JSeparator());
         menuFile.add(menuFileExit);
-        menuFileExit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                shutdown();
-            }
-        });
+        menuFileExit.addActionListener(e -> shutdown());
 
         final JMenu menuEdit = createJMenu("menu.edit");
         menuEditUndo = createJMenuItem("menu.edit.undo");
@@ -598,53 +519,23 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
         menuBar.add(menuEdit);
         setAccelKeyWithCtrl(menuEditUndo, 'Z');
         menuEdit.add(menuEditUndo);
-        menuEditUndo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                editor.undo();
-            }
-        });
+        menuEditUndo.addActionListener(e -> editor.undo());
         setAccelKeyWithCtrl(menuEditRedo, 'Y');
         menuEdit.add(menuEditRedo);
-        menuEditRedo.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                editor.redo();
-            }
-        });
+        menuEditRedo.addActionListener(e -> editor.redo());
         menuEdit.add(new JSeparator());
         setAccelKeyWithCtrl(menuEditCut, 'X');
         menuEdit.add(menuEditCut);
-        menuEditCut.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                editor.cut();
-            }
-        });
+        menuEditCut.addActionListener(e -> editor.cut());
         setAccelKeyWithCtrl(menuEditCopy, 'C');
         menuEdit.add(menuEditCopy);
-        menuEditCopy.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                editor.copy();
-            }
-        });
+        menuEditCopy.addActionListener(e -> editor.copy());
         setAccelKeyWithCtrl(menuEditPaste, 'V');
         menuEdit.add(menuEditPaste);
-        menuEditPaste.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                editor.paste();
-            }
-        });
+        menuEditPaste.addActionListener(e -> editor.paste());
         menuEdit.add(new JSeparator());
         menuEdit.add(menuEditFormat);
-        menuEditFormat.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                format();
-            }
-        });
+        menuEditFormat.addActionListener(e -> format());
 
         menuBar.add(createRunMenu());
 
@@ -670,21 +561,11 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
         menuBar.add(menuHelp);
         final JMenuItem menuHelpContents = createJMenuItem("menu.help.contents");
         menuHelp.add(menuHelpContents);
-        menuHelpContents.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                helpWindow.openContents();
-            }
-        });
+        menuHelpContents.addActionListener(e -> helpWindow.openContents());
         menuHelp.add(new JSeparator());
         final JMenuItem menuHelpAbout = createJMenuItem("menu.help.about");
         menuHelp.add(menuHelpAbout);
-        menuHelpAbout.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(final ActionEvent e) {
-                aboutBox.open();
-            }
-        });
+        menuHelpAbout.addActionListener(e -> aboutBox.open());
 
         return menuBar;
     }
@@ -710,10 +591,7 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
             } catch (final Exception e) {
                 System.out.println("You're running a pre 1.6 Java.");
             }
-        } catch (final AccessControlException e) {
-            /* probably running with Java WebStart. */
-            setFileOperationsAllowed(false);
-        } catch (final ExceptionInInitializerError e) {
+        } catch (final AccessControlException | ExceptionInInitializerError e) {
             /* probably running with Java WebStart. */
             setFileOperationsAllowed(false);
         }
@@ -771,12 +649,7 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
         setDefaultDimension(screenSize.width - 50, screenSize.height - 70);
         setDefaultMaximized(true);
         setTitle(I18N.msg("window.title.main"));
-        SwingUtils.invokeAndWait(new Runnable() {
-            @Override
-            public void run() {
-                createAndShow();
-            }
-        });
+        SwingUtils.invokeAndWait(this::createAndShow);
     }
 
     public DrawingArea getDrawingArea() {
@@ -795,12 +668,7 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
         menuRunStep.setEnabled(false);
         menuRunStop.setEnabled(true);
         message.setText("");
-        SwingUtils.invokeAndWait(new Runnable() {
-            @Override
-            public void run() {
-                outputCanvas.requestFocusInWindow();
-            }
-        });
+        SwingUtils.invokeAndWait(() -> outputCanvas.requestFocusInWindow());
     }
 
     private void displayThrowable(final Throwable throwable) {
@@ -841,12 +709,9 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
         if (throwable != null) {
             displayThrowable(throwable);
         }
-        SwingUtils.invokeAndWait(new Runnable() {
-            @Override
-            public void run() {
-                editor.requestFocusInWindow();
-                conditionallyReportNewVersion();
-            }
+        SwingUtils.invokeAndWait(() -> {
+            editor.requestFocusInWindow();
+            conditionallyReportNewVersion();
         });
     }
 
@@ -886,45 +751,27 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
             sb.append(currentFile.getName());
             setCurrentSourceUrl(IoUtils.fileToUrl(currentFile));
         }
-        SwingUtils.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                setTitle(sb.toString());
-            }
-        });
+        SwingUtils.invokeLater(() -> setTitle(sb.toString()));
     }
 
     public void loadFile(final String filename) {
         if (filename == null) {
             return;
         }
-        SwingUtils.invokeAndWait(new Runnable() {
-            @Override
-            public void run() {
-                unconditionalOpen(new File(filename));
-            }
-        });
+        SwingUtils.invokeAndWait(() -> unconditionalOpen(new File(filename)));
     }
 
     public void runCurrentProgram() {
-        SwingUtils.invokeAndWait(new Runnable() {
-            @Override
-            public void run() {
-                startRunning(RunMode.NORMAL);
-            }
-        });
+        SwingUtils.invokeAndWait(() -> startRunning(RunMode.NORMAL));
     }
 
     void format() {
-        SwingUtils.invokeAndWait(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    final String formattedProgram = formatter.format(editor.getText());
-                    editor.setText(formattedProgram);
-                } catch (final ParserException e) {
-                    displayThrowable(e);
-                }
+        SwingUtils.invokeAndWait(() -> {
+            try {
+                final String formattedProgram = formatter.format(editor.getText());
+                editor.setText(formattedProgram);
+            } catch (final ParserException e) {
+                displayThrowable(e);
             }
         });
     }
@@ -941,12 +788,7 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
     @Override
     public void beginStatement(final Statement statement, final EvaluationContext context) {
         long t = System.currentTimeMillis();
-        SwingUtils.invokeAndWait(new Runnable() {
-            @Override
-            public void run() {
-                editor.setStepHighlightedText(statement.getStartLocation(), statement.getStartLocation());
-            }
-        });
+        SwingUtils.invokeAndWait(() -> editor.setStepHighlightedText(statement.getStartLocation(), statement.getStartLocation()));
         t = STEP_WAIT_MS - (System.currentTimeMillis() - t);
         try {
             if (t > 0L) {

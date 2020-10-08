@@ -53,7 +53,7 @@ public final class BasusStyleParser {
     }
 
     public List<StyleArea> getStyleAreas(final String basusProgram) {
-        final List<StyleArea> styleAreas = new ArrayList<StyleArea>();
+        final List<StyleArea> styleAreas = new ArrayList<>();
         try {
             final BasusTokenizer tokenizer = new BasusTokenizer(basusProgram, true);
             for (;;) {
