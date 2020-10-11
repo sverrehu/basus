@@ -26,6 +26,7 @@ implements CrossCompiler {
     private static final int PRI_EXPONENTIAL = 2;
     private static final int PRI_UNARY = 1;
 
+    private static final String VARIABLE_ASSIGNMENT_KEYWORD = "var";
     private static final String INDENT_STRING = "    ";
     private int level = 0;
     private StringBuilder sb;
@@ -340,7 +341,7 @@ implements CrossCompiler {
 
     private void translateAssignableExpression(final AssignableExpression expression, final boolean local) {
         if (local) {
-            sb.append("let ");
+            sb.append(VARIABLE_ASSIGNMENT_KEYWORD + " ");
         }
         if (expression instanceof VariableExpression) {
             translateVariableExpression((VariableExpression) expression);
@@ -353,21 +354,28 @@ implements CrossCompiler {
 
     private void translateAssignmentStatement(final AssignmentStatement statement) {
         final AssignableExpression leftHandSide = statement.getLeftHandSide();
+        sb.append(VARIABLE_ASSIGNMENT_KEYWORD + " ");
         translateAssignableExpression(leftHandSide, statement.isLocal());
         sb.append(" = ");
         translateExpression(statement.getRightHandSide(), PRI_NONE);
     }
 
     private void translateForStatement(final ForStatement statement) {
-        sb.append("for (");
+        sb.append("for (let ");
         translateAssignableExpression(statement.getAssignable(), false);
         sb.append(" = ");
         translateExpression(statement.getFrom(), PRI_NONE);
         sb.append("; ");
+        translateAssignableExpression(statement.getAssignable(), false);
+        sb.append(" <= ");
         translateExpression(statement.getTo(), PRI_NONE);
+        sb.append("; ");
+        translateAssignableExpression(statement.getAssignable(), false);
         if (statement.getStep() != null) {
-            sb.append(" step ");
+            sb.append(" += ");
             translateExpression(statement.getStep(), PRI_NONE);
+        } else {
+            sb.append("++");
         }
         sb.append(") {\n");
         incLevel();
@@ -406,7 +414,7 @@ implements CrossCompiler {
                 sb.append("if (");
             } else {
                 formatIndent();
-                sb.append("else if (");
+                sb.append("} else if (");
             }
             translateExpression(condition, PRI_NONE);
             sb.append(") {\n");
