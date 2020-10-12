@@ -354,15 +354,14 @@ implements CrossCompiler {
 
     private void translateAssignmentStatement(final AssignmentStatement statement) {
         final AssignableExpression leftHandSide = statement.getLeftHandSide();
-        sb.append(VARIABLE_ASSIGNMENT_KEYWORD + " ");
         translateAssignableExpression(leftHandSide, statement.isLocal());
         sb.append(" = ");
         translateExpression(statement.getRightHandSide(), PRI_NONE);
     }
 
     private void translateForStatement(final ForStatement statement) {
-        sb.append("for (let ");
-        translateAssignableExpression(statement.getAssignable(), false);
+        sb.append("for (");
+        translateAssignableExpression(statement.getAssignable(), true);
         sb.append(" = ");
         translateExpression(statement.getFrom(), PRI_NONE);
         sb.append("; ");
