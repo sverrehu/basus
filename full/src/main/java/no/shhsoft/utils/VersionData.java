@@ -28,7 +28,7 @@ public final class VersionData {
         final String timeStamp = properties.getProperty("timestamp");
         int serial;
         try {
-            serial = Integer.valueOf(properties.getProperty("serial")).intValue();
+            serial = Integer.parseInt(properties.getProperty("serial"));
         } catch (final NumberFormatException e) {
             serial = -1;
         }
