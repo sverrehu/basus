@@ -19,12 +19,17 @@
 
         <dependency>
             <groupId>no.shhsoft</groupId>
+            <artifactId>basus-language</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>no.shhsoft</groupId>
             <artifactId>basus-parser</artifactId>
         </dependency>
 
         <dependency>
             <groupId>no.shhsoft</groupId>
-            <artifactId>basus-language</artifactId>
+            <artifactId>basus-evaluator</artifactId>
         </dependency>
 
         <dependency>
