@@ -6,6 +6,9 @@ import no.shhsoft.basus.value.NumericValue;
 import no.shhsoft.basus.value.StringValue;
 import no.shhsoft.basus.value.Value;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author <a href="mailto:shh@thathost.com">Sverre H. Huseby</a>
  */
@@ -17,6 +20,9 @@ final class StringFunctions {
     private static final Function INDEX_OF = new IndexOf();
     private static final Function TO_UPPER = new ToUpper();
     private static final Function TO_LOWER = new ToLower();
+    static final List<Function> ALL_FUNCTIONS = Arrays.asList(
+        LENGTH, SUBSTRING, CHAR_AT, INDEX_OF, TO_UPPER, TO_LOWER
+    );
 
     private StringFunctions() {
     }
@@ -205,12 +211,9 @@ final class StringFunctions {
     }
 
     public static void register(final SimpleEvaluationContext context) {
-        context.registerFunction(LENGTH);
-        context.registerFunction(SUBSTRING);
-        context.registerFunction(CHAR_AT);
-        context.registerFunction(INDEX_OF);
-        context.registerFunction(TO_UPPER);
-        context.registerFunction(TO_LOWER);
+        for (final Function function : ALL_FUNCTIONS) {
+            context.registerFunction(function);
+        }
     }
 
 }

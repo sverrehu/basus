@@ -11,6 +11,9 @@ import no.shhsoft.basus.value.SpriteValue;
 import no.shhsoft.basus.value.StringValue;
 import no.shhsoft.basus.value.Value;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author <a href="mailto:shh@thathost.com">Sverre H. Huseby</a>
  */
@@ -24,6 +27,10 @@ final class ConversionFunctions {
     private static final Function TO_SPRITE = new ToSprite();
     private static final Function IS_VALID_INTEGER = new IsValidInteger();
     private static final Function IS_VALID_REAL = new IsValidReal();
+    static final List<Function> ALL_FUNCTIONS = Arrays.asList(
+        TO_STRING, CHAR_TO_STRING, TO_INTEGER, TO_REAL, TO_CHAR, TO_SPRITE,
+        IS_VALID_INTEGER, IS_VALID_REAL
+    );
 
     private ConversionFunctions() {
     }
@@ -217,14 +224,9 @@ final class ConversionFunctions {
     }
 
     public static void register(final SimpleEvaluationContext context) {
-        context.registerFunction(TO_STRING);
-        context.registerFunction(CHAR_TO_STRING);
-        context.registerFunction(TO_INTEGER);
-        context.registerFunction(TO_REAL);
-        context.registerFunction(TO_CHAR);
-        context.registerFunction(TO_SPRITE);
-        context.registerFunction(IS_VALID_INTEGER);
-        context.registerFunction(IS_VALID_REAL);
+        for (final Function function : ALL_FUNCTIONS) {
+            context.registerFunction(function);
+        }
     }
 
 }

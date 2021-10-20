@@ -6,6 +6,9 @@ import no.shhsoft.basus.value.IntegerValue;
 import no.shhsoft.basus.value.NumericValue;
 import no.shhsoft.basus.value.Value;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author <a href="mailto:shh@thathost.com">Sverre H. Huseby</a>
  */
@@ -17,6 +20,9 @@ final class MiscFunctions {
     private static final Function TIME = new Time();
     private static final Function EXIT = new Exit();
     private static final Function MAX_INDEX = new MaxIndex();
+    static final List<Function> ALL_FUNCTIONS = Arrays.asList(
+        PRINT, PRINTLN, WAIT, TIME, EXIT, MAX_INDEX
+    );
 
     private MiscFunctions() {
     }
@@ -137,12 +143,9 @@ final class MiscFunctions {
     }
 
     public static void register(final SimpleEvaluationContext context) {
-        context.registerFunction(PRINT);
-        context.registerFunction(PRINTLN);
-        context.registerFunction(WAIT);
-        context.registerFunction(TIME);
-        context.registerFunction(EXIT);
-        context.registerFunction(MAX_INDEX);
+        for (final Function function : ALL_FUNCTIONS) {
+            context.registerFunction(function);
+        }
     }
 
 }

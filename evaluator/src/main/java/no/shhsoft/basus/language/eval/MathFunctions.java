@@ -6,6 +6,9 @@ import no.shhsoft.basus.value.NumericValue;
 import no.shhsoft.basus.value.RealValue;
 import no.shhsoft.basus.value.Value;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author <a href="mailto:shh@thathost.com">Sverre H. Huseby</a>
  */
@@ -37,6 +40,11 @@ final class MathFunctions {
     private static final Function RANDOM = new Random();
     private static final Function MIN = new Min();
     private static final Function MAX = new Max();
+    static final List<Function> ALL_FUNCTIONS = Arrays.asList(
+        SIN, COS, TAN, ASIN, ACOS, ATAN, SINR, COSR, TANR, ASINR, ACOSR,
+        ATANR, SINH, COSH, TANH, ABS, CBRT, CEIL, FLOOR, LOG, LOG10, ROUND,
+        SQRT, RANDOM, MIN, MAX
+    );
 
     private MathFunctions() {
     }
@@ -473,32 +481,9 @@ final class MathFunctions {
     }
 
     public static void register(final SimpleEvaluationContext context) {
-        context.registerFunction(SIN);
-        context.registerFunction(COS);
-        context.registerFunction(TAN);
-        context.registerFunction(ASIN);
-        context.registerFunction(ACOS);
-        context.registerFunction(ATAN);
-        context.registerFunction(SINR);
-        context.registerFunction(COSR);
-        context.registerFunction(TANR);
-        context.registerFunction(ASINR);
-        context.registerFunction(ACOSR);
-        context.registerFunction(ATANR);
-        context.registerFunction(SINH);
-        context.registerFunction(COSH);
-        context.registerFunction(TANH);
-        context.registerFunction(ABS);
-        context.registerFunction(CBRT);
-        context.registerFunction(CEIL);
-        context.registerFunction(FLOOR);
-        context.registerFunction(LOG);
-        context.registerFunction(LOG10);
-        context.registerFunction(ROUND);
-        context.registerFunction(SQRT);
-        context.registerFunction(RANDOM);
-        context.registerFunction(MIN);
-        context.registerFunction(MAX);
+        for (final Function function : ALL_FUNCTIONS) {
+            context.registerFunction(function);
+        }
     }
 
 }

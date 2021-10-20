@@ -4,6 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
+import java.util.Arrays;
+import java.util.List;
 
 import no.shhsoft.basus.language.eval.runtime.DrawingArea;
 import no.shhsoft.basus.utils.TextLocationHolder;
@@ -52,6 +54,14 @@ final class GraphicFunctions {
     private static final Function SPRITE_VISIBLE = new SpriteVisible();
     private static final Function SPRITE_DEPTH = new SpriteDepth();
     private static final Function SPRITE_COLLISION = new SpriteCollision();
+    static final List<Function> ALL_FUNCTIONS = Arrays.asList(
+        WIDTH, HEIGHT, CLS, BACKGROUND, COLOR, PLOT, LINE, RECT, FILL_RECT,
+        CIRCLE, FILL_CIRCLE, SHAPE, FILL_SHAPE, AUTO_FLUSH, FLUSH, GET_RED,
+        GET_GREEN, GET_BLUE, IS_BACKGROUND, CAPTURE_BACKGROUND,
+        CLEAR_BACKGROUND, LOAD_IMAGE, SCALE_IMAGE, SUB_IMAGE, DRAW_IMAGE,
+        SPRITE_MOVE, SPRITE_X, SPRITE_Y, SPRITE_VISIBLE, SPRITE_DEPTH,
+        SPRITE_COLLISION
+    );
 
     private GraphicFunctions() {
     }
@@ -656,39 +666,10 @@ final class GraphicFunctions {
 
     }
 
-
     public static void register(final SimpleEvaluationContext context) {
-        context.registerFunction(WIDTH);
-        context.registerFunction(HEIGHT);
-        context.registerFunction(CLS);
-        context.registerFunction(BACKGROUND);
-        context.registerFunction(COLOR);
-        context.registerFunction(PLOT);
-        context.registerFunction(LINE);
-        context.registerFunction(RECT);
-        context.registerFunction(FILL_RECT);
-        context.registerFunction(CIRCLE);
-        context.registerFunction(FILL_CIRCLE);
-        context.registerFunction(SHAPE);
-        context.registerFunction(FILL_SHAPE);
-        context.registerFunction(AUTO_FLUSH);
-        context.registerFunction(FLUSH);
-        context.registerFunction(GET_RED);
-        context.registerFunction(GET_GREEN);
-        context.registerFunction(GET_BLUE);
-        context.registerFunction(IS_BACKGROUND);
-        context.registerFunction(CAPTURE_BACKGROUND);
-        context.registerFunction(CLEAR_BACKGROUND);
-        context.registerFunction(LOAD_IMAGE);
-        context.registerFunction(SCALE_IMAGE);
-        context.registerFunction(SUB_IMAGE);
-        context.registerFunction(DRAW_IMAGE);
-        context.registerFunction(SPRITE_MOVE);
-        context.registerFunction(SPRITE_X);
-        context.registerFunction(SPRITE_Y);
-        context.registerFunction(SPRITE_VISIBLE);
-        context.registerFunction(SPRITE_DEPTH);
-        context.registerFunction(SPRITE_COLLISION);
+        for (final Function function : ALL_FUNCTIONS) {
+            context.registerFunction(function);
+        }
     }
 
 }

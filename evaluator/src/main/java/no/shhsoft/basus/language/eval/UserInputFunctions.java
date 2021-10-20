@@ -7,6 +7,9 @@ import no.shhsoft.basus.value.NumericValue;
 import no.shhsoft.basus.value.StringValue;
 import no.shhsoft.basus.value.Value;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author <a href="mailto:shh@thathost.com">Sverre H. Huseby</a>
  */
@@ -20,6 +23,10 @@ final class UserInputFunctions {
     private static final Function MOUSE_X = new MouseX();
     private static final Function MOUSE_Y = new MouseY();
     private static final Function MOUSE_BUTTON_PRESSED = new MouseButtonPressed();
+    static final List<Function> ALL_FUNCTIONS = Arrays.asList(
+        READLN, READ_CHAR, WAIT_KEY, CLEAR_KEYBOARD_BUFFER, KEY_PRESSED,
+        MOUSE_X, MOUSE_Y, MOUSE_BUTTON_PRESSED
+    );
 
     private UserInputFunctions() {
     }
@@ -151,14 +158,9 @@ final class UserInputFunctions {
     }
 
     public static void register(final SimpleEvaluationContext context) {
-        context.registerFunction(READLN);
-        context.registerFunction(READ_CHAR);
-        context.registerFunction(WAIT_KEY);
-        context.registerFunction(CLEAR_KEYBOARD_BUFFER);
-        context.registerFunction(KEY_PRESSED);
-        context.registerFunction(MOUSE_X);
-        context.registerFunction(MOUSE_Y);
-        context.registerFunction(MOUSE_BUTTON_PRESSED);
+        for (final Function function : ALL_FUNCTIONS) {
+            context.registerFunction(function);
+        }
     }
 
 }
