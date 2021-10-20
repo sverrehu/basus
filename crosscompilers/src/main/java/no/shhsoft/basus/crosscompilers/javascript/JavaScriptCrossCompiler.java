@@ -2,6 +2,7 @@ package no.shhsoft.basus.crosscompilers.javascript;
 
 import no.shhsoft.basus.crosscompilers.CrossCompiler;
 import no.shhsoft.basus.language.*;
+import no.shhsoft.basus.language.eval.BuiltinFunctions;
 import no.shhsoft.basus.language.parser.BasusParser;
 import no.shhsoft.basus.value.*;
 import no.shhsoft.utils.IoUtils;
@@ -28,6 +29,7 @@ implements CrossCompiler {
 
     private static final String VARIABLE_ASSIGNMENT_KEYWORD = "var";
     private static final String INDENT_STRING = "    ";
+    private static final String BUILTIN_FUNCTION_PREFIX = "__basus";
     private int level = 0;
     private StringBuilder sb;
     private boolean needBlankLine;
@@ -159,6 +161,9 @@ implements CrossCompiler {
     }
 
     private void translateFunctionExpression(final FunctionExpression expression) {
+        if (BuiltinFunctions.isBuiltin(expression.getFunctionName())) {
+            sb.append(BUILTIN_FUNCTION_PREFIX + ".");
+        }
         sb.append(expression.getFunctionName());
         sb.append('(');
         for (int q = 0; q < expression.getNumExpressions(); q++) {
@@ -518,10 +523,12 @@ implements CrossCompiler {
 
     @Override
     public String compile(final StatementList statementList) {
-        level = 0;
-        needBlankLine = false;
         sb = new StringBuilder();
+        sb.append("(function() {\n    \"use strict\";\n\n");
+        level = 1;
+        needBlankLine = false;
         translateStatementList(statementList);
+        sb.append("\n})();\n");
         return sb.toString();
     }
 
