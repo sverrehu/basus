@@ -559,7 +559,10 @@ implements CrossCompiler {
     }
 
     public static void main(final String[] args) {
-        final String code = new String(IoUtils.readFile(System.getProperty("user.home") + "/basus/spaceWar.bus"));
+        //final String code = new String(IoUtils.readFile(System.getProperty("user.home") + "/basus/spaceWar.bus"));
+        final String code = "for n = 0 to 10 do\n" +
+                            "    println(random());\n" +
+                            "done;\n";
         final String js = new JavaScriptCrossCompiler().compile(code);
         System.out.println(js);
         checkJavaScript(js);
