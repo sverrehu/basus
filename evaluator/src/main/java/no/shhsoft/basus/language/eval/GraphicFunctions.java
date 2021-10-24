@@ -451,7 +451,7 @@ final class GraphicFunctions {
         @Override
         protected Value implCall(final EvaluationContext context,
                                  final TextLocationHolder locationHolder, final Value[] args) {
-            context.getDrawingArea().captureBackgroundImage();
+            context.getDrawingArea().clearBackgroundImage();
             return IntegerValue.ZERO;
         }
 
