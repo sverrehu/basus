@@ -359,7 +359,7 @@ implements CrossCompiler {
 
     private void translateAssignmentStatement(final AssignmentStatement statement) {
         final AssignableExpression leftHandSide = statement.getLeftHandSide();
-        translateAssignableExpression(leftHandSide, true);
+        translateAssignableExpression(leftHandSide, leftHandSide instanceof VariableExpression);
         sb.append(" = ");
         translateExpression(statement.getRightHandSide(), PRI_NONE);
     }
