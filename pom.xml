@@ -118,7 +118,7 @@
                 <groupId>org.mozilla</groupId>
                 <artifactId>rhino</artifactId>
                 <version>1.7.13</version>
-                <scope>test</scope>
+                <scope>compile</scope>
             </dependency>
 
             <dependency>

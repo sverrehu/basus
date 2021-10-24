@@ -52,11 +52,6 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.mozilla</groupId>
-            <artifactId>rhino</artifactId>
-            <scope>compile</scope>
-        </dependency>
 
     </dependencies>
 

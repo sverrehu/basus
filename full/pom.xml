@@ -50,6 +50,12 @@
         <!--
         <dependency>
             <groupId>no.shhsoft</groupId>
+            <artifactId>basus-crosscompilers</artifactId>
+        </dependency>
+
+        <!--
+        <dependency>
+            <groupId>no.shhsoft</groupId>
             <artifactId>basus-applet</artifactId>
         </dependency>
         -->
