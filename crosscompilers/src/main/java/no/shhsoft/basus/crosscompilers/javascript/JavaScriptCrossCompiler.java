@@ -359,7 +359,7 @@ implements CrossCompiler {
 
     private void translateAssignmentStatement(final AssignmentStatement statement) {
         final AssignableExpression leftHandSide = statement.getLeftHandSide();
-        translateAssignableExpression(leftHandSide, statement.isLocal());
+        translateAssignableExpression(leftHandSide, true);
         sb.append(" = ");
         translateExpression(statement.getRightHandSide(), PRI_NONE);
     }
@@ -524,11 +524,11 @@ implements CrossCompiler {
     @Override
     public String compile(final StatementList statementList) {
         sb = new StringBuilder();
-        sb.append("(function() {\n    \"use strict\";\n\n");
+        sb.append("shh.addOnload(function() {\n    \"use strict\";\n\n");
         level = 1;
         needBlankLine = false;
         translateStatementList(statementList);
-        sb.append("\n})();\n");
+        sb.append("\n});\n");
         return sb.toString();
     }
 
