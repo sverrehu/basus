@@ -536,16 +536,35 @@ implements CrossCompiler {
         }
     }
 
+    private String predefineVariables() {
+        final StringBuilder sb = new StringBuilder();
+        for (final AssignmentStatement assignmentStatement : assignmentStatements) {
+            if (assignmentStatement.isLocal()) {
+                continue;
+            }
+            final AssignableExpression leftHandSide = assignmentStatement.getLeftHandSide();
+            if (leftHandSide instanceof IndexExpression) {
+                sb.append("    var " + ((VariableExpression) ((IndexExpression) leftHandSide).getArray()).getVariableName() + " = [];\n");
+            } else {
+                sb.append("    var " + ((VariableExpression) leftHandSide).getVariableName() + ";\n");
+            }
+        }
+        return sb.toString();
+    }
+
     @Override
     public String compile(final StatementList statementList) {
-        sb = new StringBuilder();
         assignmentStatements = new ArrayList<>();
-        sb.append("shh.addOnload(function() {\n    \"use strict\";\n\n");
         level = 1;
         needBlankLine = false;
+        sb = new StringBuilder();
         translateStatementList(statementList);
-        sb.append("\n});\n");
-        return sb.toString();
+        final String code = sb.toString();
+        return "shh.addOnload(function() {\n    \"use strict\";\n\n"
+            + predefineVariables()
+            + "\n"
+            + code
+            + "\n});\n";
     }
 
     public synchronized String compile(final String code) {
@@ -576,9 +595,7 @@ implements CrossCompiler {
 
     public static void main(final String[] args) {
         //final String code = new String(IoUtils.readFile(System.getProperty("user.home") + "/basus/spaceWar.bus"));
-        final String code = "for n = 0 to 10 do\n" +
-                            "    println(random());\n" +
-                            "done;\n";
+        final String code = "a[1] = 2;\n";
         final String js = new JavaScriptCrossCompiler().compile(code);
         System.out.println(js);
         checkJavaScript(js);
