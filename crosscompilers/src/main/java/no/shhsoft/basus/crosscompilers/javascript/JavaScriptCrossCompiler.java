@@ -12,6 +12,9 @@ import org.mozilla.javascript.ErrorReporter;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Parser;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * @author <a href="mailto:shh@thathost.com">Sverre H. Huseby</a>
  */
@@ -33,6 +36,14 @@ implements CrossCompiler {
     private int level = 0;
     private StringBuilder sb;
     private boolean needBlankLine;
+
+    private static final class Variable {
+
+        String name;
+        int assignmentCount;
+        boolean isReferencedAsArray;
+
+    }
 
     private static void ignore() {
     }
@@ -519,6 +530,18 @@ implements CrossCompiler {
         for (int q = 0; q < statementList.getNumStatements(); q++) {
             translateStatement(statementList.getStatement(q));
         }
+    }
+
+    private void collectAssignedVariables(final Set<Variable> variables, final StatementList statementList) {
+        for (int q = 0; q < statementList.getNumStatements(); q++) {
+            collectAssignedVariables(variables, statementList.getStatement(q));
+        }
+    }
+
+    private Set<Variable> collectAssignedVariables(final StatementList statementList) {
+        final Set<Variable> variables = new HashSet<>();
+        collectAssignedVariables(variables, statementList);
+        return variables;
     }
 
     @Override
