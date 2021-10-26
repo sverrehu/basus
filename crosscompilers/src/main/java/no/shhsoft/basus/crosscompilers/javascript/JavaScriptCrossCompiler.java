@@ -12,7 +12,9 @@ import org.mozilla.javascript.ErrorReporter;
 import org.mozilla.javascript.EvaluatorException;
 import org.mozilla.javascript.Parser;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -36,6 +38,7 @@ implements CrossCompiler {
     private int level = 0;
     private StringBuilder sb;
     private boolean needBlankLine;
+    private List<AssignmentStatement> assignmentStatements;
 
     private static final class Variable {
 
@@ -369,6 +372,7 @@ implements CrossCompiler {
     }
 
     private void translateAssignmentStatement(final AssignmentStatement statement) {
+        assignmentStatements.add(statement);
         final AssignableExpression leftHandSide = statement.getLeftHandSide();
         translateAssignableExpression(leftHandSide, leftHandSide instanceof VariableExpression);
         sb.append(" = ");
@@ -532,21 +536,10 @@ implements CrossCompiler {
         }
     }
 
-    private void collectAssignedVariables(final Set<Variable> variables, final StatementList statementList) {
-        for (int q = 0; q < statementList.getNumStatements(); q++) {
-            collectAssignedVariables(variables, statementList.getStatement(q));
-        }
-    }
-
-    private Set<Variable> collectAssignedVariables(final StatementList statementList) {
-        final Set<Variable> variables = new HashSet<>();
-        collectAssignedVariables(variables, statementList);
-        return variables;
-    }
-
     @Override
     public String compile(final StatementList statementList) {
         sb = new StringBuilder();
+        assignmentStatements = new ArrayList<>();
         sb.append("shh.addOnload(function() {\n    \"use strict\";\n\n");
         level = 1;
         needBlankLine = false;
