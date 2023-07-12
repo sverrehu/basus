@@ -1,7 +1,7 @@
 #!/bin/bash
 
 VERSION_FILE=./utils/src/main/resources/version.properties
-SSH_TARGET=pg2.thathost.com:/usr/local/share/htdocs.basus/download
+SSH_TARGET=basus.no:/usr/local/share/htdocs.basus/download
 
 if test \! -f ./bin/update-version.pl
 then
