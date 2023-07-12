@@ -15,7 +15,7 @@ mvn clean package
 JAR_FILES="./applet/target/basus-runner-[0-9]*.jar ./full/target/basus-[0-9]*.jar"
 for q in $JAR_FILES
 do
-    if test \! -f $q
+    if test \! -f "$q"
     then
         echo "No file $q"
         exit 1
