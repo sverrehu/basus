@@ -79,7 +79,7 @@ implements RunStatusListener, TerminationRequestListener, EditorButtonsProvider,
     StepListener {
 
     private static final long serialVersionUID = 1L;
-    private static final String HOME_URL = "http://basus.no";
+    private static final String HOME_URL = "https://basus.no";
     private static final String DOWNLOAD_BASE_URL = HOME_URL + "/download/";
     private static final long STEP_WAIT_MS = 100L;
     private OutputCanvas outputCanvas;

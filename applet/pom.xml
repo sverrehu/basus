@@ -13,7 +13,7 @@
     <packaging>jar</packaging>
     <version>${project.parent.version}</version>
     <name>basus-applet</name>
-    <url>http://basus.no</url>
+    <url>https://basus.no</url>
 
     <dependencies>
 

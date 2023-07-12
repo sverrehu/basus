@@ -6,7 +6,7 @@ fill the gap between graphical languages, like Scratch, and the real
 thing.
 
 If you just want the program, not the source code, go to
-http://basus.no
+https://basus.no
 
 Written by Sverre H Huseby, Norway.  Project started in 2008.
 
