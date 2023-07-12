@@ -63,7 +63,7 @@
                             <goal>compile</goal>
                         </goals>
                         <configuration>
-                            <targetDirectory>${project.build.directory}/generated/wasm/teavm-wasm</targetDirectory>
+                            <targetDirectory>${project.build.directory}/wasm</targetDirectory>
                             <targetType>WEBASSEMBLY</targetType>
                             <mainClass>no.shhsoft.basus.wasm.WasmMain</mainClass>
                             <debugInformationGenerated>true</debugInformationGenerated>
