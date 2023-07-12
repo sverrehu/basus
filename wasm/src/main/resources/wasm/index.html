@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Basus</title>
+    <script type="text/javascript" charset="utf-8" src="basus.wasm-runtime.js"></script>
+</head>
+<body>
+
+<script>
+    WebAssembly.instantiateStreaming(fetch("basus.wasm"), {}).then(
+        module => {
+            console.log("Calling the wasm module from JavaScript.")
+            module.instance.exports.main()
+        },
+    );
+</script>
+
+</body>
+</html>
