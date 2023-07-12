@@ -6,6 +6,7 @@ package no.shhsoft.basus.wasm;
 public final class WasmMain {
 
     public static void main(final String[] args) {
+        System.out.println("Nothing here yet.");
     }
 
 }
