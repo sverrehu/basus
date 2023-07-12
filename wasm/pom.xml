@@ -1,0 +1,79 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <parent>
+        <groupId>no.shhsoft</groupId>
+        <artifactId>basus</artifactId>
+        <version>1.3-SNAPSHOT</version>
+        <!-- <version>1.2.1</version> -->
+    </parent>
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>basus-wasm</artifactId>
+    <packaging>jar</packaging>
+    <version>${project.parent.version}</version>
+    <name>basus-wasm</name>
+    <url>http://basus.no</url>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>no.shhsoft</groupId>
+            <artifactId>basus-parser</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>no.shhsoft</groupId>
+            <artifactId>basus-language</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>no.shhsoft</groupId>
+            <artifactId>basus-tools</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>no.shhsoft</groupId>
+            <artifactId>shhsoft3-utils</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fermyon</groupId>
+            <artifactId>teavm-classlib</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.fermyon</groupId>
+                <artifactId>teavm-maven-plugin</artifactId>
+                <version>${teavm.version}</version>
+                <executions>
+                    <execution>
+                        <id>wasm</id>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                        <configuration>
+                            <targetDirectory>${project.build.directory}/generated/wasm/teavm-wasm</targetDirectory>
+                            <targetType>WEBASSEMBLY</targetType>
+                            <mainClass>no.shhsoft.basus.wasm.WasmMain</mainClass>
+                            <debugInformationGenerated>true</debugInformationGenerated>
+                            <minifying>false</minifying>
+                            <!-- Anything beyond SIMPLE appears to break non-trivial code: -->
+                            <optimizationLevel>SIMPLE</optimizationLevel>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

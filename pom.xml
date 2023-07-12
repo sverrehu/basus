@@ -12,6 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <teavm.version>0.2.8</teavm.version>
     </properties>
 
     <modules>
@@ -23,6 +24,7 @@
         <module>evaluator</module>
         <module>parser</module>
         <module>crosscompilers</module>
+        <module>wasm</module>
         <!-- <module>applet</module> -->
         <module>full</module>
     </modules>
@@ -112,6 +114,13 @@
                 <artifactId>shhsoft3-utils</artifactId>
                 <version>1.0-SNAPSHOT</version>
                 <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fermyon</groupId>
+                <artifactId>teavm-classlib</artifactId>
+                <version>${teavm.version}</version>
+                <scope>provided</scope>
             </dependency>
 
             <dependency>
