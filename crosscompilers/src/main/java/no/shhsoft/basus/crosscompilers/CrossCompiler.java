@@ -7,6 +7,6 @@ import no.shhsoft.basus.language.StatementList;
  */
 public interface CrossCompiler {
 
-    String compile(StatementList statements);
+    void compile(StatementList statements, String baseName);
 
 }

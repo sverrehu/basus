@@ -7,6 +7,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import no.shhsoft.awt.FullScreenDisplayModeOptimizer;
+import no.shhsoft.basus.crosscompilers.CrossCompiler;
+import no.shhsoft.basus.crosscompilers.CrossCompilers;
 import no.shhsoft.basus.language.eval.runtime.BasusRunner;
 import no.shhsoft.basus.language.eval.runtime.Console;
 import no.shhsoft.basus.language.eval.runtime.DrawingArea;
@@ -39,6 +41,7 @@ implements TerminationRequestListener {
     private static final boolean IDE_AVAILABLE;
     private final Set<RunType> runTypes = new HashSet<>();
     private final BasusRunner runner = new BasusRunner();
+    private String compileTarget = null;
 
     static {
         boolean ideAvailable = true;
@@ -138,6 +141,7 @@ implements TerminationRequestListener {
             new Opt('r', "run", "runWindowed"),
             new Opt('\0', "html", "convertToHtml"),
             new Opt('\0', "format", "format"),
+            new Opt('C', "compile-to", "compileTo", String.class),
         }).parse(args, this);
         if (remainingArgs.length > 1) {
             fatal("Only one program filename may be given");
@@ -148,6 +152,16 @@ implements TerminationRequestListener {
         }
         if (runTypes.size() > 1) {
             fatal("It doesn't make any sense to specify multiple run types");
+        }
+        if (compileTarget != null) {
+            final CrossCompiler crossCompiler = CrossCompilers.getInstance().getCrossCompiler(compileTarget);
+            if (crossCompiler == null) {
+                fatal("No such compile target: \"" + compileTarget + "\"");
+            }
+            if (programFileName == null) {
+                fatal("You need to provide a program filename to cross compile");
+            }
+            CrossCompilers.getInstance().compile(crossCompiler, programFileName, loadProgram(programFileName));
         }
         if (runTypes.size() > 0) {
             if (programFileName == null) {
@@ -191,12 +205,15 @@ implements TerminationRequestListener {
         System.out.println("usage: java -jar basus.jar [options] [program-file]");
         System.out.println();
         if (IDE_AVAILABLE) {
-            System.out.println("  -e, --editor        Run program in editor");
+            System.out.println("  -e, --editor             Run program in editor");
         }
-        System.out.println("  -f, --full-screen   Run program in full-screen mode");
-        System.out.println("  -r, --run           Run program in window");
-        System.out.println("      --html          Convert program to HTML on standard out");
-        System.out.println("      --format        Pretty-format program to standard out");
+        System.out.println("  -f, --full-screen        Run program in full-screen mode");
+        System.out.println("  -r, --run                Run program in window");
+        System.out.println("      --html               Convert program to HTML on standard out");
+        System.out.println("      --format             Pretty-format program to standard out");
+        if (CrossCompilers.getInstance().getNumCrossCompilers() > 0) {
+            System.out.println("  -C  --compile-to=target  Cross-compile");
+        }
         System.exit(0);
     }
 
@@ -218,6 +235,10 @@ implements TerminationRequestListener {
 
     public void format() {
         runTypes.add(RunType.FORMATTER);
+    }
+
+    public void compileTo(final String target) {
+        compileTarget = target;
     }
 
     @Override
