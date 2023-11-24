@@ -42,10 +42,12 @@
             <artifactId>basus-integration-awt</artifactId>
         </dependency>
 
+        <!--
         <dependency>
             <groupId>no.shhsoft</groupId>
             <artifactId>basus-applet</artifactId>
         </dependency>
+        -->
 
         <dependency>
             <groupId>no.shhsoft</groupId>

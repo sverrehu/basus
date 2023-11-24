@@ -23,7 +23,7 @@
         <module>evaluator</module>
         <module>parser</module>
         <module>crosscompilers</module>
-        <module>applet</module>
+        <!-- <module>applet</module> -->
         <module>full</module>
     </modules>
 
