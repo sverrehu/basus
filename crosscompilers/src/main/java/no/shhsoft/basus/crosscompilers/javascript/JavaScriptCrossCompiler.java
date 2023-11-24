@@ -567,8 +567,9 @@ implements CrossCompiler {
             + "\n});\n";
     }
 
-    public synchronized String compile(final String code) {
-        return compile(BasusParser.parse(code, true));
+    public synchronized void compile(final StatementList statementList, final String baseName) {
+        final String js = compile(statementList);
+        IoUtils.writeFile(baseName + ".js", StringUtils.getBytesUtf8(js));
     }
 
     private static void checkJavaScript(final String s) {
