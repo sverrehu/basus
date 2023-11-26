@@ -39,6 +39,11 @@
         </dependency>
 
         <dependency>
+            <groupId>no.shhsoft</groupId>
+            <artifactId>shh-wasm</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
         </dependency>
