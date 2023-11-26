@@ -1,9 +1,13 @@
 package no.shhsoft.basus.crosscompilers.wasm;
 
 import no.shhsoft.basus.crosscompilers.CrossCompiler;
+import no.shhsoft.basus.language.AssignableExpression;
 import no.shhsoft.basus.language.AssignmentStatement;
+import no.shhsoft.basus.language.Expression;
 import no.shhsoft.basus.language.Statement;
 import no.shhsoft.basus.language.StatementList;
+import no.shhsoft.basus.language.VariableExpression;
+import no.shhsoft.basus.language.parser.BasusParser;
 import no.shhsoft.wasm.io.ModuleWriter;
 import no.shhsoft.wasm.model.Module;
 
@@ -41,8 +45,33 @@ implements CrossCompiler {
         }
     }
 
-    private void compileAssignment(final AssignmentStatement statement) {
-        /* TODO */
+    private void compileAssignment(final AssignmentStatement assignmentStatement) {
+        compileExpression(assignmentStatement.getRightHandSide());
+        compileAssignableExpression(assignmentStatement.getLeftHandSide(), assignmentStatement.isLocal());
+        /* TODO: store */
+    }
+
+    private void compileAssignableExpression(final AssignableExpression assignableExpression, final boolean local) {
+        if (assignableExpression instanceof VariableExpression) {
+            compileVariableExpression((VariableExpression) assignableExpression, local);
+        } else {
+            throw new RuntimeException("Unhandled AssignableExpression " + assignableExpression.getClass().getName());
+        }
+    }
+
+    private void compileVariableExpression(final VariableExpression variableExpression, final boolean local) {
+        /* TODO: handle global/local */
+        final int variableIndex = globalVarsMapping.getOrPut(variableExpression.getVariableName());
+    }
+
+    private void compileExpression(final Expression expression) {
+
+    }
+
+    public static void main(final String[] args) {
+        final String program = "a = 1;";
+        final StatementList statements = BasusParser.parse(program);
+        new WasmCrossCompiler().compile(statements, "test");
     }
 
 }

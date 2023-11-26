@@ -21,7 +21,7 @@ public final class IdentifierMapping {
 
     public int put(final String name) {
         if (map.containsKey(name)) {
-            throw new RuntimeException("Key \"" + name + "\" already exists")
+            throw new RuntimeException("Key \"" + name + "\" already exists");
         }
         final int value = nextValue++;
         map.put(name, value);
