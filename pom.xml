@@ -104,6 +104,13 @@
 
             <dependency>
                 <groupId>no.shhsoft</groupId>
+                <artifactId>basus-wasm</artifactId>
+                <version>${project.version}</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>no.shhsoft</groupId>
                 <artifactId>basus-full</artifactId>
                 <version>${project.version}</version>
                 <scope>compile</scope>
@@ -112,6 +119,13 @@
             <dependency>
                 <groupId>no.shhsoft</groupId>
                 <artifactId>shhsoft3-utils</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <scope>compile</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>no.shhsoft</groupId>
+                <artifactId>shh-wasm</artifactId>
                 <version>1.0-SNAPSHOT</version>
                 <scope>compile</scope>
             </dependency>
