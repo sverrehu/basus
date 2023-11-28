@@ -12,7 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <teavm.version>0.2.8</teavm.version>
+        <teavm.version>0.9.0</teavm.version>
     </properties>
 
     <modules>
@@ -131,7 +131,7 @@
             </dependency>
 
             <dependency>
-                <groupId>com.fermyon</groupId>
+                <groupId>org.teavm</groupId>
                 <artifactId>teavm-classlib</artifactId>
                 <version>${teavm.version}</version>
                 <scope>provided</scope>

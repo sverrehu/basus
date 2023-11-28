@@ -29,6 +29,11 @@
 
         <dependency>
             <groupId>no.shhsoft</groupId>
+            <artifactId>basus-evaluator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>no.shhsoft</groupId>
             <artifactId>basus-tools</artifactId>
             <scope>test</scope>
         </dependency>
@@ -44,7 +49,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.fermyon</groupId>
+            <groupId>org.teavm</groupId>
             <artifactId>teavm-classlib</artifactId>
         </dependency>
 
@@ -58,7 +63,7 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>com.fermyon</groupId>
+                <groupId>org.teavm</groupId>
                 <artifactId>teavm-maven-plugin</artifactId>
                 <version>${teavm.version}</version>
                 <executions>
@@ -67,11 +72,12 @@
                         <goals>
                             <goal>compile</goal>
                         </goals>
+                        <phase>process-classes</phase>
                         <configuration>
+                            <mainClass>no.shhsoft.basus.wasm.WasmMain</mainClass>
                             <targetDirectory>${project.build.directory}/wasm</targetDirectory>
                             <targetFileName>basus.wasm</targetFileName>
                             <targetType>WEBASSEMBLY</targetType>
-                            <mainClass>no.shhsoft.basus.wasm.WasmMain</mainClass>
                             <debugInformationGenerated>true</debugInformationGenerated>
                             <minifying>false</minifying>
                             <!-- Anything beyond SIMPLE appears to break non-trivial code: -->
