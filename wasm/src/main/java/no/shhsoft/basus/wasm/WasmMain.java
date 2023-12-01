@@ -10,6 +10,7 @@ public final class WasmMain {
 
     public static void main(final String[] args) {
         final String program = "a = 1; b = 2; c = a + b; println(c);";
+        /*
         new BasusRunner().runProgram(program, new Console() {
             @Override
             public void print(final String s) {
@@ -31,6 +32,7 @@ public final class WasmMain {
                 throw new RuntimeException("Not implemented");
             }
         }, null, null, null);
+        */
     }
 
 }
